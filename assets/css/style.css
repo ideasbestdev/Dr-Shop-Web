@@ -1,0 +1,26 @@
+.alertMessage{
+    position: fixed;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    color: white;
+    display: none;
+}
+
+.alertMessage.show {
+    display: block;
+}
+
+.alertMessage.info{
+    background: deepskyblue;
+}
+
+.alertMessage.error{
+    background: red;
+}
+
+.alertMessage .icon{
+    margin-right: 10px;
+}

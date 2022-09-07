@@ -1,6 +1,18 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+      "@/models/*": ["models/*"],
+      "@/utils/*": ["utils/*"],
+      "@/statemangment/*": ["statemangment/*"],
+      "@/helpers/*": ["helpers/*"],
+      "@/components/*": ["components/*"],
+      "@/authmanger/*": ["authmanger/*"],
+      "@/assets/*": ["assets/*"],
+      "@/styledcomponents/*": ["styledcomponents/*"],
+
+    },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
