@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { UserLoginErrorsModel, UserLoginModel } from "@/models/index";
+import { AlertStateModel, UserLoginErrorsModel, UserLoginModel } from "@/models/index";
 import { emailRegex, generateRandomNumber, passwordRegex } from "@/helpers/index";
 import { auth, ERROR_ALERT_TYPE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE } from "@/utils/index";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { AlertState } from "@/statemangment/modal";
 import { currentAlertIdentifier, setAlert, setIdentifier } from "@/statemangment/slice/alertSlice";
 import { useDispatch } from "react-redux";
 
@@ -73,7 +72,7 @@ export default function Register() {
                 })
                 .catch((error) => {
                     const generatedIdentifier = generateRandomNumber(4);
-                    let customAlert: AlertState = {
+                    let customAlert: AlertStateModel = {
                         message: "Invalid crendials",
                         type: ERROR_ALERT_TYPE,
                         identifier: generatedIdentifier,

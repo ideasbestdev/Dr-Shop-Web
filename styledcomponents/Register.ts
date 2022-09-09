@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Theme } from './Theme';
 
 
 export const Register = styled.main`
@@ -38,7 +39,7 @@ export const Register = styled.main`
 
                         label{
                             display: block;
-                            color: #9B9B9B;
+                            color: ${({ theme }: Theme) => theme.textColors.text_color_label};
                             margin-bottom: 5px;
                         }
                         input{

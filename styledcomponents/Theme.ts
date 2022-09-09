@@ -13,6 +13,7 @@ export const theme = {
     },
     textColors: {
         text_color_header: "#fff",
+        text_color_label: "#9B9B9B"
     },
     height: {
         header: '120px',
@@ -20,11 +21,13 @@ export const theme = {
         bottom_header: '85px',
         editor: '400px',
         section_options: '75px',
-        input_height: '64px'
+        input_height: '64px',
+        button_height: "49px"
     },
 
     width: {
         sidebar: '70px',
+        button_min_width: "206px",
     }
 
 }
@@ -41,6 +44,7 @@ interface BackgroundColors {
 
 interface TextColors {
     text_color_header: string,
+    text_color_label: string,
 }
 
 
@@ -54,11 +58,13 @@ interface Heights {
     bottom_header: string,
     editor: string,
     input_height: string,
-    section_options: string
+    section_options: string,
+    button_height: string,
 }
 
 interface Widths {
-    sidebar: string
+    sidebar: string;
+    button_min_width: string;
 }
 
 interface Prop {

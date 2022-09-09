@@ -1,24 +1,18 @@
 import { ChangeEvent, useState } from "react";
-import { emailRegex, generateRandomNumber, passwordRegex } from "@/helpers/index";
+import { emailRegex, generateRandomNumber, passwordRegex, stringIsEmptyOrNull } from "@/helpers/index";
 import { AssetsImages, INFO_ALERT_TYPE, ERROR_ALERT_TYPE, PASSWORD_NOT_SAME_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, REQUIRED_MESSAGE, FILE_UPLOAD_SUCCESSFULLY, REGISTER_SUCCESS, FORM_VALIDATION_ERROR, TERMS_OF_CONDITION_ERROR } from "@/utils/index";
-import { AlertState } from "@/statemangment/modal";
 import { setIdentifier, throwMessage } from "@/statemangment/slice/alertSlice";
 import { useDispatch } from "react-redux";
-import { UserRegisterModel, UserRegisterErrorsModel, SelectModel } from "@/models/index";
-import { Register } from "@/styledcomponents/Register";
+import { UserRegisterModel, UserRegisterErrorsModel, SelectModel, AlertStateModel } from "@/models/index";
 import PhoneInput from 'react-phone-number-input'
-import { ErrorMessage } from "@/styledcomponents/ErrorMessage";
-import { stringIsEmptyOrNull } from '@/helpers/index';
 import { isValidPhoneNumber } from 'react-phone-number-input'
-import { Button } from "@/styledcomponents/Button";
 import Image from "next/image";
-import { UploadFile } from "@/styledcomponents/UploadFile";
+import { UploadFile, Register, ErrorMessage, Button } from "@/styledcomponents/index";
 import CustomSelect from "./CustomSelect";
 
 export default function CustomerRegister() {
     const dispatch = useDispatch();
     const [userPhone, setUserPhone] = useState<string>();
-    const [industry, setIndustry] = useState<string>("");
     const generatedIdentifier = generateRandomNumber(4);
     dispatch(setIdentifier(generatedIdentifier));
 
@@ -164,7 +158,7 @@ export default function CustomerRegister() {
             var form = new FormData();
             form.append('imgSrc', e.target.files[0]);
 
-            let customAlert: AlertState = {
+            let customAlert: AlertStateModel = {
                 message: FILE_UPLOAD_SUCCESSFULLY,
                 type: INFO_ALERT_TYPE,
                 identifier: generatedIdentifier,
@@ -280,7 +274,7 @@ export default function CustomerRegister() {
     const register = () => {
 
         if (validateRegisterForm() && !user.termsOfCondition) {
-            let customAlert: AlertState = {
+            let customAlert: AlertStateModel = {
                 message: TERMS_OF_CONDITION_ERROR,
                 type: ERROR_ALERT_TYPE,
                 identifier: generatedIdentifier,
@@ -291,7 +285,7 @@ export default function CustomerRegister() {
         }
 
         if (validateRegisterForm()) {
-            let customAlert: AlertState = {
+            let customAlert: AlertStateModel = {
                 message: REGISTER_SUCCESS,
                 type: INFO_ALERT_TYPE,
                 identifier: generatedIdentifier,
@@ -318,7 +312,7 @@ export default function CustomerRegister() {
                       }
                   });*/
         } else {
-            let customAlert: AlertState = {
+            let customAlert: AlertStateModel = {
                 message: FORM_VALIDATION_ERROR,
                 type: ERROR_ALERT_TYPE,
                 identifier: generatedIdentifier,

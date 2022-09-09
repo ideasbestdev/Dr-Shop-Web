@@ -1,20 +1,17 @@
 import { useEffect } from "react";
-import { generateRandomNumber, stringIsEmptyOrNull } from "@/helpers/index";
+import { stringIsEmptyOrNull } from "@/helpers/index";
 import { useDispatch, useSelector } from "react-redux";
-import { currentAlertIdentifier, getAlertState, setAlert, setIdentifier } from "@/statemangment/slice/alertSlice";
-import { AlertState } from "@/statemangment/modal";
+import { getAlertState, setAlert } from "@/statemangment/slice/alertSlice";
 import { ERROR_ALERT_TYPE, INFO_ALERT_TYPE } from "@/utils/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { AppAlert } from '@/styledcomponents/index';
+import { AlertStateModel } from "@/models/index";
 
-interface PageComponent {
-    message: string
-}
 function Alert() {
     const { message, identifier, type } = useSelector(getAlertState);
     const dispatch = useDispatch();
-    const initialState: AlertState = {
+    const initialState: AlertStateModel = {
         message: "",
         identifier: "",
         type: "",

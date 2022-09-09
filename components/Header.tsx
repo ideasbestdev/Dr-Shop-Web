@@ -3,9 +3,8 @@ import { AppHeader, IconText, InputIcon } from '@/styledcomponents/index';
 import Link from 'next/link';
 import { PageUrls, AssetsImages } from '@/utils/index';
 import Image from 'next/image';
-import { BurgerIcon, SearchIcon } from './icons/';
-import { CartIcon } from './icons/CartIcon';
-import { UserIcon } from './icons/UserIcon';
+import { BurgerIcon, SearchIcon, UserIcon, CartIcon } from './icons/';
+
 
 function Header() {
     return (

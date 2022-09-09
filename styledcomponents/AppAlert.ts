@@ -17,6 +17,6 @@ export const AppAlert = styled.div`
     display: ${({ show }: Props) => show ? "block" : "none"};
     background-color: ${({ type }: Props) => type == "info" ? "deepskyblue" : "red"};;
     .icon{
-    margin-right: 10px;
+        margin-right: 10px;
     }
 `

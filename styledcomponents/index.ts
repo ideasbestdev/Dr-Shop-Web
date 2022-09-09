@@ -4,3 +4,7 @@ export * from "./AppAlert";
 export * from "./AppHeader";
 export * from "./InputIcon";
 export * from "./IconText";
+export * from "./Button";
+export * from "./ErrorMessage";
+export * from "./Register";
+export * from "./UploadFile";

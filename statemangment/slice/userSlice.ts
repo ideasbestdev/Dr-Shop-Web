@@ -1,7 +1,7 @@
+import { UserStateModel } from '@/models/index';
 import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit'
-import { UserState } from "../modal";
 
-const initialState: UserState = {
+const initialState: UserStateModel = {
     currentuser: null,
 }
 
@@ -17,6 +17,6 @@ export const userSlice = createSlice({
 
 export const { setUser } = userSlice.actions
 
-export const getUserState = (state: { user: UserState }) => state.user;
+export const getUserState = (state: { user: UserStateModel }) => state.user;
 
 export default userSlice.reducer;

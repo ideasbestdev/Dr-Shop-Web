@@ -47,3 +47,8 @@ export interface UserModel {
     email: string | null;
     uid: string;
 }
+
+
+export interface UserStateModel {
+    currentuser: UserModel | null;
+}

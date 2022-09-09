@@ -1,9 +1,8 @@
-import { AlertState } from "../modal";
+import { AlertStateModel } from "@/models/index";
 import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
-import { generateRandomNumber } from '@/helpers/index';
 
 
-const initialState: AlertState = {
+const initialState: AlertStateModel = {
     message: "",
     type: "",
     identifier: "",
@@ -37,6 +36,6 @@ export const alertSlice = createSlice({
 
 export const { setAlert, setIdentifier, throwMessage } = alertSlice.actions
 
-export const getAlertState = (state: { alert: AlertState }) => state.alert;
+export const getAlertState = (state: { alert: AlertStateModel }) => state.alert;
 
 export default alertSlice.reducer;

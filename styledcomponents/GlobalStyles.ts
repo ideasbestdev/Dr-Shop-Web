@@ -29,7 +29,6 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     height: ${({ theme }: Theme) => theme.height.input_height};
     width: 100%;
     padding: 0 10px;
-
 }
 
 button{

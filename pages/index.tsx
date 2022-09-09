@@ -9,8 +9,8 @@ import {
     setAlert,
     setIdentifier
 } from "@/statemangment/slice/alertSlice";
-import { AlertState } from "@/statemangment/modal";
 import { generateRandomNumber } from "@/helpers/index";
+import { AlertStateModel } from '@/models/index';
 
 export default function Home() {
 
@@ -29,7 +29,7 @@ export default function Home() {
     function throwMessage() {
         const generatedIdentifier = generateRandomNumber(4);
 
-        let customAlert: AlertState = {
+        let customAlert: AlertStateModel = {
             message: "new Message",
             type: INFO_ALERT_TYPE,
             identifier: generatedIdentifier,

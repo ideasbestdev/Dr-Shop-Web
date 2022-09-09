@@ -7,7 +7,7 @@ export const UploadFile = styled.div`
         position: absolute;
         max-width: 100%;
         overflow: hidden;
-    text-overflow: ellipsis;
+        text-overflow: ellipsis;
     }
     >label{
         display: flex;
