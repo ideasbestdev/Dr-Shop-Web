@@ -1,5 +1,6 @@
-import {AlertState} from "../modal";
-import {createSlice, Draft, PayloadAction} from "@reduxjs/toolkit";
+import { AlertState } from "../modal";
+import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
+import { generateRandomNumber } from '@/helpers/index';
 
 
 const initialState: AlertState = {
@@ -24,11 +25,17 @@ export const alertSlice = createSlice({
             state.identifier = action.payload;
             currentAlertIdentifier = state.identifier;
         },
-
+        throwMessage: (state: Draft<typeof initialState>, action: PayloadAction<typeof initialState>) => {
+            if (state.identifier == currentAlertIdentifier) {
+                state.message = action.payload.message;
+                state.identifier = action.payload.identifier;
+                state.type = action.payload.type;
+            }
+        },
     },
 });
 
-export const { setAlert, setIdentifier } = alertSlice.actions
+export const { setAlert, setIdentifier, throwMessage } = alertSlice.actions
 
 export const getAlertState = (state: { alert: AlertState }) => state.alert;
 

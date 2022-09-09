@@ -4,6 +4,8 @@ import { Provider } from 'react-redux'
 import AuthManger from "@/authmanger/authmanger";
 //import "@/assets/css/style.css";
 import Layout from "@/components/Layout";
+import 'react-phone-number-input/style.css'
+
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider store={store}>

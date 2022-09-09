@@ -1,3 +1,6 @@
 export * from "./Theme";
 export * from "./GlobalStyles";
-export * from "./AlertStyle";
+export * from "./AppAlert";
+export * from "./AppHeader";
+export * from "./InputIcon";
+export * from "./IconText";
