@@ -1,8 +1,7 @@
-import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import React from 'react'
 import { useEffect } from 'react';
-import { auth, PageUrls, TOKEN_KEY_NAME } from '@/utils/index';
+import { PageUrls, TOKEN_KEY_NAME } from '@/utils/index';
 
 function verifcate() {
 
@@ -13,7 +12,7 @@ function verifcate() {
             if (localStorage.getItem(TOKEN_KEY_NAME)) {
                 alert(localStorage.getItem(TOKEN_KEY_NAME));
             }
-            router.replace("/");
+            router.replace(PageUrls.HOME);
 
         }
     }, [router.query])
