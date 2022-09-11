@@ -22,8 +22,7 @@ export default function AuthManger({ component, children }: Children) {
         setLoading(true);
         auth.onAuthStateChanged((authUser) => {
 
-            if (authUser) {
-
+            if (authUser && authUser.emailVerified) {
                 const user: UserModel = {
                     email: authUser.email,
                     uid: authUser.uid,

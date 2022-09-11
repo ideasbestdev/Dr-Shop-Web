@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { emailRegex, generateRandomNumber, passwordRegex, stringIsEmptyOrNull } from "@/helpers/index";
-import { AssetsImages, INFO_ALERT_TYPE, ERROR_ALERT_TYPE, PASSWORD_NOT_SAME_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, REQUIRED_MESSAGE, FILE_UPLOAD_SUCCESSFULLY, REGISTER_SUCCESS, FORM_VALIDATION_ERROR, TERMS_OF_CONDITION_ERROR } from "@/utils/index";
+import { AssetsImages, INFO_ALERT_TYPE, ERROR_ALERT_TYPE, PASSWORD_NOT_SAME_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, REQUIRED_MESSAGE, FILE_UPLOAD_SUCCESSFULLY, REGISTER_SUCCESS, FORM_VALIDATION_ERROR, TERMS_OF_CONDITION_ERROR, auth, EMAIL_VERIFICATION_MESSAGE } from "@/utils/index";
 import { setIdentifier, throwMessage } from "@/statemangment/slice/alertSlice";
 import { useDispatch } from "react-redux";
 import { UserRegisterModel, UserRegisterErrorsModel, SelectModel, AlertStateModel } from "@/models/index";
@@ -9,6 +9,9 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 import Image from "next/image";
 import { UploadFile, Register, ErrorMessage, Button } from "@/styledcomponents/index";
 import CustomSelect from "./CustomSelect";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendSignInLinkToEmail, signOut } from "firebase/auth";
+
+
 
 export default function CustomerRegister() {
     const dispatch = useDispatch();
@@ -292,7 +295,7 @@ export default function CustomerRegister() {
             }
 
             dispatch(throwMessage(customAlert));
-
+            SendEmailVerification();
             /*  createUserWithEmailAndPassword(auth, user.email, user.password)
                   .then((userCredential) => {
                       const user = userCredential.user;
@@ -320,6 +323,32 @@ export default function CustomerRegister() {
 
             dispatch(throwMessage(customAlert));
         }
+    }
+
+    function SendEmailVerification() {
+        const actionCodeSettings = {
+            url: 'http://localhost:3000/verifcate?email=' + user.email,
+            handleCodeInApp: true,
+
+        };
+        createUserWithEmailAndPassword(
+            auth,
+            user.email,
+            user.password
+        )
+            .then(async (userCredential) => {
+                // signOut(auth);
+                let customAlert: AlertStateModel = {
+                    message: EMAIL_VERIFICATION_MESSAGE,
+                    type: INFO_ALERT_TYPE,
+                    identifier: generatedIdentifier,
+                }
+
+                dispatch(throwMessage(customAlert));
+                sendEmailVerification(userCredential.user, actionCodeSettings);
+            })
+            .catch(() => {
+            });
     }
 
     return (

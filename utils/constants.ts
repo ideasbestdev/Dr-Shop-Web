@@ -18,6 +18,7 @@ export const FILE_UPLOAD_SUCCESSFULLY = "File Uploaded";
 export const REGISTER_SUCCESS = "You have Regstered";
 export const FORM_VALIDATION_ERROR = "Make sure you enter all the data";
 export const TERMS_OF_CONDITION_ERROR = "Accept terms of condition";
+export const EMAIL_VERIFICATION_MESSAGE = "An email verification has been send please check your email/spam"
 //#endregion
 
 //#endregion

@@ -62,9 +62,6 @@ export default function Products({ products, querySearch }: PageProps) {
                     undefined, { shallow: true }
                 );
             }
-
-
-            console.log(router)
         }
 
     }
