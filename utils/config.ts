@@ -5,4 +5,6 @@ let headers: any = {
 
 const ICON_DEFAULT_COLOR: string = "#000";
 
-export { headers, ICON_DEFAULT_COLOR };
+const TOKEN_KEY_NAME = "access_token";
+
+export { headers, ICON_DEFAULT_COLOR, TOKEN_KEY_NAME };

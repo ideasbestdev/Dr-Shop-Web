@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { auth, PageUrls } from "@/utils/index";
+import { auth, PageUrls, TOKEN_KEY_NAME } from "@/utils/index";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserState, setUser } from "@/statemangment/slice/userSlice";
 import { UserModel } from "@/models/index";
@@ -21,6 +21,13 @@ export default function AuthManger({ component, children }: Children) {
     useEffect(function () {
         setLoading(true);
         auth.onAuthStateChanged((authUser) => {
+            if (authUser) {
+                authUser.getIdToken().then(function (token) {
+                    localStorage.setItem(TOKEN_KEY_NAME, token);
+                });
+            } else {
+                localStorage.removeItem(TOKEN_KEY_NAME);
+            }
 
             if (authUser && authUser.emailVerified) {
                 const user: UserModel = {
