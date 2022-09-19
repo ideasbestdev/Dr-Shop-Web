@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { emailRegex, generateRandomNumber, passwordRegex, stringIsEmptyOrNull } from "@/helpers/index";
+import { emailRegex, generateRandomNumber, initObject, passwordRegex, stringIsEmptyOrNull } from "@/helpers/index";
 import { AssetsImages, INFO_ALERT_TYPE, ERROR_ALERT_TYPE, PASSWORD_NOT_SAME_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, REQUIRED_MESSAGE, FILE_UPLOAD_SUCCESSFULLY, REGISTER_SUCCESS, FORM_VALIDATION_ERROR, TERMS_OF_CONDITION_ERROR, auth, EMAIL_VERIFICATION_MESSAGE } from "@/utils/index";
 import { setIdentifier, throwMessage } from "@/statemangment/slice/alertSlice";
 import { useDispatch } from "react-redux";
@@ -42,45 +42,18 @@ export default function CustomerRegister() {
         },
     ]
 
-    const userInitailState: UserRegisterModel = {
+
+
+    const [userError, setUserErrors] = useState<UserRegisterErrorsModel>({});
+    const [user, setUser] = useState<UserRegisterModel>({
+        license: "",
+        industry: "",
         email: "",
         password: "",
-        firstName: "",
-        lastName: "",
-        phone: "",
-        confirmPassword: "",
-        taxId: "",
-        industry: "",
-        companyName: "",
-        license: "",
-        city: "",
-        state: "",
-        street: "",
-        zipCode: "",
-        termsOfCondition: false,
-    };
-
-    const userErrorsInitailState: UserRegisterErrorsModel = {
-        emailError: "",
-        passwordError: "",
-        firstNameError: "",
-        lastNameError: "",
-        phoneError: "",
-        confirmPasswordError: "",
-        taxIdError: "",
-        industryError: "",
-        companyNameError: "",
-        licenseError: "",
-        cityError: "",
-        stateError: "",
-        streetError: "",
-        zipCodeError: "",
-    };
-
-    const [userError, setUserErrors] = useState<UserRegisterErrorsModel>(userErrorsInitailState);
-    const [user, setUser] = useState<UserRegisterModel>(userInitailState);
+    });
 
     function editUser(key: string, value: string): void {
+        console.log(key, value);
         switch (key) {
 
             case "firstName":
@@ -148,8 +121,6 @@ export default function CustomerRegister() {
         setUser(newUser);
     }
 
-
-
     function uploadFile(e: ChangeEvent<HTMLInputElement>, value: string) {
         if (e.target.files != null) {
 
@@ -171,26 +142,9 @@ export default function CustomerRegister() {
         }
     }
 
-    function initErrors() {
-        userError.emailError = "";
-        userError.passwordError = "";
-        userError.firstNameError = "";
-        userError.lastNameError = "";
-        userError.phoneError = "";
-        userError.confirmPasswordError = "";
-        userError.industryError = "";
-        userError.companyNameError = "";
-        userError.taxIdError = "";
-        userError.licenseError = "";
-        userError.zipCodeError = "";
-        userError.stateError = "";
-        userError.streetError = "";
-        userError.cityError = "";
-    }
-
     function validateRegisterForm(): boolean {
         let validForm: boolean = true;
-        initErrors();
+        initObject(userError);
 
         if (!emailRegex(user.email)) {
             userError.emailError = INVALID_EMAIL_MESSAGE;
@@ -272,10 +226,8 @@ export default function CustomerRegister() {
         return validForm;
     }
 
-
-
     const register = () => {
-
+        console.log(user)
         if (validateRegisterForm() && !user.termsOfCondition) {
             let customAlert: AlertStateModel = {
                 message: TERMS_OF_CONDITION_ERROR,
@@ -296,24 +248,6 @@ export default function CustomerRegister() {
 
             dispatch(throwMessage(customAlert));
             SendEmailVerification();
-            /*  createUserWithEmailAndPassword(auth, user.email, user.password)
-                  .then((userCredential) => {
-                      const user = userCredential.user;
-                  })
-                  .catch((error) => {
-                      const generatedIdentifier = generateRandomNumber(4);
-                      let customAlert: AlertState = {
-                          message: "Invalid crendials",
-                          type: ERROR_ALERT_TYPE,
-                          identifier: generatedIdentifier,
-                      }
-  
-                      dispatch(setIdentifier(generatedIdentifier));
-  
-                      if (customAlert.identifier == currentAlertIdentifier) {
-                          dispatch(setAlert(customAlert));
-                      }
-                  });*/
         } else {
             let customAlert: AlertStateModel = {
                 message: FORM_VALIDATION_ERROR,
@@ -329,7 +263,6 @@ export default function CustomerRegister() {
         const actionCodeSettings = {
             url: 'http://localhost:3000/verifcate?email=' + user.email,
             handleCodeInApp: true,
-
         };
         createUserWithEmailAndPassword(
             auth,

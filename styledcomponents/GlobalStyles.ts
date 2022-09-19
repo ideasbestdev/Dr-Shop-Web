@@ -24,11 +24,17 @@ body,html {
     background: ${({ theme }: Theme) => theme.backgroundcolors.background_body};
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="tel"]{
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select{
     outline: none;
     height: ${({ theme }: Theme) => theme.height.input_height};
     width: 100%;
     padding: 0 10px;
+}
+
+select{
+    appearance: none;
+    display: flex;
+        align-items: center;
 }
 
 button{

@@ -13,3 +13,17 @@ export function generateRandomNumber(length: number): string {
     }
     return randomNumer;
 }
+
+
+export function initObject(initialState: any): any {
+    Object.keys(initialState).map((key) => {
+        if (typeof initialState[key] == "string") {
+            initialState[key] = "";
+        }
+        if (typeof initialState[key] == "boolean") {
+            initialState[key] = false;
+        }
+    });
+
+    return initialState;
+}

@@ -18,10 +18,14 @@ export const AppCustomSelect = styled.div<Props>`
         padding-right: 30px;
         position: relative;
         cursor: pointer;
-        i{
-            position: absolute;
-            right: 20px;
+        @media (max-width: 1024px) {
+            display: none;
         }
+    }
+    i{
+        position: absolute;
+        right: 20px;
+        pointer-events: none;
     }
     ul{
         max-height: 300px;
@@ -40,5 +44,21 @@ export const AppCustomSelect = styled.div<Props>`
             border-bottom: 1px solid #E1E1E1;
         }
         display: ${({ show }: Props) => show ? "block" : "none"};
+        @media (max-width: 1024px) {
+            display: none;
+        }
+    }
+
+    select{
+        border: 1px solid #E1E1E1;
+        border-radius: 8px;
+    }
+    div{
+        display: none;
+        align-items: center;
+        position: relative;
+        @media (max-width: 1024px) {
+            display: flex;
+        }
     }
 `
