@@ -1,6 +1,18 @@
 import axios from "axios";
-import {headers} from "./config";
+import { baseUrl, headers } from "./config";
+import { TOKEN_KEY_NAME } from '@/utils/index';
 
-export default axios.create({
+axios.defaults.withCredentials = true;
+
+const http = axios.create({
+    baseURL: baseUrl,
     headers: headers,
-})
+});
+
+http.interceptors.request.use(function (config: any) {
+    const token = localStorage.getItem(TOKEN_KEY_NAME);
+    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    return config;
+});
+
+export default http;

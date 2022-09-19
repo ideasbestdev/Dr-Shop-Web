@@ -23,6 +23,7 @@ export interface UserRegisterErrorsModel {
     cityError?: string;
     streetError?: string;
     zipCodeError?: string;
+    numberOfPhysiciansError?: string
 }
 
 export interface UserRegisterModel {
@@ -40,7 +41,9 @@ export interface UserRegisterModel {
     city?: string;
     street?: string;
     zipCode?: string;
+    numberOfPhysicians?: string;
     termsOfCondition?: boolean;
+
 }
 
 export interface UserModel {

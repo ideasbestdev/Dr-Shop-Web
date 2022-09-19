@@ -10,6 +10,7 @@ import Image from "next/image";
 import { UploadFile, Register, ErrorMessage, Button } from "@/styledcomponents/index";
 import CustomSelect from "./CustomSelect";
 import { createUserWithEmailAndPassword, sendEmailVerification, sendSignInLinkToEmail, signOut } from "firebase/auth";
+import { UserService } from '@/services/index';
 
 
 
@@ -17,6 +18,8 @@ export default function CustomerRegister() {
     const dispatch = useDispatch();
     const [userPhone, setUserPhone] = useState<string>();
     const generatedIdentifier = generateRandomNumber(4);
+    const userService = new UserService();
+
     dispatch(setIdentifier(generatedIdentifier));
 
     let industryData: SelectModel[] = [
@@ -42,9 +45,8 @@ export default function CustomerRegister() {
         },
     ]
 
-
-
     const [userError, setUserErrors] = useState<UserRegisterErrorsModel>({});
+
     const [user, setUser] = useState<UserRegisterModel>({
         license: "",
         industry: "",
@@ -53,7 +55,6 @@ export default function CustomerRegister() {
     });
 
     function editUser(key: string, value: string): void {
-        console.log(key, value);
         switch (key) {
 
             case "firstName":
@@ -108,6 +109,10 @@ export default function CustomerRegister() {
                 user.zipCode = value;
                 break;
 
+            case "numberOfPhysicians":
+                user.numberOfPhysicians = value;
+                break;
+
             case "termsOfCondition":
                 user.termsOfCondition = value == "true";
                 break;
@@ -121,13 +126,12 @@ export default function CustomerRegister() {
         setUser(newUser);
     }
 
-    function uploadFile(e: ChangeEvent<HTMLInputElement>, value: string) {
+    function uploadFile(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files != null) {
-
             userError.licenseError = "";
             const newUserError = Object.assign({}, userError);
             setUserErrors(newUserError);
-            editUser("license", value);
+            editUser("license", e.target.files[0].name);
 
             var form = new FormData();
             form.append('imgSrc', e.target.files[0]);
@@ -218,7 +222,10 @@ export default function CustomerRegister() {
             userError.zipCodeError = REQUIRED_MESSAGE;
             validForm = false;
         }
-
+        if (stringIsEmptyOrNull(user.numberOfPhysicians)) {
+            userError.numberOfPhysiciansError = REQUIRED_MESSAGE;
+            validForm = false;
+        }
         const newUserError = Object.assign({}, userError);
 
         setUserErrors(newUserError);
@@ -227,7 +234,6 @@ export default function CustomerRegister() {
     }
 
     const register = () => {
-        console.log(user)
         if (validateRegisterForm() && !user.termsOfCondition) {
             let customAlert: AlertStateModel = {
                 message: TERMS_OF_CONDITION_ERROR,
@@ -247,7 +253,9 @@ export default function CustomerRegister() {
             }
 
             dispatch(throwMessage(customAlert));
-            SendEmailVerification();
+            userService.Register(user);
+
+            //  SendEmailVerification();
         } else {
             let customAlert: AlertStateModel = {
                 message: FORM_VALIDATION_ERROR,
@@ -270,7 +278,6 @@ export default function CustomerRegister() {
             user.password
         )
             .then(async (userCredential) => {
-                // signOut(auth);
                 let customAlert: AlertStateModel = {
                     message: EMAIL_VERIFICATION_MESSAGE,
                     type: INFO_ALERT_TYPE,
@@ -278,7 +285,9 @@ export default function CustomerRegister() {
                 }
 
                 dispatch(throwMessage(customAlert));
+
                 sendEmailVerification(userCredential.user, actionCodeSettings);
+
             })
             .catch(() => {
             });
@@ -362,6 +371,13 @@ export default function CustomerRegister() {
                             </li>
                             <li>
                                 <div>
+                                    <label>Number of Physicians *</label>
+                                    <input type={"text"} value={user.numberOfPhysicians} onChange={(e) => { editUser("numberOfPhysicians", e.currentTarget.value); }} />
+                                    <ErrorMessage>{userError.numberOfPhysiciansError}</ErrorMessage>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
                                     <label>Industry</label>
                                     <CustomSelect selectValue={user.industry} data={industryData} property={"industry"} onChange={editUser} />
                                     <ErrorMessage>{userError.industryError}</ErrorMessage>
@@ -372,9 +388,9 @@ export default function CustomerRegister() {
                                 <div>
                                     <UploadFile>
                                         <label>upload license</label>
-                                        <input type={"file"} value={user.license} id="license" onChange={(e) => { uploadFile(e, e.currentTarget.value) }} hidden={true} />
+                                        <input type={"file"} id="license" onChange={(e) => { uploadFile(e) }} hidden={true} />
                                         <label htmlFor="license" ><Image src={AssetsImages.uploadFileIcon} /></label>
-                                        <div>{user.license.split("\\")[user.license.split("\\").length - 1]}</div>
+                                        <div>{user.license}</div>
                                     </UploadFile>
                                     <ErrorMessage>{userError.licenseError}</ErrorMessage>
                                 </div>
