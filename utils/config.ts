@@ -1,12 +1,19 @@
-const baseUrl = "http://localhost:8000/api/";
+
+const baseUrl = "https://drshop-api.ideasadds-dev.com/api";
 
 const headers: any = {
-    "Content-type": "application/json; charset=utf-8"
+    "Content-type": "application/json; charset=utf-8",
+    "Access-Control-Allow-Origin": "*"
 };
 
 
-const TOKEN_KEY_NAME = "access_token";
 
-const UserController = "users";
+const TOKEN_KEY_NAME = "api_token";
 
-export { baseUrl, headers, TOKEN_KEY_NAME, UserController };
+const DEVICEID_KEY_NAME = "device_id";
+
+const DoctorController = "/doctor/user/v1/";
+
+const TOKEN_EXPIRE = 3; //3days
+
+export { baseUrl, headers, TOKEN_KEY_NAME, DoctorController, DEVICEID_KEY_NAME, TOKEN_EXPIRE };

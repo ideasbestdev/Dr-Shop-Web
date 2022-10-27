@@ -1,18 +1,33 @@
 import axios from "axios";
 import { baseUrl, headers } from "./config";
 import { TOKEN_KEY_NAME } from '@/utils/index';
+import { getDeviceId, uuidv4 } from "@/helpers/index";
 
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 
 const http = axios.create({
     baseURL: baseUrl,
-    headers: headers,
 });
 
 http.interceptors.request.use(function (config: any) {
+
     const token = localStorage.getItem(TOKEN_KEY_NAME);
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    if (localStorage.getItem("hasImage")) {
+        config.headers['Content-Type'] = "multipart/form-data";
+        config.headers.common.Accept = "multipart/form-data";
+        localStorage.removeItem("hasImage");
+    } else {
+        config.headers['Content-Type'] = "application/json; charset=utf-8";
+        localStorage.removeItem("hasImage");
+    }
+    config.headers['x-device-id'] = getDeviceId();
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
 });
+
+
 
 export default http;

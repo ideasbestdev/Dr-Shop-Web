@@ -1,16 +1,18 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { emailRegex, generateRandomNumber, initObject, passwordRegex, stringIsEmptyOrNull } from "@/helpers/index";
-import { AssetsImages, INFO_ALERT_TYPE, ERROR_ALERT_TYPE, PASSWORD_NOT_SAME_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, REQUIRED_MESSAGE, FILE_UPLOAD_SUCCESSFULLY, REGISTER_SUCCESS, FORM_VALIDATION_ERROR, TERMS_OF_CONDITION_ERROR, auth, EMAIL_VERIFICATION_MESSAGE } from "@/utils/index";
+import { AssetsImages, INFO_ALERT_TYPE, ERROR_ALERT_TYPE, PASSWORD_NOT_SAME_MESSAGE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, REQUIRED_MESSAGE, FILE_UPLOAD_SUCCESSFULLY, REGISTER_SUCCESS, FORM_VALIDATION_ERROR, TERMS_OF_CONDITION_ERROR, auth, EMAIL_VERIFICATION_MESSAGE, baseUrl, DoctorController, TOKEN_KEY_NAME, TOKEN_EXPIRE } from "@/utils/index";
 import { setIdentifier, throwMessage } from "@/statemangment/slice/alertSlice";
 import { useDispatch } from "react-redux";
-import { UserRegisterModel, UserRegisterErrorsModel, SelectModel, AlertStateModel } from "@/models/index";
+import { SelectModel, AlertStateModel, ServerRes, UserModel, UserFormErrorsModel } from "@/models/index";
 import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import Image from "next/image";
 import { UploadFile, Register, ErrorMessage, Button } from "@/styledcomponents/index";
 import CustomSelect from "./CustomSelect";
-import { createUserWithEmailAndPassword, sendEmailVerification, sendSignInLinkToEmail, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendSignInLinkToEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { UserService } from '@/services/index';
+import verifcate from './../pages/verifcate';
+import Cookies from "js-cookie";
 
 
 
@@ -19,6 +21,7 @@ export default function CustomerRegister() {
     const [userPhone, setUserPhone] = useState<string>();
     const generatedIdentifier = generateRandomNumber(4);
     const userService = new UserService();
+    const [licenseName, setLicenseName] = useState<string>();
 
     dispatch(setIdentifier(generatedIdentifier));
 
@@ -45,24 +48,21 @@ export default function CustomerRegister() {
         },
     ]
 
-    const [userError, setUserErrors] = useState<UserRegisterErrorsModel>({});
+    const [userError, setUserErrors] = useState<UserFormErrorsModel>({});
 
-    const [user, setUser] = useState<UserRegisterModel>({
-        license: "",
-        industry: "",
+    const [user, setUser] = useState<UserModel>({
         email: "",
-        password: "",
     });
 
     function editUser(key: string, value: string): void {
         switch (key) {
 
             case "firstName":
-                user.firstName = value;
+                user.first_name = value;
                 break;
 
             case "lastName":
-                user.lastName = value;
+                user.last_name = value;
                 break;
 
             case "email":
@@ -78,7 +78,7 @@ export default function CustomerRegister() {
                 break;
 
             case "taxId":
-                user.taxId = value;
+                user.tax_id = value;
                 break;
 
             case "companyName":
@@ -87,10 +87,6 @@ export default function CustomerRegister() {
 
             case "industry":
                 user.industry = value;
-                break;
-
-            case "license":
-                user.license = value;
                 break;
 
             case "state":
@@ -131,10 +127,13 @@ export default function CustomerRegister() {
             userError.licenseError = "";
             const newUserError = Object.assign({}, userError);
             setUserErrors(newUserError);
-            editUser("license", e.target.files[0].name);
+            setLicenseName(e.target.files[0].name);
 
-            var form = new FormData();
-            form.append('imgSrc', e.target.files[0]);
+            user.license = e.target.files[0];
+
+            const newUser = Object.assign({}, user);
+
+            setUser(newUser);
 
             let customAlert: AlertStateModel = {
                 message: FILE_UPLOAD_SUCCESSFULLY,
@@ -143,8 +142,15 @@ export default function CustomerRegister() {
             }
 
             dispatch(throwMessage(customAlert));
+        } else {
+            user.license = null;
+
+            const newUser = Object.assign({}, user);
+
+            setUser(newUser);
         }
     }
+
 
     function validateRegisterForm(): boolean {
         let validForm: boolean = true;
@@ -165,12 +171,12 @@ export default function CustomerRegister() {
             validForm = false;
         }
 
-        if (stringIsEmptyOrNull(user.firstName)) {
+        if (stringIsEmptyOrNull(user.first_name)) {
             userError.firstNameError = REQUIRED_MESSAGE;
             validForm = false;
         }
 
-        if (stringIsEmptyOrNull(user.lastName)) {
+        if (stringIsEmptyOrNull(user.last_name)) {
             userError.lastNameError = REQUIRED_MESSAGE;
             validForm = false;
         }
@@ -185,7 +191,7 @@ export default function CustomerRegister() {
             validForm = false;
         }
 
-        if (stringIsEmptyOrNull(user.taxId)) {
+        if (stringIsEmptyOrNull(user.tax_id)) {
             userError.taxIdError = REQUIRED_MESSAGE;
             validForm = false;
         }
@@ -194,12 +200,12 @@ export default function CustomerRegister() {
             userError.companyNameError = REQUIRED_MESSAGE;
             validForm = false;
         }
-
-        if (stringIsEmptyOrNull(user.industry)) {
-            userError.industryError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-        if (stringIsEmptyOrNull(user.license)) {
+        /*
+                if (stringIsEmptyOrNull(user.industry)) {
+                    userError.industryError = REQUIRED_MESSAGE;
+                    validForm = false;
+                }*/
+        if (stringIsEmptyOrNull(licenseName)) {
             userError.licenseError = REQUIRED_MESSAGE;
             validForm = false;
         }
@@ -233,7 +239,8 @@ export default function CustomerRegister() {
         return validForm;
     }
 
-    const register = () => {
+    const register = async () => {
+        // SendEmailVerification();
         if (validateRegisterForm() && !user.termsOfCondition) {
             let customAlert: AlertStateModel = {
                 message: TERMS_OF_CONDITION_ERROR,
@@ -253,9 +260,17 @@ export default function CustomerRegister() {
             }
 
             dispatch(throwMessage(customAlert));
-            userService.Register(user);
+            user.phone = userPhone;
+            const response: ServerRes = await userService.Register(user);
+            console.log(response);
+            if (response.success) {
+                Cookies.set(TOKEN_KEY_NAME, response.data.api_token, { expires: TOKEN_EXPIRE });
+                localStorage.setItem("id", response.data.user.id);
+                localStorage.setItem("user_uuid", response.data.user.uuid);
+                localStorage.setItem("uuid", response.data.uuid);
+                SendEmailVerification();
 
-            //  SendEmailVerification();
+            }
         } else {
             let customAlert: AlertStateModel = {
                 message: FORM_VALIDATION_ERROR,
@@ -268,30 +283,42 @@ export default function CustomerRegister() {
     }
 
     function SendEmailVerification() {
-        const actionCodeSettings = {
-            url: 'http://localhost:3000/verifcate?email=' + user.email,
-            handleCodeInApp: true,
-        };
-        createUserWithEmailAndPassword(
-            auth,
-            user.email,
-            user.password
-        )
+        /*   const url = baseUrl + DoctorController + "/" + localStorage.getItem("id") + "/" + localStorage.getItem("uuid") + "/verify-email?email=" + user.email + "&callback=http://localhost:3000/verifcate" 
+           const actionCodeSettings = {
+               url: 'http://localhost:3000/verifcate?email=' + user.email,
+               handleCodeInApp: true,
+           };
+           createUserWithEmailAndPassword(
+               auth,
+               user.email,
+               user.password
+           )
+               .then(async (userCredential) => {
+                   let customAlert: AlertStateModel = {
+                       message: EMAIL_VERIFICATION_MESSAGE,
+                       type: INFO_ALERT_TYPE,
+                       identifier: generatedIdentifier,
+                   }
+   
+                   dispatch(throwMessage(customAlert));
+   
+                   sendEmailVerification(userCredential.user, actionCodeSettings);
+   
+               })
+               .catch(() => {
+               });*/
+        signInWithEmailAndPassword(auth, "hussein-cheaitou@hotmail.com", "12345678")
             .then(async (userCredential) => {
-                let customAlert: AlertStateModel = {
-                    message: EMAIL_VERIFICATION_MESSAGE,
-                    type: INFO_ALERT_TYPE,
-                    identifier: generatedIdentifier,
-                }
-
-                dispatch(throwMessage(customAlert));
-
+                const actionCodeSettings = {
+                    url: "http://localhost:3000/verifcate",
+                    handleCodeInApp: true,
+                };
                 sendEmailVerification(userCredential.user, actionCodeSettings);
 
-            })
-            .catch(() => {
             });
     }
+
+
 
     return (
         <Register>
@@ -304,14 +331,14 @@ export default function CustomerRegister() {
                             <li>
                                 <div>
                                     <label>First Name *</label>
-                                    <input type={"text"} value={user.firstName} onChange={(e) => { editUser("firstName", e.currentTarget.value); }} />
+                                    <input type={"text"} value={user.first_name} onChange={(e) => { editUser("firstName", e.currentTarget.value); }} />
                                     <ErrorMessage>{userError.firstNameError}</ErrorMessage>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Last Name *</label>
-                                    <input type={"text"} value={user.lastName} onChange={(e) => { editUser("lastName", e.currentTarget.value); }} />
+                                    <input type={"text"} value={user.last_name} onChange={(e) => { editUser("lastName", e.currentTarget.value); }} />
                                     <ErrorMessage>{userError.lastNameError}</ErrorMessage>
                                 </div>
                             </li>
@@ -365,7 +392,7 @@ export default function CustomerRegister() {
                             <li>
                                 <div>
                                     <label>Tax id *</label>
-                                    <input type={"text"} value={user.taxId} onChange={(e) => { editUser("taxId", e.currentTarget.value); }} />
+                                    <input type={"text"} value={user.tax_id} onChange={(e) => { editUser("taxId", e.currentTarget.value); }} />
                                     <ErrorMessage>{userError.taxIdError}</ErrorMessage>
                                 </div>
                             </li>
@@ -376,13 +403,13 @@ export default function CustomerRegister() {
                                     <ErrorMessage>{userError.numberOfPhysiciansError}</ErrorMessage>
                                 </div>
                             </li>
-                            <li>
+                            {/*                            <li>
                                 <div>
                                     <label>Industry</label>
                                     <CustomSelect selectValue={user.industry} data={industryData} property={"industry"} onChange={editUser} />
                                     <ErrorMessage>{userError.industryError}</ErrorMessage>
                                 </div>
-                            </li>
+    </li>*/}
 
                             <li>
                                 <div>
@@ -390,7 +417,7 @@ export default function CustomerRegister() {
                                         <label>upload license</label>
                                         <input type={"file"} id="license" onChange={(e) => { uploadFile(e) }} hidden={true} />
                                         <label htmlFor="license" ><Image src={AssetsImages.uploadFileIcon} /></label>
-                                        <div>{user.license}</div>
+                                        <div>{licenseName}</div>
                                     </UploadFile>
                                     <ErrorMessage>{userError.licenseError}</ErrorMessage>
                                 </div>

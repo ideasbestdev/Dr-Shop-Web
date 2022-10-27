@@ -5,25 +5,26 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { currentAlertIdentifier, getAlertState, setAlert, setIdentifier } from "@/statemangment/slice/alertSlice";
-import { AlertStateModel, UserLoginErrorsModel, UserLoginModel } from "@/models/index";
+import { AlertStateModel, UserFormErrorsModel, UserModel } from "@/models/index";
+import { UserService } from '@/services/index';
 
 export default function Login() {
 
     const { identifier } = useSelector(getAlertState);
     const dispatch = useDispatch();
 
-    const userInitailState: UserLoginModel = {
+    const userInitailState: UserModel = {
         email: "",
         password: ""
     };
 
-    const userErrorsInitailState: UserLoginErrorsModel = {
+    const userErrorsInitailState: UserFormErrorsModel = {
         emailError: "",
         passwordError: ""
     };
 
-    const [userError, setUserErrors] = useState<UserLoginErrorsModel>(userErrorsInitailState);
-    const [user, setUser] = useState<UserLoginModel>(userInitailState);
+    const [userError, setUserErrors] = useState<UserFormErrorsModel>(userErrorsInitailState);
+    const [user, setUser] = useState<UserModel>(userInitailState);
     const route = useRouter();
 
     function editUser(key: string, value: string): void {
@@ -70,25 +71,28 @@ export default function Login() {
 
     const login = () => {
         if (validateLoginForm()) {
-            signInWithEmailAndPassword(auth, user.email, user.password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    route.push(PageUrls.HOME);
-                })
-                .catch((error) => {
-                    const generatedIdentifier = generateRandomNumber(4);
-                    let customAlert: AlertStateModel = {
-                        message: "Invalid crendials",
-                        type: ERROR_ALERT_TYPE,
-                        identifier: generatedIdentifier,
-                    }
 
-                    dispatch(setIdentifier(generatedIdentifier));
-
-                    if (customAlert.identifier == currentAlertIdentifier) {
-                        dispatch(setAlert(customAlert));
-                    }
-                });
+            const userServce = new UserService();
+            userServce.Login(user);
+            /*   signInWithEmailAndPassword(auth, user.email, user.password)
+                   .then((userCredential) => {
+                       const user = userCredential.user;
+                       route.push(PageUrls.HOME);
+                   })
+                   .catch((error) => {
+                       const generatedIdentifier = generateRandomNumber(4);
+                       let customAlert: AlertStateModel = {
+                           message: "Invalid crendials",
+                           type: ERROR_ALERT_TYPE,
+                           identifier: generatedIdentifier,
+                       }
+   
+                       dispatch(setIdentifier(generatedIdentifier));
+   
+                       if (customAlert.identifier == currentAlertIdentifier) {
+                           dispatch(setAlert(customAlert));
+                       }
+                   });*/
         }
     }
 

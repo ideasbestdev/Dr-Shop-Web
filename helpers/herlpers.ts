@@ -1,3 +1,6 @@
+import Cookies from "js-cookie";
+import { DEVICEID_KEY_NAME } from "@/utils/index";
+
 export function stringIsEmptyOrNull(value?: string) {
     if (value == null || value == undefined || value.trim().length == 0) {
         return true;
@@ -26,4 +29,23 @@ export function initObject(initialState: any): any {
     });
 
     return initialState;
+}
+
+
+export function uuidv4(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+
+
+
+export function getDeviceId(): string {
+    if (Cookies.get(DEVICEID_KEY_NAME) == undefined) {
+        Cookies.set(DEVICEID_KEY_NAME, uuidv4());
+    }
+    const device_id: string = "" + Cookies.get("device_id");
+    return device_id;
 }

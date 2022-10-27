@@ -11,6 +11,7 @@ import {
 } from "@/statemangment/slice/alertSlice";
 import { generateRandomNumber } from "@/helpers/index";
 import { AlertStateModel } from '@/models/index';
+import { BannerSection, DiscountSection, LatestProductSection, ServiceSection } from '@/components/Home';
 
 export default function Home() {
 
@@ -44,13 +45,11 @@ export default function Home() {
 
 
     return (
-        <div>
-            Email: {currentuser?.email}
-            <br />
-            <button onClick={() => logout()}>Logout</button>
-            <br />
-            <button onClick={(e) => { e.stopPropagation(); throwMessage(); }}>Throw Alert</button>
-            <br />
-        </div>
+        <>
+            <BannerSection />
+            <LatestProductSection />
+            <ServiceSection />
+            <DiscountSection />
+        </>
     )
 }

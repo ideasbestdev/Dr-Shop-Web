@@ -1,4 +1,97 @@
-export interface UserLoginErrorsModel {
+export interface UserFormErrorsModel {
+    emailError?: string;
+    passwordError?: string;
+    firstNameError?: string;
+    lastNameError?: string;
+    phoneError?: string;
+    confirmPasswordError?: string;
+    companyNameError?: string;
+    taxIdError?: string;
+    industryError?: string;
+    licenseError?: string;
+    stateError?: string;
+    cityError?: string;
+    streetError?: string;
+    zipCodeError?: string;
+    numberOfPhysiciansError?: string
+}
+export interface UserModel {
+    email: string;
+    password?: string;
+    first_name?: string;
+    last_name?: string;
+    phone?: string;
+    confirmPassword?: string;
+    companyName?: string;
+    tax_id?: string;
+    industry?: string;
+    license?: any;
+    syndicate_id?: string;
+    state?: string;
+    city?: string;
+    street?: string;
+    zipCode?: string;
+    numberOfPhysicians?: string;
+    device_id?: string;
+    os_type?: string;
+    os_version?: string;
+    brand?: string;
+    model?: string;
+    termsOfCondition?: boolean;
+}
+export interface UserStateModel {
+    currentuser: UserModel | null;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+export interface UserRegisterModel {
+    email: string;
+    password: string;
+    first_name?: string;
+    last_name?: string;
+    phone?: string;
+    confirmPassword?: string;
+    companyName?: string;
+    tax_id?: string;
+    industry?: string;
+    // licenseName: string;
+    license?: any;
+    syndicate_id?: string;
+    state?: string;
+    city?: string;
+    street?: string;
+    zipCode?: string;
+    numberOfPhysicians?: string;
+    device_id?: string;
+    os_type?: string;
+    os_version?: Number;
+    brand?: string;
+    model?: string;
+    termsOfCondition?: boolean;
+}
+
+export interface UserModel {
+    email: string | null;
+    uid: string;
+    first_name?: string;
+    last_name?: string;
+    email_verified_at?: string;
+    user_type_id?: Number;
+}
+*/
+/*export interface UserLoginErrorsModel {
     emailError: string;
     passwordError: string;
 }
@@ -25,33 +118,4 @@ export interface UserRegisterErrorsModel {
     zipCodeError?: string;
     numberOfPhysiciansError?: string
 }
-
-export interface UserRegisterModel {
-    email: string;
-    password: string;
-    firstName?: string;
-    lastName?: string;
-    phone?: string;
-    confirmPassword?: string;
-    companyName?: string;
-    taxId?: string;
-    industry: string;
-    license: string;
-    state?: string;
-    city?: string;
-    street?: string;
-    zipCode?: string;
-    numberOfPhysicians?: string;
-    termsOfCondition?: boolean;
-
-}
-
-export interface UserModel {
-    email: string | null;
-    uid: string;
-}
-
-
-export interface UserStateModel {
-    currentuser: UserModel | null;
-}
+*/

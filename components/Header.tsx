@@ -3,52 +3,89 @@ import { AppHeader, IconText, InputIcon } from '@/styledcomponents/index';
 import Link from 'next/link';
 import { PageUrls, AssetsImages } from '@/utils/index';
 import Image from 'next/image';
-import { BurgerIcon, SearchIcon, UserIcon, CartIcon } from './icons/';
+import { BurgerIcon, SearchIcon, UserIcon, CartIcon, MenuIcon } from './icons/';
 
 
 function Header() {
     return (
-        <AppHeader style={{ backgroundImage: "linear-gradient(to bottom,#7BDCC2 30%, #5CA390 60%, #3E6E61 100%)" }}>
+        <AppHeader>
             <div>
-                your account under review please be patient until  admin approve your request
+                your account under review please be patient until admin approves your request
             </div>
-            <ul>
-                <li>
-                    <Link href={PageUrls.HOME}>
-                        <a><Image src={AssetsImages.logo} /> </a>
-                    </Link>
-                    <ul>
-                        <li>
-                            <BurgerIcon color="#fff" />
-                        </li>
-                        <li>
-                            Categories
-                        </li>
-                        <li>
-                            Industries
-                        </li>
-                        <li>
-                            Brands
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <InputIcon>
-                        <i><SearchIcon color='#845FA1' /></i>
-                        <input type={"text"} placeholder="Search" />
-                    </InputIcon>
-                    <div>
-                        <IconText>
-                            <i><CartIcon color='#fff' /></i>
-                            Cart
-                        </IconText>
-                        <IconText>
-                            <i><UserIcon color='#fff' /></i>
-                            User
-                        </IconText>
-                    </div>
-                </li>
-            </ul>
+            <nav>
+                <ul>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a><Image src={AssetsImages.logo} /> </a>
+                        </Link>
+                    </li>
+                    <li>
+                        Welcome!
+                    </li>
+                    <li>
+                        <InputIcon>
+                            <i><SearchIcon color='#9b9b9b' /></i>
+                            <input type={"text"} />
+                        </InputIcon>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>
+                                <i><UserIcon color='#9b9b9b' /></i>
+                            </a>
+                        </Link>
+                        <Link href={PageUrls.HOME}>
+                            <a>
+                                <i><CartIcon color='#9b9b9b' /></i>
+                            </a>
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+            <nav>
+                <ul>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>
+                                <IconText marginRight='20px'>
+                                    <i><MenuIcon color='#ffffff' /></i>
+                                    Categories
+                                </IconText>
+                            </a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>About Us</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>Our Services</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>Hot Deals</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>Brands</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>Register Now</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={PageUrls.HOME}>
+                            <a>Become a Ventor</a>
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
         </AppHeader>
     )
 }

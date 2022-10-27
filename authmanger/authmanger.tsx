@@ -54,9 +54,9 @@ export default function AuthManger({ component, children }: Children) {
 
     return (
         <>
-            <div style={{ display: `${loading ? "none" : "block"}` }}>
+            <main style={{ display: `${loading ? "none" : "block"}` }}>
                 {children}
-            </div>
+            </main>
             <div style={{ display: `${loading ? "block" : "none"}` }}>Loading...</div>
         </>
     )

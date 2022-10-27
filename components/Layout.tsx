@@ -11,13 +11,13 @@ interface PageComponent {
 }
 
 export default function Layout({ children }: PageComponent) {
-    const { message } = useSelector(getAlertState);
+    // const { message } = useSelector(getAlertState);
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />
             <Alert />
             <Header />
-            <main>{children}</main>
+            {children}
         </ThemeProvider>
     );
 }

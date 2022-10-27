@@ -5,11 +5,9 @@ interface Props {
 }
 export function SearchIcon({ color }: Props) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20.345" height="20.345" viewBox="0 0 20.345 20.345">
-            <path id="Path_3" data-name="Path 3" d="M-9.129-11.035a5.484,5.484,0,0,1-5.478,5.478,5.484,5.484,0,0,1-5.478-5.478,5.484,5.484,0,0,1,5.478-5.478A5.484,5.484,0,0,1-9.129-11.035ZM-2.869-.863a1.574,1.574,0,0,0-.452-1.1L-7.515-6.157A8.588,8.588,0,0,0-6-11.035a8.6,8.6,0,0,0-8.608-8.608,8.6,8.6,0,0,0-8.608,8.608,8.6,8.6,0,0,0,8.608,8.608A8.588,8.588,0,0,0-9.728-3.944L-5.534.238A1.534,1.534,0,0,0-4.434.7,1.576,1.576,0,0,0-2.869-.863Z" transform="translate(23.214 19.643)" fill={color} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="19.031" height="19.031" viewBox="0 0 19.031 19.031">
+            <path id="Vector" d="M17.031,17.031l-5.677-5.677ZM13.246,6.623a6.623,6.623,0,1,1-1.94-4.683A6.623,6.623,0,0,1,13.246,6.623Z" transform="translate(1 1)" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
         </svg>
-
-
     )
 }
 

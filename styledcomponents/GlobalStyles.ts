@@ -2,6 +2,42 @@ import { createGlobalStyle } from 'styled-components'
 import { Theme } from './Theme'
 
 export const GlobalStyles = createGlobalStyle`
+
+@font-face {
+     font-family: 'Montserrat-ExtraBold';
+     src: url('/fonts/Montserrat-ExtraBold.woff');
+}
+
+@font-face {
+     font-family: 'Montserrat-Bold';
+     src: url('/fonts/Montserrat-Bold.woff');
+}
+
+@font-face {
+     font-family: 'Montserrat-SemiBold';
+     src: url('/fonts/Montserrat-SemiBold.woff');
+}
+
+@font-face {
+     font-family: 'Montserrat-Medium';
+     src: url('/fonts/Montserrat-Medium.woff');
+}
+
+@font-face {
+     font-family: 'Montserrat-Italic';
+     src: url('/fonts/Montserrat-Italic.woff');
+}
+
+@font-face {
+     font-family: 'Montserrat-Regular';
+     src: url('/fonts/Montserrat-Regular.woff');
+}
+
+@font-face {
+     font-family: 'Poppins-Bold';
+     src: url('/fonts/Poppins-Bold.woff');
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -9,14 +45,16 @@ export const GlobalStyles = createGlobalStyle`
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    text-decoration: none
+    text-decoration: none;
 }
 
 html {
     scroll-behavior: smooth;
     position: relative
 }
-
+body{
+    font-family: ${({ theme }: Theme) => theme.fonts.regular};
+}
 
 body,html {
     min-height: 100%;
@@ -31,10 +69,15 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     padding: 0 10px;
 }
 
+a{
+    font-family: ${({ theme }: Theme) => theme.fonts.semi_bold};
+    font-size: 16px;
+}
+
 select{
     appearance: none;
     display: flex;
-        align-items: center;
+    align-items: center;
 }
 
 button{

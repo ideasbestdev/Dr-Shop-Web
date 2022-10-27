@@ -1,6 +1,6 @@
 
 export interface AlertStateModel {
     message: string,
-    type: string | undefined,
+    type: string,
     identifier: string,
 }
