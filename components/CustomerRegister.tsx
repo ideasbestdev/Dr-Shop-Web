@@ -7,8 +7,7 @@ import { SelectModel, AlertStateModel, ServerRes, UserModel, UserFormErrorsModel
 import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import Image from "next/image";
-import { UploadFile, Register, ErrorMessage, Button } from "@/styledcomponents/index";
-import CustomSelect from "./CustomSelect";
+import { UploadFileStyle, RegisterStyle, ErrorMessageStyle, ButtonStyle } from "@/styledcomponents/index";
 import { createUserWithEmailAndPassword, sendEmailVerification, sendSignInLinkToEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { UserService } from '@/services/index';
 import verifcate from './../pages/verifcate';
@@ -321,7 +320,7 @@ export default function CustomerRegister() {
 
 
     return (
-        <Register>
+        <RegisterStyle>
             <h1>customer  registration</h1>
             <form noValidate onSubmit={(e) => { e.preventDefault(); register(); }}>
                 <ul>
@@ -332,21 +331,21 @@ export default function CustomerRegister() {
                                 <div>
                                     <label>First Name *</label>
                                     <input type={"text"} value={user.first_name} onChange={(e) => { editUser("firstName", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.firstNameError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.firstNameError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Last Name *</label>
                                     <input type={"text"} value={user.last_name} onChange={(e) => { editUser("lastName", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.lastNameError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.lastNameError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Email</label>
                                     <input type={"email"} value={user.email} onChange={(e) => { editUser("email", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.emailError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.emailError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
@@ -359,21 +358,21 @@ export default function CustomerRegister() {
                                         country="US"
                                         onChange={setUserPhone} />
 
-                                    <ErrorMessage>{userError.phoneError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.phoneError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Password</label>
                                     <input type={"password"} value={user.password} onChange={(e) => { editUser("password", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.passwordError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.passwordError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Confirm Password</label>
                                     <input type={"password"} value={user.confirmPassword} onChange={(e) => { editUser("confirmPassword", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.confirmPasswordError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.confirmPasswordError}</ErrorMessageStyle>
                                 </div>
                             </li>
                         </ul>
@@ -386,40 +385,40 @@ export default function CustomerRegister() {
                                 <div>
                                     <label>Company Name *</label>
                                     <input type={"text"} value={user.companyName} onChange={(e) => { editUser("companyName", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.companyNameError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.companyNameError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Tax id *</label>
                                     <input type={"text"} value={user.tax_id} onChange={(e) => { editUser("taxId", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.taxIdError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.taxIdError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Number of Physicians *</label>
                                     <input type={"text"} value={user.numberOfPhysicians} onChange={(e) => { editUser("numberOfPhysicians", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.numberOfPhysiciansError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.numberOfPhysiciansError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             {/*                            <li>
                                 <div>
                                     <label>Industry</label>
                                     <CustomSelect selectValue={user.industry} data={industryData} property={"industry"} onChange={editUser} />
-                                    <ErrorMessage>{userError.industryError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.industryError}</ErrorMessageStyle>
                                 </div>
     </li>*/}
 
                             <li>
                                 <div>
-                                    <UploadFile>
+                                    <UploadFileStyle>
                                         <label>upload license</label>
                                         <input type={"file"} id="license" onChange={(e) => { uploadFile(e) }} hidden={true} />
                                         <label htmlFor="license" ><Image src={AssetsImages.uploadFileIcon} /></label>
                                         <div>{licenseName}</div>
-                                    </UploadFile>
-                                    <ErrorMessage>{userError.licenseError}</ErrorMessage>
+                                    </UploadFileStyle>
+                                    <ErrorMessageStyle>{userError.licenseError}</ErrorMessageStyle>
                                 </div>
                             </li>
 
@@ -434,28 +433,28 @@ export default function CustomerRegister() {
                                 <div>
                                     <label>State*</label>
                                     <input type={"text"} value={user.state} onChange={(e) => { editUser("state", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.stateError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.stateError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>City *</label>
                                     <input type={"text"} value={user.city} onChange={(e) => { editUser("city", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.cityError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.cityError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Street *</label>
                                     <input type={"text"} value={user.street} onChange={(e) => { editUser("street", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.streetError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.streetError}</ErrorMessageStyle>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <label>Zip Code *</label>
                                     <input type={"text"} value={user.zipCode} onChange={(e) => { editUser("zipCode", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.zipCodeError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.zipCodeError}</ErrorMessageStyle>
                                 </div>
                             </li>
 
@@ -465,9 +464,9 @@ export default function CustomerRegister() {
                 <div>
                     <input type={"checkbox"} onChange={(e) => editUser("termsOfCondition", e.currentTarget.checked.toString())} checked={user.termsOfCondition} id="terms" /><label htmlFor="terms">I agree to the Terms & Conditions</label>
                 </div>
-                <Button backgroundColor="#E7B944" onClick={(e) => e.stopPropagation()}>Register</Button>
+                <ButtonStyle backgroundColor="#E7B944" onClick={(e) => e.stopPropagation()}>Register</ButtonStyle>
             </form>
-        </Register>
+        </RegisterStyle>
     )
 }
 
@@ -476,6 +475,6 @@ export default function CustomerRegister() {
                                 <div>
                                     <label>Industry</label>
                                     <input type={"text"} value={user.industry} onChange={(e) => { editUser("industry", e.currentTarget.value); }} />
-                                    <ErrorMessage>{userError.industryError}</ErrorMessage>
+                                    <ErrorMessageStyle>{userError.industryError}</ErrorMessageStyle>
                                 </div>
                             </li>*/

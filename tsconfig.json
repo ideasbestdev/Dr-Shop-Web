@@ -12,7 +12,6 @@
       "@/assets/*": ["assets/*"],
       "@/styledcomponents/*": ["styledcomponents/*"],
       "@/services/*": ["services/*"],
-
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

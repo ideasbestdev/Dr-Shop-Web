@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 export const BannerSectionStyle = styled.section`
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    max-height: 800px;
     > div{
         &:nth-child(1){
             flex: 1;
@@ -18,6 +19,9 @@ export const BannerSectionStyle = styled.section`
         &:nth-child(2){
             position: relative;
             max-width: 55%;
+            div{
+                height: 100%;
+            }
             span{
                 min-height: 100%;
                 img{

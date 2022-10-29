@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const InputIcon = styled.div`
+export const InputIconStyle = styled.div`
     position: relative;
     min-width: 500px;
     input[type="text"]{

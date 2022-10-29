@@ -1,6 +1,10 @@
 import { createGlobalStyle } from 'styled-components'
 import { Theme } from './Theme'
 
+interface Props {
+    theme: Theme,
+}
+
 export const GlobalStyles = createGlobalStyle`
 
 @font-face {
@@ -53,24 +57,25 @@ html {
     position: relative
 }
 body{
-    font-family: ${({ theme }: Theme) => theme.fonts.regular};
+    font-family: ${({ theme }: Props) => theme.fonts.regular};
+    overflow-x: hidden;
 }
 
 body,html {
     min-height: 100%;
     height: 100%;
-    background: ${({ theme }: Theme) => theme.backgroundcolors.background_body};
+    background: ${({ theme }: Props) => theme.backgroundcolors.background_body};
 }
 
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select{
     outline: none;
-    height: ${({ theme }: Theme) => theme.height.input_height};
+    height: ${({ theme }: Props) => theme.height.input_height};
     width: 100%;
     padding: 0 10px;
 }
 
 a{
-    font-family: ${({ theme }: Theme) => theme.fonts.semi_bold};
+    font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
     font-size: 16px;
 }
 
@@ -101,12 +106,11 @@ img {
 
 }
 #__next {
-    padding-top: ${({ theme }: Theme) => theme.height.header};
+    padding-top: ${({ theme }: Props) => theme.height.header};
     height: auto;
     min-height: 100%;
     position: relative;
     width: 100%;
-//    padding-left: ${({ theme }: Theme) => theme.width.sidebar};
-    padding-bottom: 50px;
+    padding-bottom: 300px;
 }
 `

@@ -11,7 +11,17 @@ import {
 } from "@/statemangment/slice/alertSlice";
 import { generateRandomNumber } from "@/helpers/index";
 import { AlertStateModel } from '@/models/index';
-import { BannerSection, DiscountSection, LatestProductSection, ServiceSection } from '@/components/Home';
+import { BackToTopSection, BannerSection, CategorySection, DiscountSection, LatestProductSection, ServiceSection, SupplierSection } from '@/components/home';
+import { useEffect } from 'react';
+
+
+export async function getStaticProps() {
+    return {
+        props: {
+        },
+    }
+}
+
 
 export default function Home() {
 
@@ -44,12 +54,16 @@ export default function Home() {
     }
 
 
+
     return (
         <>
             <BannerSection />
             <LatestProductSection />
             <ServiceSection />
             <DiscountSection />
+            <CategorySection />
+            <SupplierSection />
+            <BackToTopSection />
         </>
     )
 }

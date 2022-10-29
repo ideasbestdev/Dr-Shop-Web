@@ -1,19 +1,42 @@
 export * from "./Theme";
 export * from "./GlobalStyles";
-export * from "./AppAlert";
-export * from "./AppHeader";
-export * from "./InputIcon";
-export * from "./IconText";
-export * from "./Button";
-export * from "./ErrorMessage";
-export * from "./Register";
-export * from "./UploadFile";
-export * from "./LinkButtonStyle";
-export * from "./TitleStyle";
-export * from "./ProductItemListStyle";
-export * from "./SectionTitleStyle";
-export * from "./DescriptionStyle";
-export * from "./Home/BannerSectionStyle";
-export * from "./Home/LatestProductSectionStyle";
-export * from "./Home/ServiceSectionStyle";
-export * from "./Home/DiscountSectionStyle";
+
+//#region shared styles
+export * from "./product/ProductItemListStyle";
+export * from "./shared/SectionTitleStyle";
+export * from "./shared/DescriptionStyle";
+export * from "./shared/LinkButtonStyle";
+export * from "./shared/TitleStyle";
+export * from "./shared/InputIconStyle";
+export * from "./shared/IconTextStyle";
+export * from "./shared/ButtonStyle";
+export * from "./shared/ErrorMessageStyle";
+export * from "./shared/UploadFileStyle";
+//#endregion
+
+//#region header styles
+export * from "./header/HeaderStyle";
+//#endregion
+
+//#region footer styles
+export * from "./footer/FooterStyle";
+//#endregion
+
+
+//#region alert styles
+export * from "./alert/AlertStyle";
+//#endregion
+
+//#region home styles
+export * from "./home/BannerSectionStyle";
+export * from "./home/LatestProductSectionStyle";
+export * from "./home/ServiceSectionStyle";
+export * from "./home/DiscountSectionStyle";
+export * from "./home/CategorySectionStyle";
+export * from "./home/SupplierSectionStyle";
+export * from "./home/BackToTopSectionStyle";
+//#endregion
+
+//#region register styles
+export * from "./register/RegisterStyle";
+//#endregion

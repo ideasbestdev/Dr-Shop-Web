@@ -1,16 +1,17 @@
 import styled from 'styled-components';
-import { Theme } from './Theme';
+import { Theme } from '../Theme';
 
 interface Props {
-    show: boolean;
+    show?: boolean;
+    theme: Theme
 }
 
-export const AppCustomSelect = styled.div<Props>`
+export const CustomSelectStyle = styled.div<Props>`
     position: relative;
     z-index: 1;
     span{
         border: 1px solid #E1E1E1;
-        height: ${({ theme }: Theme) => theme.height.input_height};
+        height: ${({ theme }: Props) => theme.height.input_height};
         display: flex;
         align-items: center;
         border-radius: 8px;

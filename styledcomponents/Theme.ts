@@ -1,4 +1,4 @@
-export const theme: Prop = {
+export const theme: Theme = {
     backgroundcolors: {
         background_top_header: '#A7A7A7',
         background_middle_header: '#ffffff',
@@ -21,6 +21,10 @@ export const theme: Prop = {
         top_header: '39px',
         middle_header: '170px',
         bottom_header: '60px',
+        header_scroll: "121px",
+        top_header_scroll: "0",
+        middle_header_scroll: "82px",
+        bottom_header_scroll: "39px",
         editor: '400px',
         section_options: '75px',
         input_height: '64px',
@@ -34,7 +38,7 @@ export const theme: Prop = {
 
     globalColors: {
         primary_color: "#003177",
-        secondary_color: "#003177",
+        secondary_color: "#D23A3A",
     },
     fonts: {
         extra_bold: "Montserrat-ExtraBold",
@@ -81,6 +85,10 @@ interface Heights {
     top_header: string,
     middle_header: string,
     bottom_header: string,
+    header_scroll: string,
+    top_header_scroll: string,
+    middle_header_scroll: string,
+    bottom_header_scroll: string,
     editor: string,
     input_height: string,
     section_options: string,
@@ -95,7 +103,7 @@ interface GlobalColors {
     primary_color: string,
     secondary_color: string,
 }
-interface Prop {
+export interface Theme {
     backgroundcolors: BackgroundColors,
     breakpoints: BreakPoints,
     height: Heights,
@@ -105,6 +113,3 @@ interface Prop {
     fonts: Fonts,
 }
 
-export interface Theme {
-    theme: Prop
-}

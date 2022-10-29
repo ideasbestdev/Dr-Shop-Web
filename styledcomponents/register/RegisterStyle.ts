@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import { Theme } from './Theme';
+import { Theme } from '../Theme';
 
+interface Props {
+    theme: Theme,
+}
 
-export const Register = styled.main`
+export const RegisterStyle = styled.main`
     padding: 40px 4%;
     h1{
         text-align: center;
@@ -39,7 +42,7 @@ export const Register = styled.main`
 
                         label{
                             display: block;
-                            color: ${({ theme }: Theme) => theme.textColors.text_color_label};
+                            color: ${({ theme }: Props) => theme.textColors.text_color_label};
                             margin-bottom: 5px;
                         }
                         input{

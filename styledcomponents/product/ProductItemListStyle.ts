@@ -1,6 +1,9 @@
 import styled from 'styled-components';
-import { Theme } from './Theme';
+import { Theme } from '../Theme';
 
+interface Props {
+    theme: Theme,
+}
 
 export const ProductItemListStyle = styled.div`
   >  div{
@@ -26,6 +29,15 @@ export const ProductItemListStyle = styled.div`
                 position: absolute;
                 right: 5px;
                 bottom: -30px;
+                cursor: pointer;
+                &:hover{
+                    svg{
+                        path{
+                            transition: fill 0.3s;
+                            fill: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;
+                        }
+                    }
+                }
             }
         }
 
@@ -43,14 +55,14 @@ export const ProductItemListStyle = styled.div`
         }
     }
     h2{
-        font-family: ${({ theme }: Theme) => theme.fonts.regular};
+        font-family: ${({ theme }: Props) => theme.fonts.regular};
         font-size: 16px;
         font-weight: normal;
         color: #34283E;
         margin-top: 10px;
     }
     h3{
-        font-family: ${({ theme }: Theme) => theme.fonts.bold};
+        font-family: ${({ theme }: Props) => theme.fonts.bold};
         font-size: 20px;
         font-weight: normal;
         color: #34283E;

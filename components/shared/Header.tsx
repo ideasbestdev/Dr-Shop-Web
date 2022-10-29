@@ -1,14 +1,27 @@
-import React from 'react';
-import { AppHeader, IconText, InputIcon } from '@/styledcomponents/index';
+import React, { useEffect, useState } from 'react';
+import { HeaderStyle, IconTextStyle, InputIconStyle } from '@/styledcomponents/index';
 import Link from 'next/link';
 import { PageUrls, AssetsImages } from '@/utils/index';
 import Image from 'next/image';
-import { BurgerIcon, SearchIcon, UserIcon, CartIcon, MenuIcon } from './icons/';
+import { BurgerIcon, SearchIcon, UserIcon, CartIcon, MenuIcon } from '../icons';
 
 
-function Header() {
+export function Header() {
+    const [headerScroll, setHeaderScroll] = useState(false);
+    function handleScroll() {
+        if (window.scrollY > 150 && !headerScroll) {
+            setHeaderScroll(true);
+        }
+        else if (window.scrollY <= 150) {
+            setHeaderScroll(false);
+        }
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+    }, [])
+
     return (
-        <AppHeader>
+        <HeaderStyle isScroll={headerScroll}>
             <div>
                 your account under review please be patient until admin approves your request
             </div>
@@ -23,10 +36,10 @@ function Header() {
                         Welcome!
                     </li>
                     <li>
-                        <InputIcon>
+                        <InputIconStyle>
                             <i><SearchIcon color='#9b9b9b' /></i>
                             <input type={"text"} />
-                        </InputIcon>
+                        </InputIconStyle>
                     </li>
                     <li>
                         <Link href={PageUrls.HOME}>
@@ -47,10 +60,10 @@ function Header() {
                     <li>
                         <Link href={PageUrls.HOME}>
                             <a>
-                                <IconText marginRight='20px'>
+                                <IconTextStyle marginRight='20px'>
                                     <i><MenuIcon color='#ffffff' /></i>
                                     Categories
-                                </IconText>
+                                </IconTextStyle>
                             </a>
                         </Link>
                     </li>
@@ -60,7 +73,7 @@ function Header() {
                         </Link>
                     </li>
                     <li>
-                        <Link href={PageUrls.HOME}>
+                        <Link href={PageUrls.HOME + "#service-section"}>
                             <a>Our Services</a>
                         </Link>
                     </li>
@@ -86,8 +99,6 @@ function Header() {
                     </li>
                 </ul>
             </nav>
-        </AppHeader>
+        </HeaderStyle>
     )
 }
-
-export default Header

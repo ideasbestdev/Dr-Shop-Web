@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 
-export const UploadFile = styled.div`
+export const UploadFileStyle = styled.div`
     display: inline-block;
     > div{
         position: absolute;

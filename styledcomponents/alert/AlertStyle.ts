@@ -5,7 +5,7 @@ interface Props {
     type?: string;
 }
 
-export const AppAlert = styled.div`
+export const AlertStyle = styled.div`
     position: fixed;
     text-align: center;
     top: 0;

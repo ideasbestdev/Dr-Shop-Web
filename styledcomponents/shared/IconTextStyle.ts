@@ -4,7 +4,7 @@ interface Props {
     marginRight?: string,
 }
 
-export const IconText = styled.div<Props>`
+export const IconTextStyle = styled.div<Props>`
         display: flex;
         align-items: center;
         i{

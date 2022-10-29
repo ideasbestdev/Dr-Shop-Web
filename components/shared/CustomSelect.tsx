@@ -1,9 +1,9 @@
-import { AppCustomSelect } from '@/styledcomponents/AppCustomSelect'
+import { CustomSelectStyle } from '@/styledcomponents/shared/CustomSelectStyle'
 import React from 'react'
 import { SelectModel } from '@/models/index'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { ArrowDownIcon } from './icons';
+import { ArrowDownIcon } from '../icons';
 
 interface Props {
     selectValue: string,
@@ -12,14 +12,14 @@ interface Props {
     property: string,
 }
 
-function CustomSelect({ selectValue, data, onChange, property }: Props) {
+export function CustomSelect({ selectValue, data, onChange, property }: Props) {
     const [show, setShow] = useState(false);
     useEffect(() => {
         document.addEventListener('click', () => setShow(false));
     }, []);
 
     return (
-        <AppCustomSelect show={show}>
+        <CustomSelectStyle show={show}>
             <span onClick={(e) => { e.stopPropagation(); setShow(!show) }}>
                 {data.find(d => d.key == selectValue) ? data.find(d => d.key == selectValue)?.value : "Select Clinc"}
                 <i><ArrowDownIcon color='#000' /></i>
@@ -40,8 +40,6 @@ function CustomSelect({ selectValue, data, onChange, property }: Props) {
                 <i><ArrowDownIcon color='#000' /></i>
 
             </div>
-        </AppCustomSelect >
+        </CustomSelectStyle >
     )
 }
-
-export default CustomSelect

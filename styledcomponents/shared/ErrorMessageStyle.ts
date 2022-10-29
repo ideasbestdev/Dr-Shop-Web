@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ErrorMessage = styled.label`
+export const ErrorMessageStyle = styled.label`
     color: red !important;
     font-size: 13px;
     position: absolute;

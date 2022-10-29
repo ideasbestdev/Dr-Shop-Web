@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Theme } from '../Theme';
-
+interface Props {
+    theme: Theme,
+}
 
 export const DiscountSectionStyle = styled.section`
     background-color: #EBEBEB;
@@ -28,7 +30,7 @@ export const DiscountSectionStyle = styled.section`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-family: ${({ theme }: Theme) => theme.fonts.poppins_bold};
+                font-family: ${({ theme }: Props) => theme.fonts.poppins_bold};
 
             }
         }

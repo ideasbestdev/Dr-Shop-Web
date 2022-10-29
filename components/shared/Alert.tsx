@@ -5,10 +5,10 @@ import { getAlertState, setAlert } from "@/statemangment/slice/alertSlice";
 import { ERROR_ALERT_TYPE, INFO_ALERT_TYPE } from "@/utils/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import { AppAlert } from '@/styledcomponents/index';
+import { AlertStyle } from '@/styledcomponents/index';
 import { AlertStateModel } from "@/models/index";
 
-function Alert() {
+export function Alert() {
     const { message, identifier, type } = useSelector(getAlertState);
     const dispatch = useDispatch();
     const initialState: AlertStateModel = {
@@ -27,13 +27,9 @@ function Alert() {
 
 
     return (
-        <AppAlert show={!stringIsEmptyOrNull(message)} type={type}>
+        <AlertStyle show={!stringIsEmptyOrNull(message)} type={type}>
             <span className={"icon"}>{type == INFO_ALERT_TYPE ? <FontAwesomeIcon icon={faInfoCircle} /> : type == ERROR_ALERT_TYPE ? <FontAwesomeIcon icon={faExclamationTriangle} /> : <></>}</span>
             {message}
-        </AppAlert>
+        </AlertStyle>
     )
 }
-
-
-
-export { Alert }
