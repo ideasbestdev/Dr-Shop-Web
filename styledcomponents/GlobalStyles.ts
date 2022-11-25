@@ -18,6 +18,11 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 @font-face {
+     font-family: 'Montserrat-Black';
+     src: url('/fonts/Montserrat-Black.woff');
+}
+
+@font-face {
      font-family: 'Montserrat-SemiBold';
      src: url('/fonts/Montserrat-SemiBold.woff');
 }
@@ -33,6 +38,11 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 @font-face {
+     font-family: 'Montserrat-LightItalic';
+     src: url('/fonts/Montserrat-LightItalic.woff');
+}
+
+@font-face {
      font-family: 'Montserrat-Regular';
      src: url('/fonts/Montserrat-Regular.woff');
 }
@@ -40,6 +50,11 @@ export const GlobalStyles = createGlobalStyle`
 @font-face {
      font-family: 'Poppins-Bold';
      src: url('/fonts/Poppins-Bold.woff');
+}
+
+@font-face {
+     font-family: 'SFProText-Regular';
+     src: url('/fonts/SFProText-Regular.woff');
 }
 
 * {
@@ -67,17 +82,33 @@ body,html {
     background: ${({ theme }: Props) => theme.backgroundcolors.background_body};
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="tel"], select{
+input[type="number"]{
+    -moz-appearance: textfield;
+}
+
+span{
+    max-height: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="text"], input[type="number"], input[type="password"], input[type="email"], input[type="tel"], select{
     outline: none;
-    height: ${({ theme }: Props) => theme.height.input_height};
+    height: 100%;
     width: 100%;
     padding: 0 10px;
+    font-family: ${({ theme }: Props) => theme.fonts.regular};
 }
 
 a{
     font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
     font-size: 16px;
 }
+
 
 select{
     appearance: none;
@@ -94,8 +125,10 @@ img {
     display: block;
     height: auto;
     max-width: 100%;
-    max-height: 100%
+    max-height: 100%;
+    object-fit: contain;
 }
+
 .PhoneInput{
         border-radius: 8px;
         padding-left: 10px;
@@ -105,6 +138,17 @@ img {
         }
 
 }
+
+.intl-tel-input{
+    width: 100%;
+    height: 100%;
+    .selected-flag{
+        .iti-flag {
+            transform: scale(1.2);
+        }
+    }
+}
+
 #__next {
     padding-top: ${({ theme }: Props) => theme.height.header};
     height: auto;

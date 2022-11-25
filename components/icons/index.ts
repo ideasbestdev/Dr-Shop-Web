@@ -1,6 +1,8 @@
 //#region shared icons
 export * from "./shared/SearchIcon";
 export * from "./shared/ArrowDownIcon";
+export * from "./shared/CloseIcon";
+export * from "./shared/RightArrowIcon";
 //#endregion
 
 //#region header icons

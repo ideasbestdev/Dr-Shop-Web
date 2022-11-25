@@ -2,15 +2,13 @@ import type { AppProps } from 'next/app'
 import { store } from '@/statemangment/store'
 import { Provider } from 'react-redux'
 import AuthManger from "@/authmanger/authmanger";
-//import "@/assets/css/style.css";
 import Layout from "@/components/Layout";
 import 'react-phone-number-input/style.css'
 import 'swiper/css';
-//import "animate.css/animate.min.css";
+import "swiper/css/pagination";
 import "../assets/css/animate.css";
-import { useEffect } from 'react';
-import { Head } from 'next/document';
 import Script from 'next/script';
+import 'react-intl-tel-input/dist/main.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
 

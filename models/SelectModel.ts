@@ -1,4 +1,4 @@
 export interface SelectModel {
-    key: string,
-    value: string
+    id: string,
+    name: string
 }

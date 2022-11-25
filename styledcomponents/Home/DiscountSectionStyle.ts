@@ -11,6 +11,9 @@ export const DiscountSectionStyle = styled.section`
         position: relative;
         display: flex;
         height: 300px;
+        img{
+            object-fit: cover;
+        }
         div{
             position: absolute;
             top: 0;

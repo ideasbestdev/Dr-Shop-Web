@@ -1,4 +1,6 @@
 export const theme: Theme = {
+    gridSpace: "4%",
+
     backgroundcolors: {
         background_top_header: '#A7A7A7',
         background_middle_header: '#ffffff',
@@ -10,12 +12,14 @@ export const theme: Theme = {
     breakpoints: {
         mobile: '768px',
     },
+
     textColors: {
         text_color_middle_header: "#9B9B9B",
         text_color_top_header: "#ffffff",
         text_color_bottom_header: "#ffffff",
         text_color_label: "#9B9B9B"
     },
+
     height: {
         header: '269px',
         top_header: '39px',
@@ -40,15 +44,20 @@ export const theme: Theme = {
         primary_color: "#003177",
         secondary_color: "#D23A3A",
     },
+
     fonts: {
         extra_bold: "Montserrat-ExtraBold",
         bold: "Montserrat-Bold",
+        black: "Montserrat-Black",
         semi_bold: "Montserrat-SemiBold",
         medium: "Montserrat-Medium",
+        light_italic: "Montserrat-LightItalic",
         italic: "Montserrat-Italic",
         regular: "Montserrat-Regular",
         poppins_bold: 'Poppins-Bold',
+        sfPro_regular: 'SFProText-Regular',
     }
+
 }
 
 interface BackgroundColors {
@@ -75,6 +84,9 @@ interface Fonts {
     italic: string,
     regular: string,
     poppins_bold: string,
+    light_italic: string,
+    black: string,
+    sfPro_regular: string
 }
 interface BreakPoints {
     mobile: string,
@@ -111,5 +123,7 @@ export interface Theme {
     textColors: TextColors,
     globalColors: GlobalColors,
     fonts: Fonts,
+    gridSpace: string,
 }
+
 

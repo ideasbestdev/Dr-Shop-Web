@@ -17,13 +17,9 @@ export const ProductItemListStyle = styled.div`
             align-items: center;
             justify-content: center;
             position: relative;
-            img{
-                width: auto !important;
-                height: auto !important;
-                min-height: auto !important;
-                min-width: auto !important;
-                max-width: 220px !important;
-                max-height: 220px !important;
+            span{
+                max-height: 220px;
+                max-width: 220px;
             }
             i{
                 position: absolute;

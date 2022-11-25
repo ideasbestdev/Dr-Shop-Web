@@ -1,2 +1,2 @@
 export * from "./Regex";
-export * from "./herlpers";
+export * from "./helpers";

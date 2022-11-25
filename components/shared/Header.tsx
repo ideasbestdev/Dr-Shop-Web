@@ -3,11 +3,15 @@ import { HeaderStyle, IconTextStyle, InputIconStyle } from '@/styledcomponents/i
 import Link from 'next/link';
 import { PageUrls, AssetsImages } from '@/utils/index';
 import Image from 'next/image';
-import { BurgerIcon, SearchIcon, UserIcon, CartIcon, MenuIcon } from '../icons';
+import { SearchIcon, UserIcon, CartIcon, MenuIcon } from '../icons';
+import { useSelector } from 'react-redux';
+import { getUserState } from '@/statemangment/slice/userSlice';
 
 
 export function Header() {
     const [headerScroll, setHeaderScroll] = useState(false);
+    const { isAuthenticated } = useSelector(getUserState);
+
     function handleScroll() {
         if (window.scrollY > 150 && !headerScroll) {
             setHeaderScroll(true);
@@ -42,7 +46,7 @@ export function Header() {
                         </InputIconStyle>
                     </li>
                     <li>
-                        <Link href={PageUrls.HOME}>
+                        <Link href={isAuthenticated ? PageUrls.PROFILE : PageUrls.HOME}>
                             <a>
                                 <i><UserIcon color='#9b9b9b' /></i>
                             </a>
@@ -88,7 +92,7 @@ export function Header() {
                         </Link>
                     </li>
                     <li>
-                        <Link href={PageUrls.HOME}>
+                        <Link href={PageUrls.REGISTER}>
                             <a>Register Now</a>
                         </Link>
                     </li>

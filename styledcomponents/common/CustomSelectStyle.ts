@@ -10,15 +10,18 @@ export const CustomSelectStyle = styled.div<Props>`
     position: relative;
     z-index: 1;
     span{
-        border: 1px solid #E1E1E1;
+       // border: 1px solid #E1E1E1;
         height: ${({ theme }: Props) => theme.height.input_height};
         display: flex;
         align-items: center;
-        border-radius: 8px;
-        padding-left: 10px;
+        border-radius: 43px;
+        padding-left: 20px;
         padding-right: 30px;
         position: relative;
         cursor: pointer;
+        background-color: #fff;
+        box-shadow: 0px 4px 24px #34283E47;
+        color: #8E8E8E;
         @media (max-width: 1024px) {
             display: none;
         }
@@ -36,13 +39,14 @@ export const CustomSelectStyle = styled.div<Props>`
         left: 0;
         top: 100%;
         background-color: #fff;
-        border: 1px solid #E1E1E1;
-        border-radius: 8px;
+    //    border-radius: 43px;
         cursor: pointer;
-
+        color: #8E8E8E;
         li{
             padding: 10px;
-            border-bottom: 1px solid #E1E1E1;
+            padding-left: 20px;
+
+          //  border-bottom: 1px solid #E1E1E1;
         }
         display: ${({ show }: Props) => show ? "block" : "none"};
         @media (max-width: 1024px) {

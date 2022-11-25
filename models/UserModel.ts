@@ -16,7 +16,8 @@ export interface UserFormErrorsModel {
     numberOfPhysiciansError?: string
 }
 export interface UserModel {
-    email: string;
+    id?: number;
+    email?: string;
     password?: string;
     first_name?: string;
     last_name?: string;
@@ -38,9 +39,19 @@ export interface UserModel {
     brand?: string;
     model?: string;
     termsOfCondition?: boolean;
+    addresses?: AddressModel[];
+}
+
+interface AddressModel {
+    state: string,
+    city: string,
+    street: string,
+    zip_code: string,
+    name: string,
 }
 export interface UserStateModel {
-    currentuser: UserModel | null;
+    currentuser: UserModel;
+    isAuthenticated: boolean;
 }
 
 

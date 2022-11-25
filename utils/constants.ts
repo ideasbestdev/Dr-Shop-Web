@@ -16,9 +16,13 @@ export const ERROR_ALERT_TYPE = "error";
 //#region Alert messages
 export const FILE_UPLOAD_SUCCESSFULLY = "File Uploaded";
 export const REGISTER_SUCCESS = "You have Regstered";
+export const EMAIL_VERIFICATION_MESSAGE = "An email verification has been send please check your email/spam";
+export const EMAIL_VERIFICATION_MESSAGE_TIMEOUT = "Please wait 2 minute to login again";
+//#endregion
+
+//#region error messages
 export const FORM_VALIDATION_ERROR = "Make sure you enter all the data";
 export const TERMS_OF_CONDITION_ERROR = "Accept terms of condition";
-export const EMAIL_VERIFICATION_MESSAGE = "An email verification has been send please check your email/spam"
 //#endregion
 
 //#endregion

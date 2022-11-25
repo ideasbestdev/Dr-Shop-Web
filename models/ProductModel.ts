@@ -1,4 +1,4 @@
-export interface ProductModel  {
+export interface ProductModel {
     id: number | undefined,
     title: string | undefined,
     brand: string | undefined,
@@ -7,3 +7,4 @@ export interface ProductModel  {
     images: string[] | undefined,
     price: number | undefined,
 }
+

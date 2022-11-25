@@ -9,7 +9,7 @@ export function Footer() {
         <FooterStyle>
             <div>
                 <article>
-                    <div><Image src={AssetsImages.logo} /></div>
+                    <div><Image src={AssetsImages.footer_logo} /></div>
                     <div>One-stop-shop for clinical offices to compare and save on medical supplies and equipment from different manufacturers. Membership free and exclusively for licensed physicians.</div>
                 </article>
             </div>
@@ -56,7 +56,7 @@ export function Footer() {
                     <li>
                         <ul>
                             <li>
-                                <Link href={PageUrls.HOME}>
+                                <Link href={PageUrls.REGISTER}>
                                     <a>Register Now</a>
                                 </Link>
                             </li>

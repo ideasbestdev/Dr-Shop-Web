@@ -1,9 +1,13 @@
 import { ReactNode, useEffect, useState } from "react";
-import { auth, PageUrls, TOKEN_KEY_NAME } from "@/utils/index";
+import { PageUrls, TOKEN_KEY_NAME } from "@/utils/index";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserState, setUser } from "@/statemangment/slice/userSlice";
-import { UserModel } from "@/models/index";
+import { getUserState, setAuthenticated, setAuthUser, setUser } from "@/statemangment/slice/userSlice";
 import { useRouter } from "next/router";
+import { isAuthenticated } from "@/helpers/index";
+import { UserService } from '@/services/index';
+import { ServerResModel, UserResModel, UserStateModel } from '@/models/index';
+import Cookies from "js-cookie";
+import { UserModel } from '@/models/index';
 
 interface Children {
     children: ReactNode;
@@ -15,37 +19,34 @@ export default function AuthManger({ component, children }: Children) {
     const dispatch = useDispatch();
     const { currentuser } = useSelector(getUserState);
     const route = useRouter();
-    const [loading, setLoading] = useState(true);
 
     useEffect(function () {
-        setLoading(true);
-        auth.onAuthStateChanged((authUser) => {
-            if (authUser) {
-                authUser.getIdToken().then(function (token) {
-                    localStorage.setItem(TOKEN_KEY_NAME, token);
-                });
+        async function getUserData() {
+            const userService: UserService = new UserService();
+            const response: ServerResModel = await userService.getUserInfo();
+            if (response.success) {
+                const userResponse: UserResModel = response.data.user;
+                const user: UserStateModel = {
+                    currentuser: userResponse.user,
+                    isAuthenticated: true,
+                };
+                dispatch(setAuthUser(user));
             } else {
-                localStorage.removeItem(TOKEN_KEY_NAME);
+                Cookies.remove(TOKEN_KEY_NAME);
+                const user: UserStateModel = {
+                    currentuser: null,
+                    isAuthenticated: false,
+                };
+                dispatch(setAuthUser(user));
             }
-            /*  if (authUser && authUser.emailVerified) {
-                  const user: UserModel = {
-                      email: authUser.email,
-                      uid: authUser.uid,
-                  };
-  
-                  dispatch(setUser(user));
-  
-                  if (component.goToHome) {
-                      route.push(PageUrls.HOME);
-                  }
-  
-              } else {
-                  if (component.auth) {
-                      route.push(PageUrls.LOGIN);
-                  }
-              }*/
-            setLoading(false);
-        });
+        }
+        getUserData();
+        if (component.goToHome) {
+            route.push(PageUrls.HOME);
+        }
+        if (!isAuthenticated() && component.auth) {
+            route.push(PageUrls.LOGIN);
+        }
     }, []);
 
     return (

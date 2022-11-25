@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { getUserState } from "@/statemangment/slice/userSlice";
+import { ProductDetailSection, ProductFilterSection, SimilarProductSection } from '@/components/product/index';
+import styled from 'styled-components';
 
 interface Params {
     id: number,
@@ -25,16 +27,23 @@ export async function getStaticPaths() {
 }
 
 export default function ProductItem({ params }: UrlParams) {
+    const FlexDiv = styled.div`
+      width: 100%;
+      padding-left: 280px;
+    `;
 
     const { currentuser } = useSelector(getUserState);
     const dipatch = useDispatch();
 
     return (
-        <div>
-            Products Page Id: {params.id}
-            <br />
-            Email: {currentuser?.email}
-            <br />
-        </div>
+        <>
+            <div style={{ display: "flex" }}>
+                <ProductFilterSection width='280px' />
+                <FlexDiv >
+                    <ProductDetailSection />
+                    <SimilarProductSection />
+                </FlexDiv>
+            </div>
+        </>
     )
 }

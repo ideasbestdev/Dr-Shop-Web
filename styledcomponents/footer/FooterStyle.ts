@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const FooterStyle = styled.footer`
-    padding: 50px 4%;
+    padding: 50px ${({ theme }: Props) => theme.gridSpace};
     width: 100%;
     height: 300px;
     position: absolute;
