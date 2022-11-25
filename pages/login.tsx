@@ -163,7 +163,6 @@ export default function Login() {
     )
 }
 
-Login.goToHome = true;
 
 {
     /*

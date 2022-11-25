@@ -41,9 +41,7 @@ export default function AuthManger({ component, children }: Children) {
             }
         }
         getUserData();
-        if (component.goToHome) {
-            route.push(PageUrls.HOME);
-        }
+
         if (!isAuthenticated() && component.auth) {
             route.push(PageUrls.LOGIN);
         }

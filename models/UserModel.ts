@@ -50,7 +50,7 @@ interface AddressModel {
     name: string,
 }
 export interface UserStateModel {
-    currentuser: UserModel;
+    currentuser: UserModel | null;
     isAuthenticated: boolean;
 }
 
