@@ -1,3 +1,5 @@
+import { ImageModel } from './GlobalModel';
+
 export interface UserFormErrorsModel {
     emailError?: string;
     passwordError?: string;
@@ -40,6 +42,10 @@ export interface UserModel {
     model?: string;
     termsOfCondition?: boolean;
     addresses?: AddressModel[];
+    user_type_id?: number;
+    uuid?: string;
+    avatar?: ImageModel;
+
 }
 
 interface AddressModel {

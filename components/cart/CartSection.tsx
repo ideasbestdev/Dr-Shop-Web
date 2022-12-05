@@ -1,7 +1,7 @@
 import { CartSectionStyle, LinkButtonStyle, SectionTitleStyle, TitleStyle } from '@/styledcomponents/index'
 import Image from 'next/image'
 import React from 'react'
-import { CartIcon } from '../icons'
+import { CartIcon, DeleteIcon, EditIcon, SubtotalIcon } from '../icons'
 import { AssetsImages } from '@/utils/index';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -33,7 +33,7 @@ export function CartSection() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td className='subTotal'><CartIcon color='#000' /><span>Subtotal</span></td>
+                        <td className='subTotal'><SubtotalIcon /><span>Subtotal</span></td>
                         <td>$400</td>
                     </tr>
                     <tr>
@@ -41,24 +41,24 @@ export function CartSection() {
                         <td>Anti bacterial sanitizor</td>
                         <td>x 1</td>
                         <td>$20</td>
-                        <td><CartIcon color='#000' /></td>
-                        <td><CartIcon color='#000' /></td>
+                        <td><EditIcon /></td>
+                        <td><DeleteIcon color='#777777' /></td>
                     </tr>
                     <tr>
                         <td><div><Image src={AssetsImages.mask} /></div></td>
                         <td>3m Mask Steriled</td>
                         <td>x 1</td>
                         <td>$20</td>
-                        <td><CartIcon color='#000' /></td>
-                        <td><CartIcon color='#000' /></td>
+                        <td><EditIcon /></td>
+                        <td><DeleteIcon color='#777777' /></td>
                     </tr>
                     <tr>
                         <td><div><Image src={AssetsImages.protexProduct} /></div></td>
                         <td>Anti bacterial sanitizor</td>
                         <td>x 1</td>
                         <td>$20</td>
-                        <td><CartIcon color='#000' /></td>
-                        <td><CartIcon color='#000' /></td>
+                        <td><EditIcon /></td>
+                        <td><DeleteIcon color='#777777' /></td>
                     </tr>
                 </tbody>
             </table>

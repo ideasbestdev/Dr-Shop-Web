@@ -10,21 +10,30 @@ import {
     setIdentifier
 } from "@/statemangment/slice/alertSlice";
 import { generateRandomNumber } from "@/helpers/index";
-import { AlertStateModel } from '@/models/index';
-import { BackToTopSection, BannerSection, CategorySection, DiscountSection, LatestProductSection, ServiceSection, SupplierSection } from '@/components/home';
-import { useEffect } from 'react';
+import { AlertStateModel, ProductModel } from '@/models/index';
+import { BannerSection } from '@/components/home';
+import dynamic from 'next/dynamic';
 
+interface Props {
+    productList: ProductModel[],
+}
 
 export async function getStaticProps() {
+
     return {
         props: {
         },
     }
 }
 
+const LatestProductSection = dynamic(() => import("@/components/home").then((mod) => mod.LatestProductSection));
+const ServiceSection = dynamic(() => import("@/components/home").then((mod) => mod.ServiceSection));
+const DiscountSection = dynamic(() => import("@/components/home").then((mod) => mod.DiscountSection));
+const CategorySection = dynamic(() => import("@/components/home").then((mod) => mod.CategorySection));
+const SupplierSection = dynamic(() => import("@/components/home").then((mod) => mod.SupplierSection));
+const BackToTopSection = dynamic(() => import("@/components/home").then((mod) => mod.BackToTopSection));
 
 export default function Home() {
-
     const { currentuser } = useSelector(getUserState);
     const router = useRouter();
     const { identifier, message, type } = useSelector(getAlertState);
@@ -52,8 +61,6 @@ export default function Home() {
             dispatch(setAlert(customAlert));
         }
     }
-
-
 
     return (
         <>

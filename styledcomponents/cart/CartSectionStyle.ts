@@ -31,6 +31,9 @@ export const CartSectionStyle = styled.section`
                     display: inline-block;
                 }
             }
+            &:nth-child(1){
+                font-family: ${({ theme }: Props) => theme.fonts.bold};
+            }
 
            td{
             text-align: center;

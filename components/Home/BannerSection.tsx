@@ -12,7 +12,7 @@ export function BannerSection() {
                 <article className='wow slideInLeft'>
                     <TitleStyle>Medical Supply Marketplace</TitleStyle>
                     <DescriptionStyle>One-stop-shop for clinical offices to compare and save on medical supplies and equipment from different manufacturers. Membership free and exclusively for licensed physicians.</DescriptionStyle>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.PRODUCTS + "?page=1"} prefetch={false}>
                         <LinkButtonStyle>
                             Shop Now
                         </LinkButtonStyle>

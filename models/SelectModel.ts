@@ -1,4 +1,5 @@
 export interface SelectModel {
-    id: string,
-    name: string
+    id: number,
+    name: string,
+    selected?: boolean,
 }

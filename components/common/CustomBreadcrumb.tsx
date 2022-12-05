@@ -11,7 +11,7 @@ export function CustomBreadcrumb({ breadcrumb }: Props) {
     return (
         <BreadcrumbStyle>
             {
-                breadcrumb.map((value: BreadcrumbModel, index: number) => <>{index != 0 ? " > " : " "}<Link href={value.link}><a>{value.title}</a></Link></>)
+                breadcrumb.map((value: BreadcrumbModel, index: number) => <>{index != 0 ? " > " : " "}<Link key={index} href={value.link}><a>{value.title}</a></Link></>)
             }
         </BreadcrumbStyle>
     )

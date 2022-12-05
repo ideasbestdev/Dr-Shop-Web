@@ -3,14 +3,14 @@ import { Theme } from '../Theme';
 
 interface Props {
     theme: Theme,
-    width?: string,
+    width?: number,
     scrolled: boolean
 }
 
 export const ProductFilterSectionStyle = styled.section<Props>`
-    min-width: ${({ width }: Props) => width ? width : "400px"};
+    min-width: ${({ width }: Props) => width ? width + "px" : "400px"};
     min-height: 100%;
-    max-width: ${({ width }: Props) => width ? width : "400px"};
+    max-width: ${({ width }: Props) => width ? width + "px" : "400px"};
     position: fixed;
     top: ${({ scrolled }: Props) => scrolled ? "120px" : "267px"};
     left: 0;
@@ -30,7 +30,7 @@ export const ProductFilterSectionStyle = styled.section<Props>`
         overflow: auto;
         height: 100%;
         padding-bottom: ${({ scrolled }: Props) => scrolled ? "120px" : "267px"};
-        width: 420px;
+        width: ${({ width }: Props) => width ? width + 20 + "px" : "420px"};
         transition: padding-top 0.3s;
         >li{
             margin-top: 19px;

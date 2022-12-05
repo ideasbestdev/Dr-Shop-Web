@@ -12,6 +12,9 @@ export const ProductDetailSectionStyle = styled.section<Props>`
     width: 100%;
     padding-bottom: 20px;
     display: flex;
+    .star{
+        margin-top: 10px;
+    }
     >div{
         display: flex;
         flex-direction: column;
@@ -39,8 +42,10 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                         max-width: 40px;
                         position: relative;
                     }
-                    &:hover{
-                        opacity: 1;    
+                    @media (hover) {
+                        &:hover{
+                            opacity: 1;    
+                        }   
                     }
                     &.my-swiper-slide-active{
                         opacity: 1;
@@ -66,8 +71,10 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                     background-color: #EAEAEA;
                     opacity: 1;
                     transition: background-color 0.3s;
-                    &:hover{
-                        background-color: #CCCACA;
+                    @media (hover) {
+                        &:hover{
+                            background-color: #CCCACA;
+                        }   
                     }
                     &.swiper-pagination-bullet-active{
                         background-color: #CCCACA;
@@ -77,13 +84,18 @@ export const ProductDetailSectionStyle = styled.section<Props>`
         }
 
         &:nth-child(2){
+            
+            flex: 1;
+            padding-right: 40px;
+
             margin-left: 60px;
             h1{
                 text-align: start;
+                line-height: 38px;
             }
             .description{
                 font-family: ${({ theme }: Props) => theme.fonts.italic};
-                max-width: 460px;
+             //   max-width: 460px;
                 margin-top: 15px;
                 line-height: 20px;
             }
@@ -96,7 +108,7 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                 color: ${({ theme }: Props) => theme.globalColors.primary_color};
                 margin-top: 15px;
             }
-            label{
+            .label{
                 color: #6E6E6E;
                 font-size: 14px;
                 font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
@@ -106,10 +118,13 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                 flex-wrap: nowrap;
                 align-items: center;
                 margin-top: 20px;
-
-                div{
-                    width: 50px;
-                    height: 40px;
+                
+                div label{
+                    width: auto;
+                    height: auto;
+                    min-width: 50px;
+                    min-height: 40px;
+                    padding: 5px;
                     box-shadow: 0px 1px 6px #00000029;
                     margin-left: 15px;
                     margin-top: 0;
@@ -118,7 +133,7 @@ export const ProductDetailSectionStyle = styled.section<Props>`
             .quantity{
                 margin-top: 30px;
                 display: flex;
-                label{
+                .label{
                     margin-right: 20px;
                 }
             }
@@ -158,7 +173,7 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                         font-family: ${({ theme }: Props) => theme.fonts.bold};
                         display: flex;
                         margin-top: 10px;
-                        label{
+                        .label{
                             font-size: 14px;
                             font-family: ${({ theme }: Props) => theme.fonts.light_italic};
                             margin-right: 20px;

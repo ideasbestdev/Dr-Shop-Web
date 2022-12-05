@@ -10,51 +10,71 @@ export const GlobalStyles = createGlobalStyle`
 @font-face {
      font-family: 'Montserrat-ExtraBold';
      src: url('/fonts/Montserrat-ExtraBold.woff');
+       font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Montserrat-Bold';
      src: url('/fonts/Montserrat-Bold.woff');
+       font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Montserrat-Black';
-     src: url('/fonts/Montserrat-Black.woff');
+    src: url('/fonts/Montserrat-Black.woff');
+    font-display: swap;
+
 }
 
 @font-face {
-     font-family: 'Montserrat-SemiBold';
-     src: url('/fonts/Montserrat-SemiBold.woff');
+    font-family: 'Montserrat-SemiBold';
+    src: url('/fonts/Montserrat-SemiBold.woff');
+    font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Montserrat-Medium';
      src: url('/fonts/Montserrat-Medium.woff');
+     font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Montserrat-Italic';
      src: url('/fonts/Montserrat-Italic.woff');
+       font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Montserrat-LightItalic';
      src: url('/fonts/Montserrat-LightItalic.woff');
+       font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Montserrat-Regular';
      src: url('/fonts/Montserrat-Regular.woff');
+       font-display: swap;
+
 }
 
 @font-face {
      font-family: 'Poppins-Bold';
      src: url('/fonts/Poppins-Bold.woff');
+       font-display: swap;
+
 }
 
 @font-face {
      font-family: 'SFProText-Regular';
      src: url('/fonts/SFProText-Regular.woff');
+       font-display: swap;
+
 }
 
 * {
@@ -108,8 +128,23 @@ a{
     font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
     font-size: 16px;
 }
-
-
+//arrow_down
+.intl-tel-input .flag-container .arrow{
+    margin-left: 10px;
+}
+.intl-tel-input .flag-container .arrow:after{
+    content: "";
+    background-image: url(${({ theme }: Props) => theme.images.arrow_down.src});
+    width: 9px;
+    height: 12px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+    margin-top: 10px;
+}
+.intl-tel-input .flag-container .arrow.up:after, .intl-tel-input .flag-container .arrow.down:after{
+    content: "";
+}
 select{
     appearance: none;
     display: flex;
@@ -136,7 +171,6 @@ img {
         input{
             border: none !important;
         }
-
 }
 
 .intl-tel-input{

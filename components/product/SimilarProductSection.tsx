@@ -1,41 +1,41 @@
 import { LatestProductSectionStyle, SectionTitleStyle, SimilarProductSectionStyle } from '@/styledcomponents/index'
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { ProductItem } from './ProductItem';
+import { ProductItemComponent } from './ProductItemComponent';
 
 export function SimilarProductSection() {
     return (
         <SimilarProductSectionStyle>
             <SectionTitleStyle>Latest Products</SectionTitleStyle>
-            <Swiper
+            {/* <Swiper
                 spaceBetween={30}
                 slidesPerView={"auto"}
             >
                 <SwiperSlide>
-                    <ProductItem />
+                    <ProductItemComponent />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <ProductItemComponent />
                 </SwiperSlide>
                 <SwiperSlide>
                     <ProductItem />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <ProductItem />
+                    <ProductItemComponent />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <ProductItem />
+                    <ProductItemComponent />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <ProductItem />
+                    <ProductItemComponent />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <ProductItem />
+                    <ProductItemComponent />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <ProductItem />
+                    <ProductItemComponent />
                 </SwiperSlide>
-                <SwiperSlide>
-                    <ProductItem />
-                </SwiperSlide>
-            </Swiper>
+            </Swiper> */}
         </SimilarProductSectionStyle>
     )
 }

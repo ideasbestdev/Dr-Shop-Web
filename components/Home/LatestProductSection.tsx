@@ -1,223 +1,46 @@
-import { LatestProductSectionStyle, ProductItemListStyle, SectionTitleStyle, TitleStyle } from '@/styledcomponents/index'
-import React from 'react'
+import { LatestProductSectionStyle, SectionTitleStyle, TitleStyle } from '@/styledcomponents/index'
+import React, { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { AssetsImages } from '@/utils/images';
-import Image from 'next/image';
-import { AddProductIcon, RatingIcon } from '../icons';
-import { AnimationOnScroll } from 'react-animation-on-scroll';
+import { ProductModel } from '@/models/index';
+import { ProductItemComponent } from '@/components/product/ProductItemComponent';
+import { useEffect } from 'react';
+import { ProductService } from '@/services/index';
+
 
 export function LatestProductSection() {
+
+    const [productList, setProductList] = useState<ProductModel[]>([])
+    let t = false;
+    useEffect(() => {
+        async function getProducts() {
+            const productService: ProductService = new ProductService();
+            const response = await productService.getProducts(1, 10);
+            if (response.success) {
+                setProductList(response.data);
+            }
+        }
+        if (!t) {
+            getProducts();
+        }
+        t = true;
+    }, [])
+
+
     return (
         <LatestProductSectionStyle>
             <SectionTitleStyle className='wow slideInUp'>Latest Products</SectionTitleStyle>
-            <Swiper
-                spaceBetween={50}
-                slidesPerView={"auto"}
-            >
-                <SwiperSlide className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-                <SwiperSlide data-wow-delay="0.3s" className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-                <SwiperSlide data-wow-delay="0.6s" className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-                <SwiperSlide data-wow-delay="0.9s" className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-                <SwiperSlide data-wow-delay="1.2s" className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-                <SwiperSlide data-wow-delay="1.5s" className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-                <SwiperSlide data-wow-delay="1.8s" className='wow slideInUp'>
-                    <ProductItemListStyle>
-                        <div>
-                            <Image src={AssetsImages.protexProduct} />
-                            <i><AddProductIcon /></i>
-                        </div>
-                        <div>
-                            <ul>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                                <li>
-                                    <RatingIcon />
-                                </li>
-                            </ul>
-                            <h2>Anti bacterial sanitizor</h2>
-                            <h3>$20</h3>
-                        </div>
-                    </ProductItemListStyle>
-                </SwiperSlide>
-            </Swiper>
+            {
+                productList.length > 0 ?
+                    <Swiper
+                        spaceBetween={50}
+                        slidesPerView={"auto"}
+                    >
+                        {
+                            productList.map((value: ProductModel, index: number) => <SwiperSlide key={value.id} data-wow-delay={index * 0.3 + "s"} className='wow slideInUp'><ProductItemComponent product={value} /></SwiperSlide>)
+                        }
+                    </Swiper> : <></>
+            }
+
         </LatestProductSectionStyle>
     )
 }

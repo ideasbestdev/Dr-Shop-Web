@@ -1,8 +1,18 @@
-import { UserModel } from "./UserModel";
+import { ProductModel, UserModel } from '@/models/index';
 
 export interface ServerResModel {
-    data: UserResModel | any;
+    data: UserResModel | ProductModel | any;
     success: boolean;
+    links?: PageLinksModel[],
+    total?: number,
+    to?: number,
+    from?: number,
+}
+
+export interface PageLinksModel {
+    url: string | null,
+    label: string,
+    active: boolean,
 }
 
 export interface UserResModel {
@@ -11,3 +21,5 @@ export interface UserResModel {
     uuid: string,
     user: UserModel
 }
+
+

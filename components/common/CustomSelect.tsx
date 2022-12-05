@@ -3,10 +3,10 @@ import React from 'react'
 import { SelectModel } from '@/models/index'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { ArrowDownIcon } from '../icons';
+import { RightArrowIcon } from '@/components/icons';
 
 interface Props {
-    selectValue?: string,
+    selectValue?: number | string,
     data: SelectModel[],
     onChange?: any,
     property: string,
@@ -22,10 +22,11 @@ export function CustomSelect({ selectValue, data, onChange, property }: Props) {
         <CustomSelectStyle show={show}>
             <span onClick={(e) => { e.stopPropagation(); setShow(!show) }}>
                 {data.find(d => d.id == selectValue) ? data.find(d => d.id == selectValue)?.name : "Select Clinc"}
-                <i><ArrowDownIcon color='#000' /></i>
+                <i><RightArrowIcon color='#486B92' /></i>
             </span>
 
             <ul>
+                <li key={''} value={''} onClick={() => { onChange(property, ''); }}>Select Clinc</li>
                 {
                     data.map((entry: SelectModel, index) => <li key={index} value={entry.id} onClick={() => { onChange(property, entry.id); }}>{entry.name}</li>)
                 }
@@ -37,7 +38,7 @@ export function CustomSelect({ selectValue, data, onChange, property }: Props) {
                         data.map((entry: SelectModel, index) => <option key={index} value={entry.id} >{entry.name}</option>)
                     }
                 </select>
-                <i><ArrowDownIcon color='#000' /></i>
+                <i><RightArrowIcon color='#486B92' /></i>
 
             </div>
         </CustomSelectStyle >

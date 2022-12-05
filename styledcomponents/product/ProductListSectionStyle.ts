@@ -28,7 +28,7 @@ export const ProductListSectionStyle = styled.div`
             display: flex;
             justify-content: center;
             >div{
-                div{
+                >div{
                     &:nth-child(1){
                         box-shadow: 0px 3px 6px #00000038;
                     }
@@ -37,11 +37,18 @@ export const ProductListSectionStyle = styled.div`
         }
     }
     &:nth-child(3){
-        max-width: 217px;
+        max-width: 100%;
         margin: 0 auto;
+        align-items: center;
+        justify-content: center;    
         margin-top: 45px;
         display: flex;
-
+        li{
+            margin-left: 15px;
+            &:first-child{
+                margin-left: 0;
+            }
+        }
     }
   }
 `

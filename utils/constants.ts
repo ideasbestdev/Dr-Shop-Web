@@ -25,5 +25,7 @@ export const FORM_VALIDATION_ERROR = "Make sure you enter all the data";
 export const TERMS_OF_CONDITION_ERROR = "Accept terms of condition";
 //#endregion
 
+export const PRODUCT_LIST_PER_PAGE = 4;
+
 //#endregion
 

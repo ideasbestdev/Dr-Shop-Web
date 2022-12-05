@@ -5,32 +5,34 @@ interface Props {
     theme: Theme,
 }
 
-export const ProductItemListStyle = styled.div`
+export const ProductItemStyle = styled.div`
   >  div{
+        cursor: pointer;
         &:nth-child(1){
             width: 300px;
             height: 300px;
             background-color: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 19px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             span{
-                max-height: 220px;
-                max-width: 220px;
+                max-height: 100%;
             }
             i{
                 position: absolute;
                 right: 5px;
                 bottom: -30px;
                 cursor: pointer;
-                &:hover{
-                    svg{
-                        path{
-                            transition: fill 0.3s;
-                            fill: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;
+                @media (hover) {
+                    &:hover{
+                        svg{
+                            path{
+                                transition: fill 0.3s;
+                                fill: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;
+                            }
                         }
                     }
                 }
@@ -39,9 +41,14 @@ export const ProductItemListStyle = styled.div`
 
         &:nth-child(2){
             padding-left: 20px;
+            max-width: 300px;
         }
     }
-    ul{
+    .star{
+        margin-top: 18px;
+ 
+    }
+   /* ul{
         display: flex;
         margin-left: -6px;
         width: calc(100% + 6px);
@@ -49,7 +56,7 @@ export const ProductItemListStyle = styled.div`
         li{
             margin-left: 6px;
         }
-    }
+    }*/
     h2{
         font-family: ${({ theme }: Props) => theme.fonts.regular};
         font-size: 16px;
@@ -63,5 +70,12 @@ export const ProductItemListStyle = styled.div`
         font-weight: normal;
         color: #34283E;
         margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        del {
+                text-decoration: line-through;
+                opacity: .5;
+            }
+
     }
 `

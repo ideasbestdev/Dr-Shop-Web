@@ -53,7 +53,7 @@ export * from "./login/LoginStyle";
 //#endregion
 
 //#region product style
-export * from "./product/ProductItemListStyle";
+export * from "./product/ProductItemStyle";
 export * from "./product/ProductFilterSectionStyle";
 export * from "./product/ProductListSectionStyle";
 export * from "./product/ProductDetailSectionStyle";

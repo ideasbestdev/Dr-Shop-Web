@@ -14,8 +14,9 @@ const TOKEN_KEY_NAME = "api_token";
 const DEVICEID_KEY_NAME = "device_id";
 
 const DoctorUserController = "/doctor/user/";
-const DoctorIndustryComboController = "/doctor/combo/industry/";
+const DoctorComboController = "/doctor/combo/";
+const DoctorProductController = "/doctor/product/";
 
 const TOKEN_EXPIRE = 3; //3days
 
-export { baseUrl, headers, TOKEN_KEY_NAME, DoctorUserController, DoctorIndustryComboController, DEVICEID_KEY_NAME, TOKEN_EXPIRE, fontUrl };
+export { baseUrl, headers, TOKEN_KEY_NAME, DoctorUserController, DoctorProductController, DoctorComboController, DEVICEID_KEY_NAME, TOKEN_EXPIRE, fontUrl };

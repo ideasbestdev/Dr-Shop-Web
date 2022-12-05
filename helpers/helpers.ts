@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { DEVICEID_KEY_NAME, TOKEN_KEY_NAME } from "@/utils/index";
-import { UserModel } from '@/models/index';
+import { UserModel, FilterProductModel } from '@/models/index';
+import { isArray } from "util";
 
 export function stringIsEmptyOrNull(value?: string) {
     if (value == null || value == undefined || value.trim().length == 0) {
@@ -120,3 +121,43 @@ function editUser(key: string, value: string, user: UserModel): UserModel {
 export function isAuthenticated(): boolean {
     return Cookies.get(TOKEN_KEY_NAME) ? true : false;
 }
+
+export function convertObjectToQueryString(inputObject: any) {
+    var str = '';
+    for (var key in inputObject) {
+        if (key.indexOf('exc_') == -1) {
+            if (!inputObject.hasOwnProperty(key) || typeof inputObject[key] === 'function' || inputObject[key] == null || inputObject[key] == undefined) {
+                continue;
+            }
+            if (typeof inputObject[key] === 'object') { // an object and an array are objects
+                str += (str == '' ? '' : '&') + key + '=' + encodeURIComponent(inputObject[key].join());
+            } else {
+                str += (str == '' ? '' : '&') + key + '=' + encodeURIComponent(inputObject[key]);
+            }
+        }
+    }
+    str = str.replace(/(&?\w+=((?=$)|(?=&)))/g, '');
+    if (str.indexOf("&") == 0) {
+        str = str.substring(1, str.length);
+    }
+    return str;
+}
+
+
+
+
+export function toggleRadio(event: React.MouseEvent) {
+    var element = document.getElementById(event.currentTarget.id) as HTMLInputElement;
+    if (element == null) return;
+    if (element.getAttribute("data-wasChecked") == "true") {
+        element.checked = false;
+        element.setAttribute('data-waschecked', "false");
+    } else {
+        element.setAttribute('data-waschecked', "true");
+    }
+    element.parentElement?.nextElementSibling?.firstElementChild?.setAttribute('data-waschecked', "false");
+    element.parentElement?.previousElementSibling?.firstElementChild?.setAttribute('data-waschecked', "false");
+}
+
+
+

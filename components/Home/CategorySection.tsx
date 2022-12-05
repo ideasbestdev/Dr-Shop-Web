@@ -12,7 +12,7 @@ export function CategorySection() {
             <SectionTitleStyle className='wow slideInUp'>Categories</SectionTitleStyle>
             <ul>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a className='wow slideInUp'>
                             <i><MaskIcon color={"#003177"} id={`clipPath-MaskIcon`} /></i>
                             <h2>Masks</h2>
@@ -20,7 +20,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="0.3s" className='wow slideInUp'>
                             <i><SurgicalIcon color={"#003177"} id={`clipPath-SurgicalIcon`} /></i>
                             <h2>Surgical Tools</h2>
@@ -28,7 +28,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="0.6s" className='wow slideInUp'>
                             <i><OxygenIcon color={"#003177"} id={`clipPath-OxygenIcon`} /></i>
                             <h2>Oxygen Generators</h2>
@@ -36,7 +36,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="0.9s" className='wow slideInUp'>
                             <i><TestorsIcon color={"#003177"} id={`clipPath-TestorsIcon`} /></i>
                             <h2>Testors</h2>
@@ -44,7 +44,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="0.3s" className='wow slideInUp'>
                             <i><UniformIcon color={"#003177"} id={`clipPath-UniformIcon`} /></i>
                             <h2>Uniform</h2>
@@ -52,7 +52,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="0.6s" className='wow slideInUp'>
                             <i><BedIcon color={"#003177"} id={`clipPath-BedIcon`} /></i>
                             <h2>Beds</h2>
@@ -60,7 +60,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="0.9s" className='wow slideInUp'>
                             <i><LabIcon color={"#003177"} id={`clipPath-LabIcon`} /></i>
                             <h2>Lab Tools</h2>
@@ -68,7 +68,7 @@ export function CategorySection() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={PageUrls.HOME}>
+                    <Link href={PageUrls.HOME} prefetch={false}>
                         <a data-wow-delay="1.2s" className='wow slideInUp'>
                             <i><SerinkIcon color={"#003177"} id={`clipPath-SerinkIcon`} /></i>
                             <h2>Serink</h2>

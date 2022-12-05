@@ -27,6 +27,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/products copytsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/products copytsx", "components/CustomerRegistertsx"],
   "exclude": ["node_modules"]
 }

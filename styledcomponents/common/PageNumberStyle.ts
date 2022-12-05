@@ -6,17 +6,27 @@ interface Props {
     selected?: boolean
 }
 
-export const PageNumberStyle = styled.li<Props>`
+export const PageNumberStyle = styled.div<Props>`
     
-    margin-left: 15px;
-    &:first-child{
-        margin-left: 0;
-    }
-    a{
-        font-size: 25px;
+
+    span{
+        display: flex;
+        align-items: center;
+        font-size: 20px;
         color: ${({ theme, selected }: Props) => selected ? theme.globalColors.primary_color : "#9C9C9C"};
-        &:hover{
-            color: ${({ theme }: Props) => theme.globalColors.primary_color};
+        font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+        cursor: pointer;
+        rect{
+            transition: fill 0.3s;
+        }
+        @media(hover){
+
+            &:hover{
+                color: ${({ theme }: Props) => theme.globalColors.primary_color};
+                rect{
+                    fill: ${({ theme }: Props) => theme.globalColors.secondary_color};
+                }
+            }
         }
     }
     

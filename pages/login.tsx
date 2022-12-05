@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { emailRegex, generateRandomNumber, passwordRegex } from "@/helpers/index";
 import { AssetsImages, auth, baseUrl, DoctorUserController, EMAIL_VERIFICATION_MESSAGE, EMAIL_VERIFICATION_MESSAGE_TIMEOUT, ERROR_ALERT_TYPE, fontUrl, INFO_ALERT_TYPE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, PageUrls, TOKEN_EXPIRE, TOKEN_KEY_NAME } from "@/utils/index";
 import { sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
@@ -10,10 +10,13 @@ import { UserService } from '@/services/index';
 import { CheckboxStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, LoginStyle, SectionTitleStyle } from "@/styledcomponents/index";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { getUserState } from "@/statemangment/slice/userSlice";
 
 export default function Login() {
 
     const { identifier } = useSelector(getAlertState);
+    const { isAuthenticated, currentuser } = useSelector(getUserState);
+
     const dispatch = useDispatch();
 
     const userInitailState: UserModel = {
@@ -29,6 +32,12 @@ export default function Login() {
     const [userError, setUserErrors] = useState<UserFormErrorsModel>(userErrorsInitailState);
     const [user, setUser] = useState<UserModel>(userInitailState);
     const route = useRouter();
+
+    useEffect(function () {
+        if (isAuthenticated) {
+            route.push(PageUrls.HOME);
+        }
+    }, [])
 
     function editUser(key: string, value: string): void {
         switch (key) {

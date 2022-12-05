@@ -1,25 +1,32 @@
 import React, { useState } from 'react'
 import { CustomColorStyle } from '@/styledcomponents/index'
 import { OptionModel } from '@/models/OptionModel';
+import { generateRandomNumber } from '@/helpers/index';
+import { AvailableColorSizes } from '@/models/index';
+import { useEffect } from 'react';
 
 interface Props {
     colors: OptionModel[],
-    setColors: any,
     selectedColor?: string,
+    editFilterProduct?: Function,
+    selectedIds?: number[] | string[] | any,
+    type?: string,
+    editProductDetail?: Function,
+    selectedVariantId?: number,
+    availableColorSizes?: AvailableColorSizes,
+    fromDetails?: boolean,
 }
 
-export function CustomColor({ colors, setColors, selectedColor }: Props) {
-
-    function handleClick(index: number) {
-        colors[index].selected = !colors[index].selected;
-        const newColors = Object.assign([], colors);
-        setColors(newColors);
-    }
-
+export function CustomColor({ colors, selectedColor, editFilterProduct, selectedIds, editProductDetail, selectedVariantId, type = "checkbox", fromDetails = false, availableColorSizes }: Props) {
+    let randomString: string = generateRandomNumber(4);
     return (
         <>
             {
-                colors.map((value: OptionModel, index: number) => <CustomColorStyle selectedColor={selectedColor} key={index} color={value.value} selected={value.selected} onClick={() => handleClick(index)}></CustomColorStyle>)
+                colors.map((value: OptionModel, index: number) =>
+                    <CustomColorStyle isActive={fromDetails ? availableColorSizes?.color_ids.includes(value.id) : true} selectedColor={selectedColor} key={index} color={value.hex_color}>
+                        <input name={`color_${randomString}`} checked={selectedIds ? selectedIds.includes(value.id) : selectedVariantId == value.variant?.id} type={type} id={`color_${randomString}_${value.id}${value.variant ? "_" + value.variant.id : ""}`} onChange={(e) => editFilterProduct ? editFilterProduct("color_ids", value.id, e.target.checked) : editProductDetail ? editProductDetail("color", value.id) : null} hidden />
+                        <label htmlFor={`color_${randomString}_${value.id}${value.variant ? "_" + value.variant.id : ""}`}></label>
+                    </CustomColorStyle>)
             }
         </>
     )

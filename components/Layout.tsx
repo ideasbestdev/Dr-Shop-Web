@@ -4,6 +4,7 @@ import { getAlertState } from "@/statemangment/slice/alertSlice";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyles } from "@/styledcomponents/index";
 import { Alert, Footer, Header } from "./shared";
+import { AssetsImages } from '@/utils/index';
 
 interface PageComponent {
     children: ReactNode;

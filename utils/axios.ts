@@ -12,14 +12,8 @@ const http = axios.create({
 
 http.interceptors.request.use(function (config: any) {
     const token = Cookies.get(TOKEN_KEY_NAME);
-    if (localStorage.getItem("hasImage")) {
-        config.headers['Content-Type'] = "multipart/form-data";
-        config.headers.common.Accept = "multipart/form-data";
-        localStorage.removeItem("hasImage");
-    } else {
-        config.headers['Content-Type'] = "application/json; charset=utf-8";
-        localStorage.removeItem("hasImage");
-    }
+    config.headers['Content-Type'] = "multipart/form-data";
+    config.headers.common.Accept = "multipart/form-data";
     config.headers['x-device-id'] = getDeviceId();
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;

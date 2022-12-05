@@ -86,11 +86,13 @@ export const HeaderStyle = styled.header<Props>`
             }
 
             svg{
-                &:hover{
-                    path{
-                        transition: stroke 0.3s;
-                        stroke: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;
-                    }
+                @media (hover) {
+                    &:hover{
+                        path{
+                            transition: stroke 0.3s;
+                            stroke: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;
+                        }
+                    }   
                 }
             }
         }
@@ -107,12 +109,14 @@ export const HeaderStyle = styled.header<Props>`
                     margin-left: 64px;
                     a{
                         color:  ${({ theme }: Props) => theme.textColors.text_color_bottom_header};
-                        &:hover{
-                            transition: color 0.3s;
-                            color: ${({ theme }: Props) => theme.globalColors.secondary_color};
-                            path{
-                                transition: fill 0.3s;
-                                fill: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;     
+                        @media (hover) {
+                            &:hover{
+                                transition: color 0.3s;
+                                color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+                                path{
+                                    transition: fill 0.3s;
+                                    fill: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;     
+                                }
                             }
                         }
                     }

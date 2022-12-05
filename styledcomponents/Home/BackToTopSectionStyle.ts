@@ -13,8 +13,10 @@ export const BackToTopSectionStyle = styled.section<Props>`
         color: #486B92;
         font-size: 24px;
         transition: color 0.3s;
-        &:hover{
-            color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+        @media (hover) {
+            &:hover{
+                color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+            }   
         }
     }
 `

@@ -1,4 +1,9 @@
+import { VariantModel } from "./ProductModel";
+
 export interface OptionModel {
-    value: string,
-    selected: boolean,
+    name: string,
+    selected?: boolean,
+    id: number | string,
+    hex_color?: string,
+    variant?: VariantModel,
 }

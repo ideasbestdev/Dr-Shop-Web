@@ -2,7 +2,7 @@ import { UserFormErrorsModel, UserModel } from '@/models/index';
 import { AddLocationSectionStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, LocationDialogStyle, SectionTitleStyle } from '@/styledcomponents/index'
 import Image from 'next/image';
 import React, { useState } from 'react'
-import { CartIcon } from '../icons';
+import { CartIcon, DeleteIcon } from '../icons';
 import { AssetsImages } from '@/utils/index';
 import { LocationDialogSection } from './LocationDialogSection';
 
@@ -121,15 +121,15 @@ export function AddLocationSection() {
                             <ul>
                                 <li onClick={(e) => { e.stopPropagation(); setShow(true) }}>
                                     <div>Address 1 (Home)</div>
-                                    <span><CartIcon color='#000' /></span>
+                                    <span><DeleteIcon color='#777777' /></span>
                                 </li>
                                 <li onClick={(e) => { e.stopPropagation(); setShow(true) }}>
                                     <div>Address 2 (Hospital)</div>
-                                    <span><CartIcon color='#000' /></span>
+                                    <span><DeleteIcon color='#777777' /></span>
                                 </li>
                                 <li onClick={(e) => { e.stopPropagation(); setShow(true) }}>
                                     <div>Address 3 (Clinc)</div>
-                                    <span><CartIcon color='#000' /></span>
+                                    <span><DeleteIcon color='#777777' /></span>
                                 </li>
                             </ul>
                         </div>

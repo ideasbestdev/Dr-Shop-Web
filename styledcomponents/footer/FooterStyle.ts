@@ -49,8 +49,10 @@ export const FooterStyle = styled.footer`
                                 color: #ffffff;
                                 font-size: 16px;
                                 transition: color 0.3s;
-                                &:hover{
-                                    color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+                                @media (hover) {
+                                    &:hover{
+                                        color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+                                    }   
                                 }
                             }
                         }

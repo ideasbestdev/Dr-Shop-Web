@@ -27,9 +27,20 @@ export const CustomSelectStyle = styled.div<Props>`
         }
     }
     i{
+
+        pointer-events: none;
+        height: 17px;
+        width: 10px;
         position: absolute;
         right: 20px;
-        pointer-events: none;
+        svg{
+            height: 17px;
+            width: 10px;
+            margin-left: 0;
+            transition: transform 0.3s;
+            transform: ${({ show }: Props) => show ? "rotate(90deg)" : "rotate(0)"};
+
+        }
     }
     ul{
         max-height: 300px;

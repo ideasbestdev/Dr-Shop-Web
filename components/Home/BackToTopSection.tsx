@@ -6,7 +6,7 @@ import React from 'react'
 export function BackToTopSection() {
     return (
         <BackToTopSectionStyle>
-            <Link href={PageUrls.HOME}>
+            <Link href={PageUrls.HOME} prefetch={false}>
                 <a>Back to top</a>
             </Link>
         </BackToTopSectionStyle>

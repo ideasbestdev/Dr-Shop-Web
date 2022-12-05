@@ -10,8 +10,10 @@ export const BreadcrumbStyle = styled.div<Props>`
     margin-left: 35px;
     a{
         color: #6E6E6E;
-        &:hover{
-            color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+        @media (hover) {
+            &:hover{
+                color: ${({ theme }: Props) => theme.globalColors.secondary_color};
+            }   
         }
     }
 `

@@ -19,6 +19,9 @@ import circleCloseIcon from "@/assets/images/circle_close_icon.png";
 import complete_icon from "@/assets/images/complete_icon.png";
 import verificate_complete_icon from "@/assets/images/verificate_complete_icon.png";
 import like_icon from "@/assets/images/like_icon.png";
+import arrow_down from "@/assets/images/arrow_down.png";
+import plus_icon from "@/assets/images/plus_icon.png";
+import minus_icon from "@/assets/images/minus_icon.png";
 
 
 export const AssetsImages = {
@@ -43,4 +46,7 @@ export const AssetsImages = {
     complete_icon,
     verificate_complete_icon,
     like_icon,
+    arrow_down,
+    plus_icon,
+    minus_icon,
 }

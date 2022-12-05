@@ -1,6 +1,6 @@
 import { ButtonStyle, EditProfileSectionStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, SectionTitleStyle } from '@/styledcomponents/index'
 import React, { ChangeEvent } from 'react'
-import { CartIcon } from '../icons'
+import { CameraIcon, CartIcon } from '../icons'
 import { useState } from 'react';
 import Image from 'next/image';
 import { stringIsEmptyOrNull } from '@/helpers/index';
@@ -13,11 +13,12 @@ export function EditProfileSection() {
     const { currentuser } = useSelector(getUserState);
 
     const [blobImage, setBlobImage] = useState<string>("");
-    const [userPhone, setUserPhone] = useState<string>(currentuser.phone ? currentuser.phone : "+961 ");
+    const [userPhone, setUserPhone] = useState<string>(currentuser?.phone ? currentuser.phone : "+961 ");
     const [userError, setUserErrors] = useState<UserFormErrorsModel>({});
-    const [user, setUser] = useState<UserModel>(currentuser);
+    const [user, setUser] = useState<UserModel | null>(currentuser);
 
     function editUser(key: string, value: string): void {
+        if (!user) return;
         switch (key) {
             case "firstName":
                 user.first_name = value;
@@ -95,19 +96,19 @@ export function EditProfileSection() {
     return (
         <EditProfileSectionStyle>
             <form>
-                <div>{stringIsEmptyOrNull(blobImage) ? null : <Image src={blobImage} layout={"fill"} />}<input onChange={(e) => { uploadFile(e) }} type={"file"} hidden id="userProfile" accept="image/*" /><label htmlFor='userProfile'><CartIcon color='#000' /></label></div>
+                <div>{stringIsEmptyOrNull(blobImage) ? null : <Image src={blobImage} layout={"fill"} />}<input onChange={(e) => { uploadFile(e) }} type={"file"} hidden id="userProfile" accept="image/*" /><label htmlFor='userProfile'><CameraIcon color='#000' /></label></div>
                 <SectionTitleStyle>Dr Walid Shahrour</SectionTitleStyle>
                 <article>
                     <ul>
                         <li>
                             <InputStyle>
-                                <input type={"text"} placeholder="First Name" value={user.first_name} onChange={(e) => editUser("firstName", e.target.value)} />
+                                <input type={"text"} placeholder="First Name" value={user?.first_name} onChange={(e) => editUser("firstName", e.target.value)} />
                             </InputStyle>
                             <ErrorMessageStyle>{userError.firstNameError}</ErrorMessageStyle>
                         </li>
                         <li>
                             <InputStyle>
-                                <input type={"text"} placeholder="Last Name" value={user.last_name} onChange={(e) => editUser("lastName", e.target.value)} />
+                                <input type={"text"} placeholder="Last Name" value={user?.last_name} onChange={(e) => editUser("lastName", e.target.value)} />
                             </InputStyle>
                             <ErrorMessageStyle>{userError.lastNameError}</ErrorMessageStyle>
                         </li>
@@ -119,7 +120,7 @@ export function EditProfileSection() {
                         </li>
                         <li>
                             <InputStyle>
-                                <input type={"email"} placeholder="Email" value={user.email} onChange={(e) => editUser("email", e.target.value)} />
+                                <input type={"email"} placeholder="Email" value={user?.email} onChange={(e) => editUser("email", e.target.value)} />
                             </InputStyle>
                             <ErrorMessageStyle>{userError.emailError}</ErrorMessageStyle>
                         </li>

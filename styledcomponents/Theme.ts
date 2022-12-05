@@ -1,3 +1,5 @@
+import { AssetsImages } from '@/utils/index';
+
 export const theme: Theme = {
     gridSpace: "4%",
 
@@ -56,6 +58,9 @@ export const theme: Theme = {
         regular: "Montserrat-Regular",
         poppins_bold: 'Poppins-Bold',
         sfPro_regular: 'SFProText-Regular',
+    },
+    images: {
+        arrow_down: AssetsImages.arrow_down,
     }
 
 }
@@ -115,6 +120,8 @@ interface GlobalColors {
     primary_color: string,
     secondary_color: string,
 }
+
+
 export interface Theme {
     backgroundcolors: BackgroundColors,
     breakpoints: BreakPoints,
@@ -124,6 +131,7 @@ export interface Theme {
     globalColors: GlobalColors,
     fonts: Fonts,
     gridSpace: string,
+    images: any
 }
 
 

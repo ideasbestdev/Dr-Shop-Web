@@ -30,6 +30,9 @@ export default function AuthManger({ component, children }: Children) {
                     currentuser: userResponse.user,
                     isAuthenticated: true,
                 };
+                if (component.goToHome) {
+                    route.push(PageUrls.HOME);
+                }
                 dispatch(setAuthUser(user));
             } else {
                 Cookies.remove(TOKEN_KEY_NAME);
@@ -40,7 +43,7 @@ export default function AuthManger({ component, children }: Children) {
                 dispatch(setAuthUser(user));
             }
         }
-        getUserData();
+        //   getUserData();
 
         if (!isAuthenticated() && component.auth) {
             route.push(PageUrls.LOGIN);

@@ -46,7 +46,7 @@ export function Header() {
                         </InputIconStyle>
                     </li>
                     <li>
-                        <Link href={isAuthenticated ? PageUrls.PROFILE : PageUrls.HOME}>
+                        <Link href={isAuthenticated ? PageUrls.PROFILE : PageUrls.LOGIN}>
                             <a>
                                 <i><UserIcon color='#9b9b9b' /></i>
                             </a>

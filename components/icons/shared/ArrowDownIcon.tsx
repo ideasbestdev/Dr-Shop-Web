@@ -5,8 +5,13 @@ interface Props {
 }
 export function ArrowDownIcon({ color }: Props) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="16.325" height="8.869" viewBox="0 0 16.325 8.869">
-            <path id="Path_57" data-name="Path 57" d="M-7460.584-19397.5l7.456,7.455,7.455-7.455" transform="translate(7461.292 19398.207)" fill="#fff" stroke={color} strokeLinejoin="bevel" strokeWidth="2" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="9.019" height="6.854" viewBox="0 0 9.019 6.854">
+            <g id="chevron-right_1" data-name="chevron-right 1" transform="translate(7.626 1.392) rotate(90)">
+                <g id="Group" transform="translate(0 0)">
+                    <path id="Vector" d="M0,0,4.462,3.117,0,6.234" transform="translate(0 0)" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+                </g>
+            </g>
         </svg>
+
     )
 }
