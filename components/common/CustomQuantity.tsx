@@ -21,13 +21,13 @@ export function CustomQuantity({ quantity, setQuantity }: Props) {
 
     return (
         <CustomQuantityStyle>
-            <a onClick={() => changeQuantity(-1)}><Image src={AssetsImages.minus_icon} /></a>
+            <a onClick={() => changeQuantity(-1)}><Image src={AssetsImages.minus_icon} alt="minus_icon" /></a>
             <input type={"number"} onFocus={(e) => e.target.select()} min={0} value={quantity} onChange={(e) => setQuantity(stringIsEmptyOrNull(e.target.value) ? 0 : Number(e.target.value))} />
             {
                 //            <div>{quantity}</div>
 
             }
-            <a onClick={() => changeQuantity(1)}><Image src={AssetsImages.plus_icon} /></a>
+            <a onClick={() => changeQuantity(1)}><Image src={AssetsImages.plus_icon} alt="plus_icon" /></a>
         </CustomQuantityStyle>
     )
 }

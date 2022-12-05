@@ -37,7 +37,7 @@ export function CartSection() {
                         <td>$400</td>
                     </tr>
                     <tr>
-                        <td><div><Image src={AssetsImages.protexProduct} /></div></td>
+                        <td><div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div></td>
                         <td>Anti bacterial sanitizor</td>
                         <td>x 1</td>
                         <td>$20</td>
@@ -45,7 +45,7 @@ export function CartSection() {
                         <td><DeleteIcon color='#777777' /></td>
                     </tr>
                     <tr>
-                        <td><div><Image src={AssetsImages.mask} /></div></td>
+                        <td><div><Image src={AssetsImages.mask} alt="protexProduct" /></div></td>
                         <td>3m Mask Steriled</td>
                         <td>x 1</td>
                         <td>$20</td>
@@ -53,7 +53,7 @@ export function CartSection() {
                         <td><DeleteIcon color='#777777' /></td>
                     </tr>
                     <tr>
-                        <td><div><Image src={AssetsImages.protexProduct} /></div></td>
+                        <td><div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div></td>
                         <td>Anti bacterial sanitizor</td>
                         <td>x 1</td>
                         <td>$20</td>

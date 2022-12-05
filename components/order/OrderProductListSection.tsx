@@ -11,7 +11,7 @@ export function OrderProductListSection() {
       <Scrollbars className='scrollBar' universal={true} style={{ width: 420, height: 300 }}>
         <ul>
           <li>
-            <div><Image src={AssetsImages.protexProduct} /></div>
+            <div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div>
             <div>
               <h2>Anti bacterial sanitizor</h2>
               <h3>$20</h3>
@@ -19,7 +19,7 @@ export function OrderProductListSection() {
             <h4>x1</h4>
           </li>
           <li>
-            <div><Image src={AssetsImages.protexProduct} /></div>
+            <div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div>
             <div>
               <h2>Anti bacterial sanitizor</h2>
               <h3>$20</h3>
@@ -27,7 +27,7 @@ export function OrderProductListSection() {
             <h4>x1</h4>
           </li>
           <li>
-            <div><Image src={AssetsImages.protexProduct} /></div>
+            <div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div>
             <div>
               <h2>Anti bacterial sanitizor</h2>
               <h3>$20</h3>
@@ -35,7 +35,7 @@ export function OrderProductListSection() {
             <h4>x1</h4>
           </li>
           <li>
-            <div><Image src={AssetsImages.protexProduct} /></div>
+            <div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div>
             <div>
               <h2>Anti bacterial sanitizor</h2>
               <h3>$20</h3>
@@ -43,7 +43,7 @@ export function OrderProductListSection() {
             <h4>x1</h4>
           </li>
           <li>
-            <div><Image src={AssetsImages.protexProduct} /></div>
+            <div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div>
             <div>
               <h2>Anti bacterial sanitizor</h2>
               <h3>$20</h3>
@@ -51,7 +51,7 @@ export function OrderProductListSection() {
             <h4>x1</h4>
           </li>
           <li>
-            <div><Image src={AssetsImages.protexProduct} /></div>
+            <div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div>
             <div>
               <h2>Anti bacterial sanitizor</h2>
               <h3>$20</h3>

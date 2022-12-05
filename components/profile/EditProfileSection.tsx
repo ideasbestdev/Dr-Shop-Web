@@ -96,7 +96,7 @@ export function EditProfileSection() {
     return (
         <EditProfileSectionStyle>
             <form>
-                <div>{stringIsEmptyOrNull(blobImage) ? null : <Image src={blobImage} layout={"fill"} />}<input onChange={(e) => { uploadFile(e) }} type={"file"} hidden id="userProfile" accept="image/*" /><label htmlFor='userProfile'><CameraIcon color='#000' /></label></div>
+                <div>{stringIsEmptyOrNull(blobImage) ? null : <Image src={blobImage} layout={"fill"} alt={blobImage} />}<input onChange={(e) => { uploadFile(e) }} type={"file"} hidden id="userProfile" accept="image/*" /><label htmlFor='userProfile'><CameraIcon color='#000' /></label></div>
                 <SectionTitleStyle>Dr Walid Shahrour</SectionTitleStyle>
                 <article>
                     <ul>

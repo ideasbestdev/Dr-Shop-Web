@@ -6,8 +6,8 @@ function verifcate() {
     return (
         <VerificateStyle>
             <ul>
-                <li><Image src={AssetsImages.like_icon} /></li>
-                <li><h1>Thanks Doctor!</h1><div><Image src={AssetsImages.like_icon} /><h2></h2></div></li>
+                <li><Image src={AssetsImages.like_icon} alt="like_icon" /></li>
+                <li><h1>Thanks Doctor!</h1><div><Image src={AssetsImages.like_icon} alt="like_icon" /><h2></h2></div></li>
             </ul>
         </VerificateStyle>
     )

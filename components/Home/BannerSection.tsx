@@ -20,7 +20,7 @@ export function BannerSection() {
                 </article>
             </div>
             <div className='wow slideInRight'>
-                <Image src={AssetsImages.homeBanner} />
+                <Image src={AssetsImages.homeBanner} alt="homeBanner" />
             </div>
         </BannerSectionStyle>
     )

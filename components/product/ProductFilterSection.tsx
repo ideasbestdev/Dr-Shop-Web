@@ -103,16 +103,17 @@ export function ProductFilterSection({ width, filterData }: Props) {
         }
     }
 
-    function handleScroll() {
-        if (window.scrollY > 70 && !scrolled) {
-            setScrolled(true);
-        }
-        else if (window.scrollY <= 70) {
-            setScrolled(false);
-        }
-    }
+
 
     useEffect(() => {
+        function handleScroll() {
+            if (window.scrollY > 70 && !scrolled) {
+                setScrolled(true);
+            }
+            else if (window.scrollY <= 70) {
+                setScrolled(false);
+            }
+        }
         Object.keys(route.query).map(function (key, index) {
 
             if (key == "descending") {

@@ -16,7 +16,7 @@ export function ProductItemComponent({ product }: Props) {
     return (
         <ProductItemStyle onClick={() => route.push(`/products/${product.id}`)}>
             <div>
-                <Image width={220} height={220} src={product.images ? product.images[0].webp_image : ""} />
+                <Image width={220} height={220} src={product.images ? product.images[0].webp_image : ""} alt={product.images ? product.images[0].webp_image : ""} />
                 <i><AddProductIcon /></i>
             </div>
             <div>

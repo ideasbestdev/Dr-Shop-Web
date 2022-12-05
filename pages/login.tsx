@@ -144,7 +144,7 @@ export default function Login() {
     return (
         <>
             <LoginStyle>
-                <Image src={AssetsImages.stethoscope} />
+                <Image src={AssetsImages.stethoscope} alt="stethoscope" />
                 <div>
                     <form noValidate onSubmit={(e) => { e.preventDefault(); login() }}>
                         <SectionTitleStyle>Login your account</SectionTitleStyle>
@@ -163,7 +163,7 @@ export default function Login() {
                             </li>
                             <li><CheckboxStyle><input type={"checkbox"} /><label>Remember me</label></CheckboxStyle><a>Forget password?</a></li>
                             <li><button type={"submit"}><LinkButtonStyle>Login</LinkButtonStyle></button></li>
-                            <li>Don't have account yet? <a>Sign up</a></li>
+                            <li>Don&apos;t have account yet? <a>Sign up</a></li>
                         </ul>
                     </form>
                 </div>

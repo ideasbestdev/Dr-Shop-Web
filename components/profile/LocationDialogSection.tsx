@@ -10,11 +10,11 @@ interface Props {
 
 export function LocationDialogSection({ show, setShow }: Props) {
 
-    const handleClick = () => {
-        setShow(false)
-    }
 
     useEffect(() => {
+        const handleClick = () => {
+            setShow(false)
+        }
         document.addEventListener('click', handleClick);
         document.addEventListener("keydown", (e) => e.key == "Escape" ? setShow(false) : null);
     }, [])
@@ -22,7 +22,7 @@ export function LocationDialogSection({ show, setShow }: Props) {
     return (
         <LocationDialogStyle show={show}>
             <div onClick={(e) => e.stopPropagation()} >
-                <div onClick={() => setShow(false)}><Image src={AssetsImages.circleCloseIcon} /></div>
+                <div onClick={() => setShow(false)}><Image src={AssetsImages.circleCloseIcon} alt="circleCloseIcon" /></div>
                 <SectionTitleStyle>Home Address</SectionTitleStyle>
                 <ul>
                     <li><h2>State: </h2><span>Michigan</span></li>

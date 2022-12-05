@@ -10,7 +10,6 @@ import { ProductService } from '@/services/index';
 export function LatestProductSection() {
 
     const [productList, setProductList] = useState<ProductModel[]>([])
-    let t = false;
     useEffect(() => {
         async function getProducts() {
             const productService: ProductService = new ProductService();
@@ -19,10 +18,7 @@ export function LatestProductSection() {
                 setProductList(response.data);
             }
         }
-        if (!t) {
-            getProducts();
-        }
-        t = true;
+        getProducts();
     }, [])
 
 

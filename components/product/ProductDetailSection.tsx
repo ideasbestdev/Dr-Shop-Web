@@ -172,9 +172,9 @@ export function ProductDetailSection({ product }: Props) {
                     className="images-swiper"
                 >
                     {
-                        product.images?.map(image =>
-                            <SwiperSlide>
-                                <div><Image width={600} height={600} src={image.webp_image} /></div>
+                        product.images?.map((image, index) =>
+                            <SwiperSlide key={index}>
+                                <div><Image width={600} height={600} src={image.webp_image} alt={image.webp_image} /></div>
                             </SwiperSlide>
                         )
                     }
@@ -193,8 +193,8 @@ export function ProductDetailSection({ product }: Props) {
                 >
                     {
                         product.images?.map((image, index) =>
-                            <SwiperSlide className={`${thumbsActiveIndex == index ? 'my-swiper-slide-active' : ''}`}>
-                                <div><Image width={300} height={300} src={image.webp_thumbnail} /></div>
+                            <SwiperSlide key={index} className={`${thumbsActiveIndex == index ? 'my-swiper-slide-active' : ''}`}>
+                                <div><Image width={300} height={300} src={image.webp_thumbnail} alt={image.webp_thumbnail} /></div>
                             </SwiperSlide>
                         )
                     }

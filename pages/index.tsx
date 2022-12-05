@@ -26,12 +26,12 @@ export async function getStaticProps() {
     }
 }
 
-const LatestProductSection = dynamic(() => import("@/components/home").then((mod) => mod.LatestProductSection));
-const ServiceSection = dynamic(() => import("@/components/home").then((mod) => mod.ServiceSection));
-const DiscountSection = dynamic(() => import("@/components/home").then((mod) => mod.DiscountSection));
-const CategorySection = dynamic(() => import("@/components/home").then((mod) => mod.CategorySection));
-const SupplierSection = dynamic(() => import("@/components/home").then((mod) => mod.SupplierSection));
-const BackToTopSection = dynamic(() => import("@/components/home").then((mod) => mod.BackToTopSection));
+const LatestProductSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.LatestProductSection));
+const ServiceSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.ServiceSection));
+const DiscountSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.DiscountSection));
+const CategorySection = dynamic<any>(() => import("@/components/home").then((mod) => mod.CategorySection));
+const SupplierSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.SupplierSection));
+const BackToTopSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.BackToTopSection));
 
 export default function Home() {
     const { currentuser } = useSelector(getUserState);

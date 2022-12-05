@@ -16,11 +16,11 @@ export function Alert() {
         identifier: "",
         type: "",
     }
-    const handleClick = () => {
-        dispatch(setAlert(initialState));
-    }
 
     useEffect(function () {
+        const handleClick = () => {
+            dispatch(setAlert(initialState));
+        }
         document.addEventListener('click', handleClick);
     }, []);
 

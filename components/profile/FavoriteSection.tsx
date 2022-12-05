@@ -11,15 +11,15 @@ export function FavoriteSection() {
                 <table>
                     <tbody>
                         <tr>
-                            <td><div><Image src={AssetsImages.protexProduct} /></div><div> Anti bacterial sanitizor<span>$20</span></div></td>
+                            <td><div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div><div> Anti bacterial sanitizor<span>$20</span></div></td>
                             <td><CartIcon color='#000' /></td>
                         </tr>
                         <tr>
-                            <td><div><Image src={AssetsImages.protexProduct} /></div><div> Anti bacterial sanitizor<span>$20</span></div></td>
+                            <td><div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div><div> Anti bacterial sanitizor<span>$20</span></div></td>
                             <td><CartIcon color='#000' /></td>
                         </tr>
                         <tr>
-                            <td><div><Image src={AssetsImages.protexProduct} /></div><div> Anti bacterial sanitizor<span>$20</span></div></td>
+                            <td><div><Image src={AssetsImages.protexProduct} alt="protexProduct" /></div><div> Anti bacterial sanitizor<span>$20</span></div></td>
                             <td><CartIcon color='#000' /></td>
                         </tr>
                     </tbody>

@@ -12,15 +12,16 @@ export function Header() {
     const [headerScroll, setHeaderScroll] = useState(false);
     const { isAuthenticated } = useSelector(getUserState);
 
-    function handleScroll() {
-        if (window.scrollY > 150 && !headerScroll) {
-            setHeaderScroll(true);
-        }
-        else if (window.scrollY <= 150) {
-            setHeaderScroll(false);
-        }
-    }
+
     useEffect(() => {
+        function handleScroll() {
+            if (window.scrollY > 150 && !headerScroll) {
+                setHeaderScroll(true);
+            }
+            else if (window.scrollY <= 150) {
+                setHeaderScroll(false);
+            }
+        }
         window.addEventListener('scroll', handleScroll);
     }, [])
 
@@ -33,7 +34,7 @@ export function Header() {
                 <ul>
                     <li>
                         <Link href={PageUrls.HOME}>
-                            <a><Image src={AssetsImages.logo} /> </a>
+                            <a><Image src={AssetsImages.logo} alt="logo" /> </a>
                         </Link>
                     </li>
                     <li>

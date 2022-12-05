@@ -301,7 +301,7 @@ function Register() {
 
     return (
         <RegisterStyle progress={step}>
-            <Image src={AssetsImages.stethoscope} />
+            <Image src={AssetsImages.stethoscope} alt="stethoscope" />
             <div>
                 {
                     step != 3 ?
@@ -384,7 +384,7 @@ function Register() {
                                                             {
                                                                 stringIsEmptyOrNull(licenseName) ?
                                                                     <label htmlFor="license" >
-                                                                        <Image src={AssetsImages.uploadFileIcon} />
+                                                                        <Image src={AssetsImages.uploadFileIcon} alt="uploadFileIcon" />
                                                                     </label> : <label onClick={() => deleteFile()}><CloseIcon /></label>}
 
                                                         </UploadFileStyle>
@@ -407,7 +407,7 @@ function Register() {
                             </div>
                             <div>
                                 <div>
-                                    <Image src={AssetsImages.complete_icon} />
+                                    <Image src={AssetsImages.complete_icon} alt="complete_icon" />
                                 </div>
                                 <SectionTitleStyle>Completed!</SectionTitleStyle>
                             </div>

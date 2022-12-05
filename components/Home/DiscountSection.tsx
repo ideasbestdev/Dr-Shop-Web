@@ -8,7 +8,7 @@ export function DiscountSection() {
     return (
         <DiscountSectionStyle>
             <div>
-                <Image src={AssetsImages.homeDiscount} />
+                <Image src={AssetsImages.homeDiscount} alt="homeDiscount" />
                 <div data-wow-delay="0.3s" className='wow slideInLeft'>
                     <h1>Discount 30%</h1>
                 </div>
