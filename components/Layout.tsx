@@ -26,6 +26,7 @@ export default function Layout({ component, children }: PageComponent) {
         //  }
     }, [])
     useEffect(function () {
+
         // const userServce = new UserService();
         // userServce.verifcate();
         //        console.log(component.class);

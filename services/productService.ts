@@ -1,6 +1,6 @@
 import { CartRequestModel, FilterProductModel, ProductModel, ServerResModel, CartModel, CartProductsModel } from '@/models/index';
 import http from '@/utils/axios';
-import { CartController, DEVICEID_KEY_NAME, OrderController, ProductController, PRODUCT_LIST_PER_PAGE, TOKEN_KEY_NAME } from "@/utils/index";
+import { apiversion, CartController, DEVICEID_KEY_NAME, OrderController, ProductController, PRODUCT_LIST_PER_PAGE, TOKEN_KEY_NAME } from "@/utils/index";
 import { convertObjectToQueryString } from '@/helpers/index';
 import { CancelToken } from 'axios';
 import Cookies from 'js-cookie';
@@ -20,7 +20,7 @@ export class ProductService {
             data: {},
             success: false,
         };
-        const response = await http.get(ProductController + "v1/list?" + convertObjectToQueryString(filter));
+        const response = await http.get(ProductController + apiversion + "/list?" + convertObjectToQueryString(filter));
         serRes = response.data;
         return serRes;
     }
@@ -37,7 +37,7 @@ export class ProductService {
             data: {},
             success: false,
         };
-        const response = await http.get(ProductController + "v1/list?" + convertObjectToQueryString(filter));
+        const response = await http.get(ProductController + apiversion + "/list?" + convertObjectToQueryString(filter));
         serRes = response.data;
         return serRes;
     }
@@ -48,7 +48,7 @@ export class ProductService {
             success: false,
         };
 
-        const response = await http.get(ProductController + "v1/list" + query);
+        const response = await http.get(ProductController + apiversion + "/list" + query);
         serRes = response.data;
         return serRes;
     }
@@ -58,7 +58,7 @@ export class ProductService {
             data: {},
             success: false,
         };
-        const response = await http.get(ProductController + "v1/" + id);
+        const response = await http.get(ProductController + apiversion + "/" + id);
         serRes = response.data;
         return serRes;
     }
@@ -70,10 +70,10 @@ export class ProductService {
         };
         if (product_id && uuid) {
             if (isFav) {
-                const response = await http.post(ProductController + "favorite/v1", { product_id });
+                const response = await http.post(ProductController + "favorite/" + apiversion, { product_id });
                 console.log("add", response);
             } else {
-                const response = await http.post(ProductController + "favorite/v1", { product_id });
+                const response = await http.post(ProductController + "favorite/" + apiversion, { product_id });
                 console.log("delete", response);
             }
         }
@@ -93,7 +93,7 @@ export class ProductService {
             quantity: quantity,
             cart_key: isAuth ? Cookies.get(TOKEN_KEY_NAME) : getDeviceId(),
         }
-        const response = await http.post(CartController + "v1/", data);
+        const response = await http.post(CartController + apiversion + "/", data);
         serRes = response.data;
         return serRes;
     }
@@ -105,7 +105,7 @@ export class ProductService {
         };
         const cart_key = isAuth ? Cookies.get(TOKEN_KEY_NAME) : getDeviceId();
         if (cart_key) {
-            const response = await http.get(CartController + "v1/?cart_key=" + cart_key);
+            const response = await http.get(CartController + apiversion + "/?cart_key=" + cart_key);
             serRes = response.data;
         }
         return serRes;
@@ -118,7 +118,7 @@ export class ProductService {
         };
         const cartInfo: CartModel = (await this.getCart()).data;
         if (cartInfo.cart_key && cartInfo.uuid && cartInfo.id) {
-            const response = await http.post(CartController + "v1/" + cartInfo.id + "/add-user?cart_key=" + cartInfo.cart_key + "&cart_uuid=" + cartInfo.uuid);
+            const response = await http.post(CartController + apiversion + "/" + cartInfo.id + "/add-user?cart_key=" + cartInfo.cart_key + "&cart_uuid=" + cartInfo.uuid);
         }
         return serRes;
     }
@@ -128,7 +128,7 @@ export class ProductService {
             data: {},
             success: false,
         };
-        const response = await http.put(CartController + "v1/" + cart_product.cart_id + "/" + cart_product.id + "/quantity?quantity=" + quantity + "&cart_uuid=" + cart_uuid + "&cart_product_uuid=" + cart_product.uuid);
+        const response = await http.put(CartController + apiversion + "/" + cart_product.cart_id + "/" + cart_product.id + "/quantity?quantity=" + quantity + "&cart_uuid=" + cart_uuid + "&cart_product_uuid=" + cart_product.uuid);
         serRes = response.data;
         return serRes;
     }
@@ -141,7 +141,7 @@ export class ProductService {
         };
         const cart_key = isAuth ? Cookies.get(TOKEN_KEY_NAME) : getDeviceId();
         if (cart_key) {
-            const response = await http.post(CartController + "v1/checkout?cart_key=" + cart_key + url);
+            const response = await http.post(CartController + apiversion + "/checkout?cart_key=" + cart_key + url);
             serRes = response.data;
         }
         return serRes;
@@ -153,7 +153,7 @@ export class ProductService {
             data: {},
             success: false,
         };
-        const response = await http.post(OrderController + "v1", data);
+        const response = await http.post(OrderController + apiversion, data);
         serRes = response.data;
         console.log(serRes)
         return serRes;

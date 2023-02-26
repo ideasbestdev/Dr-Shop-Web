@@ -1,6 +1,6 @@
 import { AddressModel, CardModel, ServerResModel, UserModel } from '@/models/index';
 import http from '@/utils/axios';
-import { DoctorConfigController, AccountController, DEVICEID_KEY_NAME, AddressController, CardController } from "@/utils/index";
+import { DoctorConfigController, AccountController, DEVICEID_KEY_NAME, AddressController, CardController, apiversion } from "@/utils/index";
 import { UAParser } from 'ua-parser-js';
 import { getDeviceId } from '@/helpers/index';
 import { AxiosError } from 'axios';
@@ -23,7 +23,7 @@ export class UserService {
             data: {},
             success: false,
         }
-        await http.post(AccountController + "v1/register", user)
+        await http.post(AccountController + apiversion + "/register", user)
             .then((response: any) => {
                 serverRes = response.data;
             }, (error: any) => {
@@ -34,7 +34,7 @@ export class UserService {
     }
 
     verifcate() {
-        http.post(AccountController + "v1/verify/email").then((response: any) => {
+        http.post(AccountController + apiversion + "/verify/email").then((response: any) => {
             console.log(response);
         }, (error) => {
         });
@@ -46,7 +46,7 @@ export class UserService {
             success: false,
         }
         if (user.email == undefined) return serverRes;
-        await http.post(AccountController + "v1/login?email=" + encodeURIComponent(user.email) + "&password=" + user.password + "&device_id=" + getDeviceId())
+        await http.post(AccountController + apiversion + "/login?email=" + encodeURIComponent(user.email) + "&password=" + user.password + "&device_id=" + getDeviceId())
             .then((response: any) => {
                 serverRes = response.data;
             }, (error) => {
@@ -62,7 +62,7 @@ export class UserService {
             data: {},
             success: false,
         }
-        await http.post(AccountController + "v1/profile/" + user.id, user)
+        await http.post(AccountController + apiversion + "/profile/" + user.id, user)
             .then((response: any) => {
                 serverRes = response.data;
                 console.log(serverRes);
@@ -77,7 +77,7 @@ export class UserService {
             data: {},
             success: false,
         }
-        await http.get(DoctorConfigController + "v1/all")
+        await http.get(DoctorConfigController + apiversion + "/all")
             .then((response: any) => {
                 serverRes = response.data;
             }, (error) => {
@@ -90,7 +90,7 @@ export class UserService {
             data: {},
             success: false,
         }
-        await http.get(AddressController + "v1/list?page=1&per_page=100")
+        await http.get(AddressController + apiversion + "/list?page=1&per_page=100")
             .then((response: any) => {
                 serverRes = response.data;
             }, (error) => {
@@ -103,7 +103,7 @@ export class UserService {
             data: {},
             success: false,
         }
-        await http.post(AddressController + "v1", data)
+        await http.post(AddressController + apiversion, data)
             .then((response: any) => {
                 serverRes = response.data;
                 console.log(serverRes);
@@ -119,7 +119,7 @@ export class UserService {
             success: false,
         }
         delete data.yearsMonth;
-        await http.post(CardController + "v1", data)
+        await http.post(CardController + apiversion, data)
             .then((response: any) => {
                 serverRes = response.data;
                 console.log(serverRes);
@@ -134,7 +134,7 @@ export class UserService {
             data: {},
             success: false,
         }
-        await http.get(CardController + "v1/list?page=1&per_page=100&active=1")
+        await http.get(CardController + apiversion + "/list?page=1&per_page=100&active=1")
             .then((response: any) => {
                 serverRes = response.data;
             }, (error) => {

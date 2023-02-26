@@ -1,6 +1,6 @@
 import { FilterProductModel, SelectModel, UserModel } from '@/models/index';
 import http from '@/utils/axios';
-import { ComboController } from '../utils';
+import { apiversion, ComboController } from '../utils';
 import { convertObjectToQueryString } from './../helpers/helpers';
 
 
@@ -8,7 +8,7 @@ import { convertObjectToQueryString } from './../helpers/helpers';
 export class ComboService {
     async GetAllIndustry(): Promise<SelectModel[]> {
         let comboList: SelectModel[] = [];
-        await http.get(ComboController + "industry/v1/all")
+        await http.get(ComboController + "industry/" + apiversion + "/all")
             .then((response: any) => {
                 comboList = response.data.data;
             }, (error) => {
@@ -26,7 +26,7 @@ export class ComboService {
             per_page: 7,
             descending: true,
         };
-        await http.get(ComboController + "brand/v1/list?" + convertObjectToQueryString(filter))
+        await http.get(ComboController + "brand/" + apiversion + "/list?" + convertObjectToQueryString(filter))
             .then((response: any) => {
                 comboList = response.data.data;
             }, (error) => {
@@ -42,7 +42,7 @@ export class ComboService {
             per_page: 7,
             descending: true,
         };
-        await http.get(ComboController + "category/v1/list?" + convertObjectToQueryString(filter))
+        await http.get(ComboController + "category/" + apiversion + "/list?" + convertObjectToQueryString(filter))
             .then((response: any) => {
                 comboList = response.data.data;
             }, (error) => {
@@ -54,7 +54,7 @@ export class ComboService {
     async GetAllStates(country_id: number): Promise<SelectModel[]> {
         let comboList: SelectModel[] = [];
 
-        await http.get(ComboController + "state/v1/all?country_id=" + country_id)
+        await http.get(ComboController + "state/" + apiversion + "/all?country_id=" + country_id)
             .then((response: any) => {
                 comboList = response.data.data;
             }, (error) => {
@@ -67,7 +67,7 @@ export class ComboService {
     async GetAllCities(state_id: number): Promise<SelectModel[]> {
         let comboList: SelectModel[] = [];
 
-        await http.get(ComboController + "city/v1/all?state_id=" + state_id)
+        await http.get(ComboController + "city/" + apiversion + "/all?state_id=" + state_id)
             .then((response: any) => {
                 comboList = response.data.data;
             }, (error) => {
