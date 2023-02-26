@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import user from './slice/userSlice';
 import alert from "./slice/alertSlice";
 import global from "./slice/globalSlice";
+import filter from "./slice/filterSlice";
 
 const combineReducer = combineReducers({
-    user,
     alert,
     global,
+    filter,
 });
 
 export const store = configureStore({

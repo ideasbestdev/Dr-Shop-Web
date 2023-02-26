@@ -6,28 +6,29 @@ import { stringIsEmptyOrNull } from '@/helpers/index';
 
 interface Props {
     quantity: number,
-    setQuantity: any
+    setQuantity: any,
 }
 
 export function CustomQuantity({ quantity, setQuantity }: Props) {
     function changeQuantity(value: number) {
-        if (Number(quantity) == NaN && value > 0) {
+        if (value > 0) {
             setQuantity(1);
             return;
         }
-        if (Number(quantity) + Number(value) < 0) return;
-        setQuantity(Number(quantity) + Number(value));
+        if (quantity + Number(value) < 0) return;
+        setQuantity(quantity + Number(value));
     }
 
     return (
         <CustomQuantityStyle>
-            <a onClick={() => changeQuantity(-1)}><Image src={AssetsImages.minus_icon} alt="minus_icon" /></a>
+            <a onClick={() => changeQuantity(-1)}><Image src={""} alt="minus_icon" /></a>
             <input type={"number"} onFocus={(e) => e.target.select()} min={0} value={quantity} onChange={(e) => setQuantity(stringIsEmptyOrNull(e.target.value) ? 0 : Number(e.target.value))} />
             {
+                //AssetsImages.minus_icon
                 //            <div>{quantity}</div>
-
+                //AssetsImages.plus_icon
             }
-            <a onClick={() => changeQuantity(1)}><Image src={AssetsImages.plus_icon} alt="plus_icon" /></a>
+            <a onClick={() => changeQuantity(1)}><Image src={""} alt="plus_icon" /></a>
         </CustomQuantityStyle>
     )
 }

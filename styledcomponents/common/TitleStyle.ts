@@ -6,9 +6,9 @@ interface Props {
 }
 
 export const TitleStyle = styled.h1`
-    font-size: 54px;
+    font-size: 55px;
     line-height: 66px;
     font-weight: normal;
-    font-family:  ${({ theme }: Props) => theme.fonts.regular};
+    font-family:  ${({ theme }: Props) => theme.fonts.bold};
     color: ${({ theme }: Props) => theme.globalColors.primary_color};
 `

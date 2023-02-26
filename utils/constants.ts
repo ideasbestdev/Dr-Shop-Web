@@ -2,8 +2,8 @@
 export const INVALID_EMAIL_MESSAGE = "Invalid Email";
 export const INVALID_PASSWORD_MESSAGE = "Password must be at least 8 characters";
 export const PASSWORD_NOT_SAME_MESSAGE = "Password are not same";
-export const REQUIRED_MESSAGE = "Required"
-export const INVALID_PHONE_MESSAGE = "Invalid phone number"
+export const REQUIRED_MESSAGE = "This field is required";
+export const INVALID_PHONE_MESSAGE = "Invalid phone number";
 //#endregion
 
 //#region  For Alert
@@ -25,7 +25,14 @@ export const FORM_VALIDATION_ERROR = "Make sure you enter all the data";
 export const TERMS_OF_CONDITION_ERROR = "Accept terms of condition";
 //#endregion
 
-export const PRODUCT_LIST_PER_PAGE = 4;
+export const PRODUCT_LIST_PER_PAGE = 15;
 
 //#endregion
 
+
+
+//#region page names
+export const PRODUCT_PAGE_NAME = "product";
+export const PRODUCT_DETAIL_PAGE_NAME = "productDetail";
+export const HOME_PAGE_NAME = "home";
+//#endregion

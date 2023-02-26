@@ -14,19 +14,19 @@ export function SupplierSection() {
                 slidesPerView={"auto"}
             >
                 <SwiperSlide className='wow slideInUp'>
-                    <Image src={AssetsImages.pfizer} alt="pfizer" />
+                    <Image src={""} alt="pfizer" />
                 </SwiperSlide>
                 <SwiperSlide data-wow-delay="0.3s" className='wow slideInUp'>
-                    <Image src={AssetsImages.astrazeneca} alt="astrazeneca" />
+                    <Image src={""} alt="astrazeneca" />
                 </SwiperSlide>
                 <SwiperSlide data-wow-delay="0.6s" className='wow slideInUp'>
-                    <Image src={AssetsImages.abbott} alt="abbott" />
+                    <Image src={""} alt="abbott" />
                 </SwiperSlide>
                 <SwiperSlide data-wow-delay="0.9s" className='wow slideInUp'>
-                    <Image src={AssetsImages.essilor} alt="essilor" />
+                    <Image src={""} alt="essilor" />
                 </SwiperSlide>
                 <SwiperSlide data-wow-delay="1.2s" className='wow slideInUp'>
-                    <Image src={AssetsImages.novartis} alt="novartis" />
+                    <Image src={""} alt="novartis" />
                 </SwiperSlide>
             </Swiper>
         </SupplierSectionStyle>

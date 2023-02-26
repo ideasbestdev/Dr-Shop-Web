@@ -5,58 +5,98 @@ interface Props {
     theme: Theme,
 }
 
-export const FooterStyle = styled.footer`
-    padding: 50px ${({ theme }: Props) => theme.gridSpace};
+export const FooterStyle = styled.footer<Props>`
     width: 100%;
-    height: 300px;
+    height: ${({ theme }: Props) => theme.height.footer};
     position: absolute;
     left: 0;
     bottom: 0;
-    color: #ffffff;
-    background-color: ${({ theme }: Props) => theme.globalColors.primary_color};
     display: flex;
-
-    >div{
-        &:nth-child(1){
-            margin-right: 50px;
-            article{
-                div{
-                    &:nth-child(1){
-                        max-width: 200px;
-                    }
-                    &:nth-child(2){
-                        max-width: 360px;
-                        font-size: 13px;
-                        margin-top: 30px;
-                        line-height: 19px;
+    flex-direction: column;
+    border-top: 52px solid #2262BC;
+    .middle_container{
+        display: flex;
+        padding: 96px ${({ theme }: Props) => theme.gridSpace} 75px;
+        background-color: #97979726;
+        justify-content: space-between;
+        .links_group{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            column-gap: 160px;
+            h2{
+                font-size: 20px;
+                font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+                color: #000000;
+            }
+            .subItem{
+                li{
+                    margin-top: 14px;
+                    a{
+                        color: #594A42;
                     }
                 }
             }
         }
-        &:nth-child(2){
-            >ul{
+
+        .contact_info{
+            .top_content{
                 display: flex;
-                padding-top: 70px;
-                margin-left: -60px;
-                width: calc(100% + 60px);
-                >li{
-                    margin-left: 60px;
-                    ul{
-                        margin-top: -15px;
-                        li{
-                            margin-top: 15px;
-                            a{
-                                color: #ffffff;
-                                font-size: 16px;
-                                transition: color 0.3s;
-                                @media (hover) {
-                                    &:hover{
-                                        color: ${({ theme }: Props) => theme.globalColors.secondary_color};
-                                    }   
-                                }
-                            }
+                align-items: center;
+                .right_content{
+                    margin-left: 13px;
+                    display: flex;
+                    flex-direction: column;
+                    span{
+                        font-size: 16px;
+                    }
+                    a{
+                        color: #000000;
+                        font-size: 23px;
+                    }
+                }
+            }
+            .middle_content{
+                margin-top: 44px;
+                h2{
+                    font-size: 20px;
+                    font-family: ${({ theme }: Props) => theme.fonts.medium};
+                    font-weight: normal;
+                }
+                address{
+                    margin-top: 12px;
+                    font-size: 16px;
+                }
+            }
+
+            .bottom_content{
+                margin-top: 38px;
+                ul{
+                    display: flex;
+                    li{
+                        &:not(:first-child){
+                            margin-left: 45px;
                         }
                     }
+                }
+            }
+        }
+    }
+    .bottom_container{
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 ${({ theme }: Props) => theme.gridSpace};
+        background-color: #EAEAEA;
+        a{
+            color: #000000;
+            font-size: 16px;
+        }
+        ul{
+            display: flex;
+            li{
+                &:not(:first-child){
+                    margin-left: 41px;
                 }
             }
         }

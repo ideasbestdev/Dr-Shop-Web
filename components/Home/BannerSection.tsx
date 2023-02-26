@@ -8,18 +8,13 @@ import { AnimationOnScroll } from 'react-animation-on-scroll';
 export function BannerSection() {
     return (
         <BannerSectionStyle>
-            <div>
-                <article className='wow slideInLeft'>
-                    <TitleStyle>Medical Supply Marketplace</TitleStyle>
-                    <DescriptionStyle>One-stop-shop for clinical offices to compare and save on medical supplies and equipment from different manufacturers. Membership free and exclusively for licensed physicians.</DescriptionStyle>
-                    <Link href={PageUrls.PRODUCTS + "?page=1"} prefetch={false}>
-                        <LinkButtonStyle>
-                            Shop Now
-                        </LinkButtonStyle>
-                    </Link>
-                </article>
-            </div>
-            <div className='wow slideInRight'>
+            <section className='content'>
+                <TitleStyle>Now You Can Have Your DOWNLOAD APP Done Safely</TitleStyle>
+                <LinkButtonStyle>
+                    DOWNLOAD APP
+                </LinkButtonStyle>
+            </section>
+            <div className='image_container'>
                 <Image src={AssetsImages.homeBanner} alt="homeBanner" />
             </div>
         </BannerSectionStyle>

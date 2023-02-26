@@ -7,71 +7,100 @@ interface Props {
 
 export const LoginStyle = styled.section<Props>`
     display: flex;
-    min-height: 600px;
-    max-height: 700px;
+    height: ${({ theme }: Props) => `calc(100vh - ${theme.height.header} - ${theme.height.footer})`};
+    min-height: 800px;
     position: relative;
+    background-color: ${({ theme }: Props) => theme.globalColors.primary_color};
+    &::before{
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        opacity: 0.3;
+        z-index: 1;
+    }
     button{
         background-color: transparent;
+    }
+    .image_container{
+        height: 100%;
+        width: 70%;
     }
     img{
         object-fit: cover;
     }
-   > div{
+   .container{
         position: absolute;
         top: 0;
         left: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
+        width: ${({ theme }: Props) => `calc(100% - 2*${theme.gridSpace})`};
         height: 100%;
+        max-width: 1390px;
+        z-index: 2;
+        margin: 0 ${({ theme }: Props) => theme.gridSpace};
+        > h2{
+            color: white;
+        }
         form{
-            width: 560px;
-            height: 560px;
-            box-shadow: 4px 4px 6px #00000029;
-            background-color: #FFFFFFCC;
-            position: absolute;
-            border-radius: 33px;
-            padding-top: 80px;
+            width: 550px;
+            height: 679px;
+            margin-left: 200px;
+            box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.12);
+            background-color: white;
             display: flex;
             align-items: center;
             flex-direction: column;
-            h1{
-                font-size: 29px;
+            padding: 55px 46px 20px;
+            h2{
+                font-size: 40px;
+                font-family: ${({ theme }: Props) => theme.fonts.extra_bold};
+                color: ${({ theme }: Props) => theme.globalColors.primary_color};
             }
             ul{
-                margin-top: 20px;
+                margin-top: 45px;
+                width: 100%;
                 li{
-                    margin-top: 30px;
-                    &:nth-child(3){
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        a, label{
-                            color: #A4A3A3;
-                            font-size: 12px;
-                            font-family: ${({ theme }: Props) => theme.fonts.italic};
-                        }
+                    div{
+                        width: 100%;
                     }
-                    &:nth-child(4){
-                        display: flex;
-                        justify-content: center;
+                    &:not(:first-child){
+                        margin-top: 18px;
                     }
-                    &:nth-child(5){
-                        font-family: ${({ theme }: Props) => theme.fonts.italic};
-                        font-size: 12px;
-                        display: flex;
-                        justify-content: center;
-                        color: #A4A3A3;
-                        margin-top: 60px;
-                        a{
-                            font-family: ${({ theme }: Props) => theme.fonts.italic};
-                            color: ${({ theme }: Props) => theme.globalColors.primary_color};
-                            border-bottom: 1px solid ${({ theme }: Props) => theme.globalColors.primary_color};
-                            font-size: 12px;
-                            margin-left: 3px;
-                        }
-                    }
+                }
+            }
+            .forgot_password{   
+                a{
+                    color: ${({ theme }: Props) => theme.globalColors.primary_color};
+                    font-size: 16px;
+                    text-decoration: underline; 
+                }
+                margin-left: auto;
+                margin-top: 10px;
+            }
+
+            button{
+                width: 100%;
+                a{
+                    width: 100%;
+                    margin-top: 80px;
+                }
+            }
+            .dont_or_have_account{
+                margin-top: 18px;
+                font-size: 16px;
+                font-family: ${({ theme }: Props) => theme.fonts.bold}; 
+                color: #979797;
+                text-align: center;
+                a{
+                    color: ${({ theme }: Props) => theme.globalColors.primary_color};
+                    font-family: ${({ theme }: Props) => theme.fonts.extra_bold}; 
+
                 }
             }
         }

@@ -1,160 +1,66 @@
-import { ButtonStyle, DescriptionStyle, ExpandedListStyle, LinkButtonStyle, ProductDetailSectionStyle, SectionTitleStyle, TitleStyle } from '@/styledcomponents/index'
+import { CustomColorStyle, CustomQuantityStyle, CustomSizeStyle, DescriptionStyle, LinkButtonStyle, ProductDetailSectionStyle, SectionTitleStyle, TitleStyle } from '@/styledcomponents/index'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { AssetsImages } from '@/utils/index';
+import { colorId } from '@/utils/index';
 import Image from 'next/image';
-import { useState, useRef } from 'react';
-import { Pagination } from 'swiper';
-import { AvailableColorSizes, OptionModel, ProductModel, VariantModel } from '@/models/index';
-import { CustomColor, CustomQuantity, CustomRating, CustomSize } from '@/components/common';
-import StarRatings from 'react-star-ratings';
-import { stringIsEmptyOrNull } from '@/helpers/index';
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { PriceModel, ProductModel, VariantionModel, VariantModel } from '@/models/index';
+import { generateRandomNumber } from '@/helpers/index';
+import useCounter from '../customHookes/useCounter';
+import { HeartIcon } from '../icons';
+import { useSelector } from 'react-redux';
+import { getGlobalState } from '@/statemangment/slice/globalSlice';
+import { ProductService } from '@/services/productService';
 
 interface Props {
     product: ProductModel,
 }
 
 export function ProductDetailSection({ product }: Props) {
-
-    console.log(product)
-
-    let colors: OptionModel[] = [];
-    /*  product.variants.map(e => initColors.push({
-          id: e.color.id,
-          name: e.color.name,
-          hex_color: e.color.hex_color,
-          variant: e,
-      }));*/
-
-    let sizes: OptionModel[] = [];
-
-
-    /*
-        product.variants.map(e => initSizes.push({
-            id: e.unit_size.id,
-            name: e.unit_size.name,
-            variant: e,
-        }));
-    */
-    product.variants.map(e => {
-        if (!stringIsEmptyOrNull(e.size_value) && !sizes.find(d => d.name == `${e.size_value} ${e.unit_size.id}`)) {
-            sizes.push({
-                id: `${e.size_value}@${e.unit_size.id}`,
-                name: `${e.size_value} ${e.unit_size.name}`,
-            });
-        }
-        if (e.color_id != null && !colors.find(d => d.id == e.color_id)) {
-            colors.push({
-                id: e.color.id,
-                name: e.color.name,
-                hex_color: e.color.hex_color,
-            });
-        }
-    });
-
+    const [max, setMax] = useState(product.quantity);
+    const { count, setCount, increment, decrement, reset } = useCounter(0, max, 0)
     const [bigSwiper, setBigSwiper] = useState<any>({});
     const [thumbsSwiper, setThumbsSwiper] = useState<any>({});
     const [thumbsActiveIndex, setThumbsActiveIndex] = useState<number>(0);
-    const [quantity, setQuantity] = useState(0);
     const [expand, setExpand] = useState(true);
-    const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
-    const [selectedColors, setSelectedColors] = useState<number[] | any>([colors[0].id]);
-    const [selectedSizes, setSelectedSizes] = useState<string[] | any>([sizes[0].id]);
-    const [availableColorSizes, setAvailableColorSizes] = useState<AvailableColorSizes>();
+    const [recommendVaraitions, setRecommendVaraitions] = useState<number[]>([]);
+    const [selectedVaraintIds, setselectedVaraintIds] = useState<any>({});
+    const [selectedVaraint, setSelectedVaraint] = useState<PriceModel | undefined>(undefined);
+    const randomString: string = generateRandomNumber(4);
+    const { firstRequest } = useSelector(getGlobalState);
+    const prodcutService = new ProductService();
 
-    function editProductDetail(key: string, id: string | number | any) {
-        console.log(key, id);
-        if (key == "color") {
-            setSelectedColors([id]);
-            if (!availableColorSizes?.color_ids.includes(id)) {
-                validateVariant(key, id);
-            } else if (selectedSizes.length > 0) {
-                let currentSelectedVariant = product.variants.find(d => d.color_id == id && d.unit_size_id == Number(String(selectedSizes[0]).split('@')[1]) && d.size_value == String(selectedSizes[0]).split('@')[0]);
-                if (currentSelectedVariant != undefined) {
-                    setSelectedVariant(currentSelectedVariant)
-                }
-            }
-        }
-        if (key == "size") {
-            setSelectedSizes([id]);
-            if (!availableColorSizes?.size_ids.includes(id)) {
-                validateVariant(key, id);
-            } else if (selectedColors.length > 0) {
-                let currentSelectedVariant = product.variants.find(d => d.color_id == selectedColors[0] && d.unit_size_id == Number(String(id).split('@')[1]) && d.size_value == String(id).split('@')[0]);
-                if (currentSelectedVariant != undefined) {
-                    setSelectedVariant(currentSelectedVariant)
-                }
-            }
-        }
-        // setSelectedVariant(variant);
+    function selectVaraint(key?: string, id?: number) {
+        if (id == undefined || key == undefined || product.prices == undefined) return;
 
-    }
-
-    function validateVariant(key: string, id: string | number) {
-        let varaintFiltered: VariantModel[] = [];
-        if (key == "color") {
-            varaintFiltered = product.variants.filter(d => d.color_id == id);
-        }
-        if (key == "size") {
-            varaintFiltered = product.variants.filter(d => d.unit_size_id == Number(String(id).split('@')[1]) && d.size_value == String(id).split('@')[0]);
-
-        }
-        if (key == "color" && selectedSizes.length > 0 && !varaintFiltered.find(d => d.unit_size_id == Number(String(selectedSizes[0]).split('@')[1]) && d.size_value == String(selectedSizes[0]).split('@')[0])) {
-            setSelectedSizes([]);
-        }
-
-        if (key == "size" && selectedColors.length > 0 && !varaintFiltered.find(d => d.color_id == selectedColors[0])) {
-            setSelectedColors([]);
-        }
-        let currentAvailableColorSizes: AvailableColorSizes = availableVaraint(varaintFiltered);
-        setAvailableColorSizes(currentAvailableColorSizes);
-    }
-    //, key: string, id: any)
-    function availableVaraint(variant: VariantModel[]): AvailableColorSizes {
-        let size_ids: string[] = [];
-        let color_ids: number[] = [];
-        // if (key == "color") {
-        //     color_ids.push(id);
-        //     variant.filter(d => d.color_id == id).map(e => {
-        //         if (!stringIsEmptyOrNull(e.size_value) && !size_ids.find(d => d == `${e.size_value} ${e.unit_size.id}`)) {
-        //             size_ids.push(`${e.size_value}@${e.unit_size.id}`);
-        //         }
-        //     });
-        //     variant.map(e => {
-        //         if (size_ids.includes(`${e.size_value}@${e.unit_size.id}`) && !color_ids.includes(e.color_id)) {
-        //             color_ids.push(e.color_id);
-        //         }
-        //     });
-        // }
-        // if (key == "size") {
-        //     size_ids.push(id);
-        //     variant.filter(d => d.unit_size_id == Number(String(id).split('@')[1]) && d.size_value == String(id).split('@')[0]).map(e => {
-        //         if (e.color_id != null && !color_ids.find(d => d == e.color_id)) {
-        //             color_ids.push(e.color.id);
-        //         }
-        //     });
-        //     variant.map(e => {
-        //         if (color_ids.includes(e.color_id) && !size_ids.includes(`${e.size_value}@${e.unit_size.id}`)) {
-        //             size_ids.push(`${e.size_value}@${e.unit_size.id}`);
-        //         }
-        //     });
-        // }
-        variant.map(e => {
-            if (!stringIsEmptyOrNull(e.size_value) && !size_ids.find(d => d == `${e.size_value} ${e.unit_size.id}`)) {
-                size_ids.push(`${e.size_value}@${e.unit_size.id}`);
-            }
-            if (e.color_id != null && !color_ids.find(d => d == e.color_id)) {
-                color_ids.push(e.color.id);
-            }
+        let tempVaraintIds: any = {};
+        tempVaraintIds = Object.assign({}, selectedVaraintIds);
+        tempVaraintIds[key] = id;
+        let tempVaraintIdsValues: number[] = Object.values(tempVaraintIds);
+        const varaintionIds: number[] = [];
+        const priceFiltered: PriceModel[] = product.prices.filter(d => d.variations != undefined && tempVaraintIdsValues.every(elem => d.variations?.includes(elem)));
+        priceFiltered.map((variant: PriceModel) => {
+            variant.variations?.map((id: number) => {
+                if (!varaintionIds.includes(id)) varaintionIds.push(id);
+            });
         });
-        return {
-            color_ids,
-            size_ids,
+
+        if (!recommendVaraitions?.includes(id)) {
+            tempVaraintIds = {};
+            tempVaraintIds[key] = id;
+            setSelectedVaraint(undefined);
+        }
+        setselectedVaraintIds(tempVaraintIds);
+        setRecommendVaraitions(varaintionIds);
+
+        if (tempVaraintIdsValues.length == product.variants?.length) {
+            const tempSelectedPrice: PriceModel | undefined = product.prices.find(d => d.variations != undefined && tempVaraintIdsValues.every(elem => d.variations?.includes(elem)));
+            setSelectedVaraint(tempSelectedPrice);
         }
     }
-    useEffect(function () {
-        validateVariant("color", product.variants[0].color_id);
-    }, [])
+
+    function handleCart() {
+        prodcutService.addToCart(product, count, (firstRequest.user != null && firstRequest.user != undefined));
+    }
     return (
         <ProductDetailSectionStyle>
             <div>
@@ -167,14 +73,15 @@ export function ProductDetailSection({ product }: Props) {
                     onInit={(swiper) => {
                         setBigSwiper(swiper);
                     }}
-                    pagination={{ clickable: true }}
-                    modules={[Pagination]}
+
                     className="images-swiper"
                 >
                     {
                         product.images?.map((image, index) =>
                             <SwiperSlide key={index}>
-                                <div><Image width={600} height={600} src={image.webp_image} alt={image.webp_image} /></div>
+                                <div>
+                                    <Image width={600} height={600} src={`${image?.base_url}/${image?.webp_image}`} alt={image.webp_image} />
+                                </div>
                             </SwiperSlide>
                         )
                     }
@@ -194,7 +101,9 @@ export function ProductDetailSection({ product }: Props) {
                     {
                         product.images?.map((image, index) =>
                             <SwiperSlide key={index} className={`${thumbsActiveIndex == index ? 'my-swiper-slide-active' : ''}`}>
-                                <div><Image width={300} height={300} src={image.webp_thumbnail} alt={image.webp_thumbnail} /></div>
+                                <div>
+                                    <Image width={300} height={300} src={`${image?.base_url}/${image?.webp_image}`} alt={image.webp_thumbnail} />
+                                </div>
                             </SwiperSlide>
                         )
                     }
@@ -202,35 +111,72 @@ export function ProductDetailSection({ product }: Props) {
             </div>
             <div>
                 <SectionTitleStyle>{product.name}</SectionTitleStyle>
-                <DescriptionStyle className='description'>{product.description}</DescriptionStyle>
-                <div className='star'>
-                    <StarRatings
-                        rating={product.rating.avg_rating}
-                        starDimension="18px"
-                        starSpacing="3px"
-                        starEmptyColor='#F2994A66'
-                        starRatedColor='#F2994A'
-                        svgIconViewBox="0 0 18.105 18.105"
-                        svgIconPath="M7.894.878a1.2,1.2,0,0,1,2.316,0l1.3,4.185a1.27,1.27,0,0,0,.442.635,1.183,1.183,0,0,0,.715.243h4.216a1.282,1.282,0,0,1,.716,2.3l-3.409,2.586a1.27,1.27,0,0,0-.443.635,1.325,1.325,0,0,0,0,.786l1.3,4.185a1.232,1.232,0,0,1-1.875,1.421L9.766,15.27a1.176,1.176,0,0,0-1.431,0L4.926,17.856a1.232,1.232,0,0,1-1.874-1.421l1.3-4.185a1.325,1.325,0,0,0,0-.786,1.27,1.27,0,0,0-.443-.635L.5,8.243a1.282,1.282,0,0,1,.716-2.3H5.434A1.183,1.183,0,0,0,6.149,5.7a1.27,1.27,0,0,0,.443-.635L7.895.879Z"
-                    />
-                </div><div className='price'>${selectedVariant.price}</div>
-                <div className='sizes'><label className='label'>Size</label><CustomSize type={"radio"} editProductDetail={editProductDetail} selectedColor='#0084A7' sizes={sizes} selectedIds={selectedSizes} fromDetails={true} availableColorSizes={availableColorSizes} /></div>
-                <div className='quantity'><label className='label'>Quantity</label><CustomQuantity quantity={quantity} setQuantity={setQuantity} /></div>
-                <div className='colors'><label className='label'>Colors</label><CustomColor type={"radio"} editProductDetail={editProductDetail} selectedColor={"#486B92"} colors={colors} selectedIds={selectedColors} fromDetails={true} availableColorSizes={availableColorSizes} /></div>
-                <ExpandedListStyle className='expand' maxHeight={expand}>
-                    <a onClick={() => setExpand(!expand)}>Product Details</a>
+                <div className='category'>{product.product_categories ? product.product_categories[0]?.name : ""}</div>
+                <DescriptionStyle className='description'>
+                    <h3>Description</h3>
                     <ul>
-                        <li><label className='label'>Packing:</label>15</li>
-                        <li><label className='label'>Brand:</label>{product.brand?.name}</li>
-                        <li><label className='label'>Owner:</label>{product.supplier.company_name}</li>
+                        {product.attributes?.map((item, index) => <li key={index}>{item.value}</li>)}
                     </ul>
-                </ExpandedListStyle>
-                <div className='buttons'>
-                    <LinkButtonStyle white={true}>Add to Wishlist</LinkButtonStyle>
-                    <LinkButtonStyle>Add to Cart</LinkButtonStyle>
+                </DescriptionStyle>
+
+                {/* <div className='price'>${selectedVaraint ? selectedVaraint.price : product.price}</div> */}
+                <div className='price'>
+                    {selectedVaraint ?
+                        selectedVaraint.discounted_price != undefined && selectedVaraint.discounted_price > 0 ?
+                            <>
+                                {selectedVaraint.discounted_price?.toFixed(2)} USD
+                                <del><span>{selectedVaraint.price?.toFixed(2)}</span> USD</del>
+                            </> :
+                            <>{selectedVaraint.price?.toFixed(2)} USD</> :
+                        product.discounted_price != undefined && product.discounted_price > 0 ?
+                            <>
+                                {product.discounted_price?.toFixed(2)} USD
+                                <del><span>{product.price?.toFixed(2)} USD</span> </del>
+                            </> :
+                            <>{product.price?.toFixed(2)} USD</>
+                    }
+                </div>
+                <div className='variantion_container'>
+                    {
+                        product.variants?.map((variant: VariantModel) =>
+                            <div className={`${variant.id != colorId ? "sizes" : "color_container"}`} key={`variant_${variant.id}`}>
+                                <label className='label'>{variant.name}</label>
+                                <>
+                                    {variant.variations?.map((variation: VariantionModel) =>
+                                        variant.id == colorId ?
+                                            <CustomColorStyle color={variation.value} isActive={variation.id != undefined ? recommendVaraitions?.includes(variation.id) : false} key={`variation_${variation.id}`} >
+                                                <input checked={Object.values(selectedVaraintIds).includes(variation.id)} type={"radio"} onChange={() => selectVaraint(variant.name, variation.id)} name={`${variant.name}_${randomString}`} id={`size_${randomString}_${variation.id}`} hidden />
+                                                <label htmlFor={`size_${randomString}_${variation.id}`}></label>
+                                            </CustomColorStyle>
+                                            :
+                                            <CustomSizeStyle isActive={variation.id != undefined ? recommendVaraitions?.includes(variation.id) : false} key={`variation_${variation.id}`} >
+                                                <input checked={Object.values(selectedVaraintIds).includes(variation.id)} type={"radio"} onChange={() => selectVaraint(variant.name, variation.id)} name={`${variant.name}_${randomString}`} id={`size_${randomString}_${variation.id}`} hidden />
+                                                <label htmlFor={`size_${randomString}_${variation.id}`}>{variation.name}</label>
+                                            </CustomSizeStyle>
+                                    )}
+                                </>
+                            </div>
+                        )
+                    }
+                </div>
+                <div className='bottom_section'>
+                    <label className='label'>Quantity</label>
+                    <div className='container'>
+                        <div className='quantity'>
+                            <CustomQuantityStyle>
+                                <a onClick={decrement}>-</a>
+                                <input type={"number"} onFocus={(e) => e.target.select()} min={0} value={count} />
+                                <a onClick={increment}>+</a>
+                            </CustomQuantityStyle>
+                        </div>
+                        <div className='buttons'>
+                            <LinkButtonStyle onClick={handleCart}>Add to Cart</LinkButtonStyle>
+                            <i><HeartIcon /></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </ProductDetailSectionStyle>
+        </ProductDetailSectionStyle >
     )
 }
 

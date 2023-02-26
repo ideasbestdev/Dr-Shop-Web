@@ -14,9 +14,10 @@ interface Props {
     MIN: number,
     MAX: number,
     rtl?: boolean,
+    priceChanged?: Function,
 }
 
-export function CustomRange({ values, setValues, MAX, MIN, STEP, rtl = false }: Props) {
+export function CustomRange({ values, setValues, MAX, MIN, STEP, rtl = false, priceChanged }: Props) {
     return (
         <div>
             <Range
@@ -26,6 +27,7 @@ export function CustomRange({ values, setValues, MAX, MIN, STEP, rtl = false }: 
                 max={MAX}
                 rtl={rtl}
                 onChange={(values) => setValues(values)}
+                onFinalChange={() => priceChanged ? priceChanged() : null}
                 renderTrack={({ props, children }) => (
                     <div onMouseDown={props.onMouseDown} onTouchStart={props.onTouchStart}>
                         <div ref={props.ref}
@@ -35,7 +37,7 @@ export function CustomRange({ values, setValues, MAX, MIN, STEP, rtl = false }: 
                                 borderRadius: "6px",
                                 background: getTrackBackground({
                                     values,
-                                    colors: ['#E1E1E1 ', '#0084A7', '#E1E1E1'],
+                                    colors: ['#E1E1E1 ', '#2262BC', '#E1E1E1'],
                                     min: MIN,
                                     max: MAX,
                                     rtl
@@ -50,14 +52,15 @@ export function CustomRange({ values, setValues, MAX, MIN, STEP, rtl = false }: 
                 renderThumb={({ index, props, isDragged }) => (
                     <div
                         {...props}
+                        className={`range_thumb_${index}`}
                         style={{
                             ...props.style,
-                            height: '22px',
-                            width: '22px',
+                            height: '16px',
+                            width: '16px',
                             outline: 'none',
                             borderRadius: '50%',
-                            backgroundColor: '#ffffff',
-                            boxShadow: '0px 0px 8px #34283E3D',
+                            backgroundColor: '#2262BC',
+                            //       boxShadow: '0px 0px 8px #34283E3D',
                         }}
                     >
                     </div>

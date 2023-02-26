@@ -5,11 +5,10 @@ interface Props {
     theme: Theme,
 }
 
-export const SectionTitleStyle = styled.h1`
-    font-size: 37px;
-    line-height: 24px;
+export const SectionTitleStyle = styled.h2<Props>`
+    font-size: 45px;
+    line-height: 61px;
     font-weight: normal;
-    font-family:  ${({ theme }: Props) => theme.fonts.semi_bold};
-    color: ${({ theme }: Props) => theme.globalColors.primary_color};
-    text-align: center;
+    width: fit-content;
+    font-family:  ${({ theme }: Props) => theme.fonts.bold};
 `

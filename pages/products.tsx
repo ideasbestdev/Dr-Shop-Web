@@ -1,12 +1,12 @@
-import { CustomBreadcrumb } from '@/components/common';
 import { ProductFilterSection, ProductListSection } from '@/components/product/index';
-import { BreadcrumbModel, FilterDataModel, PageLinksModel, ProductModel, SelectModel } from '@/models/index';
-import { PageUrls, PRODUCT_LIST_PER_PAGE } from '@/utils/index';
+import { PageLinksModel, ProductModel, SelectModel } from '@/models/index';
+import { PageUrls, PRODUCT_LIST_PER_PAGE, PRODUCT_PAGE_NAME } from '@/utils/index';
 import { ComboService, ProductService } from '@/services/index';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext, PreviewData } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { BrandSection } from '@/components/home';
 
 
 
@@ -31,31 +31,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext<Pars
     //    const colors = await comboService.GetAllColor();
     //    const sizes = await comboService.GetAllSizes();
 
-    const filterData: FilterDataModel = {
-        brands: [],//brands,
-        catgories: [],//categories,
-        colors: [],//colors,
-        sizes: [],//sizes,
-    }
     return {
         props: {
             //productList,
-          //  filterData,
-       //     links,
+            //  filterData,
+            //     links,
         },
     }
 }
 
 export default function Products() {
-    const breadcrumbPage: BreadcrumbModel[] = [
-        {
-            link: PageUrls.HOME,
-            title: "Home",
-        }, {
-            link: PageUrls.HOME,
-            title: "Categories"
-        }
-    ];
+
     const route = useRouter();
 
     const [load, setLoad] = useState(false);
@@ -64,12 +50,17 @@ export default function Products() {
     }, [])
 
     return (
-        <div style={{ display: "flex" }}>
-            {load == true ? <ProductFilterSection filterData={JSON.parse(localStorage.getItem("filter") ?? "")} /> : null}
-            <div style={{ paddingLeft: "400px", flex: "1" }}>
-                <CustomBreadcrumb key={2} breadcrumb={breadcrumbPage} />
-                <ProductListSection key={1}  />
+        <>
+            <div style={{ display: "flex" }}>
+                {load == true ? <ProductFilterSection /> : null}
+                <div style={{ paddingLeft: "40px", flex: "1" }}>
+                    <ProductListSection key={1} />
+                </div>
             </div>
-        </div>
+            <BrandSection />
+        </>
     )
 }
+
+
+Products.componentName = PRODUCT_PAGE_NAME;

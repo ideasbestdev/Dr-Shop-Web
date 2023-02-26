@@ -7,80 +7,67 @@ interface Props {
 
 export const AddLocationSectionStyle = styled.section<Props>`
     flex: 1;
-    background-color: #FAFAFA;
-    min-height: 500px;
-    padding: 28px 60px;
     display: flex;
     position: relative;
     form{
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        article{
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            flex: 1;
-            >div{
-                &:nth-child(1){
-                    h1{
-                        text-align: start;
-                        font-size: 30px;
-                        margin-top: 10px;
-                    }
-                    ul{
-                        li{
-                            margin-top: 25px;
+         display: flex;
+         align-items: center;
+         flex-direction: column;
+         padding: 48px 30px 20px;
+         select{
+            background-color: #fff;
+        }
+         .content{
+             width: 100%;
+             display: flex;
+         }
+         ul{
+             margin-top: 25px;
+             width: 100%;
+             display: flex;
+             flex-wrap: wrap;
+             li{
+                &:last-child{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    label{
+                        &::before{
+                            margin-right: 10px;
                         }
                     }
                 }
-
-                &:nth-child(2){
-                    h1{
-                        color: #777777;
-                        font-size: 17px;
-                        margin-top: 10px;
-                        margin-bottom: 20px;
-                        max-width: 300px;
-                        font-family: ${({ theme }: Props) => theme.fonts.regular};
-                    }
-                    ul{
-                        li{
-                            margin-top: 10px;
-                            display: flex;
-                            align-items: center;
-                            cursor: pointer;
-                            div{
-                                border: 2px solid ${({ theme }: Props) => theme.globalColors.primary_color};
-                                border-radius: 40px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                background-color: #fff;
-                                width: 300px;
-                                margin-right: 20px;
-                                height: 70px;
-                                color: ${({ theme }: Props) => theme.globalColors.primary_color};
-                                font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
-                                font-size: 18px;
-                                transition: color 0.3s, background-color 0.3s;
-                            }
-                            &:hover{
-                                div{
-                                    color: #fff;
-                                    background-color: ${({ theme }: Props) => theme.globalColors.primary_color};
-                                }
-                            }
-                        }
+                label{
+                    &:first-child{
+                        margin-bottom: 10px;
+                        display: block;
                     }
                 }
-            }
-        }
-
-        button{
-            margin: 0 auto;
-            display: block;
-            background-color: transparent;
-        }
-    }
+                 input[type="text"],  input[type="number"],  input[type="password"],  input[type="email"],  input[type="tel"], select{
+                    font-size: 20px;
+                }
+                div{
+                    height: 50px;
+                }
+                 width: 50%;
+                 &:nth-child(even){
+                     padding-left: 15px;
+                 }
+                 &:nth-child(odd){
+                     padding-right: 15px;
+                 }
+                 div{
+                     width: 100%;
+                 }
+                 &:not(even){
+                     margin-top: 25px;
+                 }
+             }
+         }
+         button{
+             width: 100%;
+             margin-top: 80px;
+             height: 50px;
+          }
+     }
 `

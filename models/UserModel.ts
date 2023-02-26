@@ -1,138 +1,96 @@
-import { ImageModel } from './GlobalModel';
-
-export interface UserFormErrorsModel {
-    emailError?: string;
-    passwordError?: string;
-    firstNameError?: string;
-    lastNameError?: string;
-    phoneError?: string;
-    confirmPasswordError?: string;
-    companyNameError?: string;
-    taxIdError?: string;
-    industryError?: string;
-    licenseError?: string;
-    stateError?: string;
-    cityError?: string;
-    streetError?: string;
-    zipCodeError?: string;
-    numberOfPhysiciansError?: string
-}
+import { ImageModel } from '@/models/index';
 export interface UserModel {
-    id?: number;
-    email?: string;
-    password?: string;
-    first_name?: string;
-    last_name?: string;
-    phone?: string;
-    confirmPassword?: string;
-    companyName?: string;
-    tax_id?: string;
-    industry?: string;
-    license?: any;
-    syndicate_id?: string;
-    state?: string;
-    city?: string;
-    street?: string;
-    zipCode?: string;
-    numberOfPhysicians?: string;
-    device_id?: string;
-    os_type?: string;
-    os_version?: string;
-    brand?: string;
-    model?: string;
-    termsOfCondition?: boolean;
-    addresses?: AddressModel[];
-    user_type_id?: number;
-    uuid?: string;
-    avatar?: ImageModel;
+    id?: number,
+    email?: string,
+    password?: string,
+    first_name?: string,
+    last_name?: string,
+    phone?: string,
+    device_id?: string,
+    os_type?: string,
+    os_version?: string,
+    brand?: string,
+    companyName?: string,
+    model?: string,
+    api_token?: string,
+    firebase_token?: string,
+    avatar?: File | ImageModel,
+    syndicate_id?: string,
+    tax_id?: string,
+    industry_id?: number,
+    nb_physicians?: number,
+    licenseImg?: File | ImageModel,
+    is_doctor?: boolean,
+    uuid?: string,
+    commission?: number,
+    role_id?: number,
+    account?: AccountModel,
+    license?: File,
+    country_code?: string,
+    how_hear?: string,
+    repeat_passowrd?: string,
+    accepted_terms?: boolean,
+    accepted_privacy?: boolean,
+}
+export interface AccountModel {
+    id?: number,
+    uuid?: string,
+    account_type_id?: number,
+    first_name?: string,
+    last_name?: string,
+    email?: string,
+    phone?: string,
+    created_at?: string,
+    email_verified?: boolean,
+    phone_verified?: boolean,
+    verified?: boolean,
+    name?: string,
+    country_code?: string,
 
 }
-
-interface AddressModel {
-    state: string,
-    city: string,
-    street: string,
-    zip_code: string,
-    name: string,
+export interface ForgotPasswordModel {
+    email?: string,
+    action_url?: string,
 }
-export interface UserStateModel {
-    currentuser: UserModel | null;
-    isAuthenticated: boolean;
+export interface ResetPasswordModel {
+    email?: string,
+    code?: string,
+    password?: string,
+    password_confirm?: string,
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-export interface UserRegisterModel {
-    email: string;
-    password: string;
-    first_name?: string;
-    last_name?: string;
-    phone?: string;
-    confirmPassword?: string;
-    companyName?: string;
-    tax_id?: string;
-    industry?: string;
-    // licenseName: string;
-    license?: any;
-    syndicate_id?: string;
-    state?: string;
-    city?: string;
-    street?: string;
-    zipCode?: string;
-    numberOfPhysicians?: string;
-    device_id?: string;
-    os_type?: string;
-    os_version?: Number;
-    brand?: string;
-    model?: string;
-    termsOfCondition?: boolean;
+export interface VerifyEmailModel {
+    expires?: string,
+    signature?: string,
+    key_hash?: string,
 }
 
-export interface UserModel {
-    email: string | null;
-    uid: string;
-    first_name?: string;
-    last_name?: string;
-    email_verified_at?: string;
-    user_type_id?: Number;
-}
-*/
-/*export interface UserLoginErrorsModel {
-    emailError: string;
-    passwordError: string;
-}
-
-export interface UserLoginModel {
-    email: string;
-    password: string;
+export interface AddressModel {
+    id?: number,
+    name?: string,
+    country_id?: number,
+    state?: string,
+    city?: string,
+    street?: string,
+    zip_code?: number,
+    building_name?: string,
+    contact_name?: string,
+    floor?: string,
+    contact_country_code?: string,
+    contact_phone?: string,
+    contact_email?: string,
+    is_default?: number,
 }
 
-export interface UserRegisterErrorsModel {
-    emailError?: string;
-    passwordError?: string;
-    firstNameError?: string;
-    lastNameError?: string;
-    phoneError?: string;
-    confirmPasswordError?: string;
-    companyNameError?: string;
-    taxIdError?: string;
-    industryError?: string;
-    licenseError?: string;
-    stateError?: string;
-    cityError?: string;
-    streetError?: string;
-    zipCodeError?: string;
-    numberOfPhysiciansError?: string
+export interface CardModel {
+    id?: number,
+    card_number?: string,
+    name_on_card?: string,
+    year?: string,
+    month?: string,
+    cvv?: number,
+    type?: string,
+    active?: number,
+    yearsMonth?: string,
+    is_default?: number,
+
 }
-*/

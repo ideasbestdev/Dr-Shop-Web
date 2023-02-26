@@ -3,5 +3,7 @@ export const PageUrls = {
     PRODUCTS: "/products",
     LOGIN: "/login",
     REGISTER: "/register",
-    PROFILE: "/profile"
+    PROFILE: "/profile",
+    FAVORITE: "/favorite",
+    CART: "/cart",
 }

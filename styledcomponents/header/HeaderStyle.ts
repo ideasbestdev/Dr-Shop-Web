@@ -3,126 +3,90 @@ import { Theme } from '../Theme';
 
 interface Props {
     theme: Theme,
-    isScroll?: boolean,
 }
 
 export const HeaderStyle = styled.header<Props>`
     position: fixed;
     left: 0;
     top: 0;
-    height: ${({ theme, isScroll }: Props) => isScroll ? theme.height.header_scroll : theme.height.header};
+    height: ${({ theme }: Props) => theme.height.header};
     width: 100%;
     z-index: 99;
     transition: height 0.3s;
-
-    >div{
-        background-color:  ${({ theme }: Props) => theme.backgroundcolors.background_top_header};
-        height: ${({ theme, isScroll }: Props) => isScroll ? theme.height.top_header_scroll : theme.height.top_header};
+    background-color: white;
+    .top_section{
+        padding: 0 ${({ theme }: Props) => theme.gridSpace};
+        background-color: white;
+        height: ${({ theme }: Props) => theme.height.top_header};
+        display: flex;
         width: 100%;
+        border-bottom: 1px solid #E8E8E8;
+        align-items: center;
+        justify-content: flex-end;
+        nav{
+            >ul{
+                display: flex;
+                align-items: center;
+                li{
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    min-height: 22px;
+                    a{
+                        display: flex;
+                        align-items: center;
+                    }
+                    &:not(:first-child){
+                        margin-left: 22px;
+                        &::before{
+                            content: "";
+                            height: 18px;
+                            width: 1px;
+                            border-left: 1px solid #A5A5A5;
+                            left: -10px;
+                            position: absolute;
+                        }
+                    }
+                }
+                i {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    .bottom_section{
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 14px;
+        justify-content: space-between;
         padding: 0 ${({ theme }: Props) => theme.gridSpace};
-        color:  ${({ theme }: Props) => theme.textColors.text_color_top_header};
-        transition: height 0.3s;
+        height: ${({ theme }: Props) => theme.height.bottom_header};
 
-    }
-    nav{
-        ul{
-            display: flex;
+        nav{
             width: 100%;
-            align-items: center;
-            padding: 0 ${({ theme }: Props) => theme.gridSpace};
-            color:  ${({ theme }: Props) => theme.textColors.text_color_middle_header};
-        }
-       
-        &:nth-child(2){
-            background-color: ${({ theme }: Props) => theme.backgroundcolors.background_middle_header};
-
-            ul{
-                height: ${({ theme, isScroll }: Props) => isScroll ? theme.height.middle_header_scroll : theme.height.middle_header};
-                transition: height 0.3s;
-                padding-left: 70px;
-
-                li{
-                    &:nth-child(1){
-                        display: flex;
-                        > a{
-                            max-width: ${({ isScroll }: Props) => isScroll ? "150px" : "244px"};
-                        }
-                    }
-                    &:nth-child(2){
-                        font-size: 24px;
-                        margin: 0 32px;
-                        font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
-                        color: #6E6E6E;
-                    }
-                    &:nth-child(3){
-                         flex: 1;
-                    }
-                    &:nth-child(4){
-                        display: flex;
-                        a{
-                            &:nth-child(1){
-                                margin: 0 34px;
-                            }
-                            &:nth-child(2){
-                                position: relative;
-                                &::before{
-                                    content: '';
-                                    background-color: ${({ theme }: Props) => theme.globalColors.secondary_color};
-                                    width: 9px;
-                                    height: 9px;
-                                    border-radius: 50%;
-                                    position: absolute;
-                                    right: -3px;
-                                    top: -3px;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            svg{
-                @media (hover) {
-                    &:hover{
-                        path{
-                            transition: stroke 0.3s;
-                            stroke: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;
-                        }
-                    }   
-                }
+            >ul{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
         }
 
-        &:nth-child(3){
-            background-color: ${({ theme }: Props) => theme.globalColors.primary_color};
-            ul{
-                height: ${({ theme, isScroll }: Props) => isScroll ? theme.height.bottom_header_scroll : theme.height.bottom_header};
-                margin-left: -64px;
-                width: calc(100% + 64px);
-                transition: height 0.3s;
-
-                li{
-                    margin-left: 64px;
-                    a{
-                        color:  ${({ theme }: Props) => theme.textColors.text_color_bottom_header};
-                        @media (hover) {
-                            &:hover{
-                                transition: color 0.3s;
-                                color: ${({ theme }: Props) => theme.globalColors.secondary_color};
-                                path{
-                                    transition: fill 0.3s;
-                                    fill: ${({ theme }: Props) => theme.globalColors.secondary_color} !important;     
-                                }
-                            }
-                        }
-                    }
+        .icon_group{
+            display: flex;
+            a{
+                .notifcation_icon{
+                    cursor: pointer;
+                }
+                position: relative;
+                &:not(:first-child){
+                    margin-left: 25px;
                 }
 
             }
         }
+    }
+
+    &.header_scroll{
+     
     }
 `

@@ -8,74 +8,71 @@ interface Props {
 export const GlobalStyles = createGlobalStyle`
 
 @font-face {
-     font-family: 'Montserrat-ExtraBold';
-     src: url('/fonts/Montserrat-ExtraBold.woff');
-       font-display: swap;
-
+    font-family: 'Nunito-ExtraBold';
+    src: url('/fonts/Nunito-ExtraBold.woff2') format('woff2'),
+        url('/fonts/Nunito-ExtraBold.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-     font-family: 'Montserrat-Bold';
-     src: url('/fonts/Montserrat-Bold.woff');
-       font-display: swap;
-
+    font-family: 'Nunito-Bold';
+    src: url('/fonts/Nunito-Bold.woff2') format('woff2'),
+         url('/fonts/Nunito-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-     font-family: 'Montserrat-Black';
-    src: url('/fonts/Montserrat-Black.woff');
+    font-family: 'Nunito-SemiBold';
+    src: url('/fonts/Nunito-SemiBold.woff2') format('woff2'),
+         url('/fonts/Nunito-SemiBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
     font-display: swap;
 
 }
 
 @font-face {
-    font-family: 'Montserrat-SemiBold';
-    src: url('/fonts/Montserrat-SemiBold.woff');
+    font-family: 'Nunito-Black';
+    src: url('/fonts/Nunito-Black.woff2') format('woff2'),
+        url('/fonts/Nunito-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito-Medium';
+    src: url('/fonts/Nunito-Medium.woff2') format('woff2'),
+         url('/fonts/Nunito-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
     font-display: swap;
 
 }
 
 @font-face {
-     font-family: 'Montserrat-Medium';
-     src: url('/fonts/Montserrat-Medium.woff');
-     font-display: swap;
+    font-family: 'Nunito-Regular';
+    src: url('/fonts/Nunito-Regular.woff2') format('woff2'),
+         url('/fonts/Nunito-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 
 }
+
 
 @font-face {
-     font-family: 'Montserrat-Italic';
-     src: url('/fonts/Montserrat-Italic.woff');
-       font-display: swap;
-
+    font-family: 'Nunito-Light';
+    src: url('/fonts/Nunito-Light.woff2') format('woff2'),
+        url('/fonts/Nunito-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
 }
 
-@font-face {
-     font-family: 'Montserrat-LightItalic';
-     src: url('/fonts/Montserrat-LightItalic.woff');
-       font-display: swap;
-
-}
-
-@font-face {
-     font-family: 'Montserrat-Regular';
-     src: url('/fonts/Montserrat-Regular.woff');
-       font-display: swap;
-
-}
-
-@font-face {
-     font-family: 'Poppins-Bold';
-     src: url('/fonts/Poppins-Bold.woff');
-       font-display: swap;
-
-}
-
-@font-face {
-     font-family: 'SFProText-Regular';
-     src: url('/fonts/SFProText-Regular.woff');
-       font-display: swap;
-
-}
 
 * {
     padding: 0;
@@ -110,6 +107,14 @@ span{
     max-height: 100%;
 }
 
+input{
+    &::placeholder, &::-ms-input-placeholder{
+        color: #979797;
+        font-size: 21px;
+        font-family: ${({ theme }: Props) => theme.fonts.light};
+    }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -120,31 +125,16 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
     outline: none;
     height: 100%;
     width: 100%;
+    font-size: 21px;
     padding: 0 10px;
-    font-family: ${({ theme }: Props) => theme.fonts.regular};
+    font-family: ${({ theme }: Props) => theme.fonts.light};
 }
 
 a{
-    font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+    font-family: ${({ theme }: Props) => theme.fonts.regular};
     font-size: 16px;
 }
-//arrow_down
-.intl-tel-input .flag-container .arrow{
-    margin-left: 10px;
-}
-.intl-tel-input .flag-container .arrow:after{
-    content: "";
-    background-image: url(${({ theme }: Props) => theme.images.arrow_down.src});
-    width: 9px;
-    height: 12px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    display: block;
-    margin-top: 10px;
-}
-.intl-tel-input .flag-container .arrow.up:after, .intl-tel-input .flag-container .arrow.down:after{
-    content: "";
-}
+
 select{
     appearance: none;
     display: flex;
@@ -164,22 +154,138 @@ img {
     object-fit: contain;
 }
 
-.PhoneInput{
-        border-radius: 8px;
-        padding-left: 10px;
-        border: 1px solid #E1E1E1;
-        input{
-            border: none !important;
+.image_container{
+    position: relative;
+    span{
+        height: 100% !important;
+        width: 100% !important;
+    }
+}
+
+.price{
+        display: flex;
+        font-size: 23px;
+        color: #2262BC;
+        font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+        justify-content: space-between;
+        line-height: 34px;
+        align-items: center;
+        font-weight: normal;
+        del{
+            font-size: 20px;
+            color: #979797;
+            font-family: ${({ theme }: Props) => theme.fonts.medium};
+            span{
+                text-decoration: line-through;
+            }
         }
 }
 
-.intl-tel-input{
-    width: 100%;
-    height: 100%;
-    .selected-flag{
-        .iti-flag {
-            transform: scale(1.2);
-        }
+main{
+    >section:last-child{
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    padding-bottom: 100px;
+    &.noPaddingBottom{
+        padding-bottom: 0;
+    }
+}
+
+.cust_select_container{
+    min-width: 250px;
+}
+
+.group_collapsed {
+  display: none;
+}
+
+
+.card{
+  width: 48%;
+  height: 192px;
+  box-shadow: 1px  1px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px 84px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  margin-top: 33px;
+  .circle{
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 25px;
+      height: 25px;
+      border: 1px solid #979797;
+      border-radius: 50%;
+      &:after{
+          content: "";
+          width: 19px;
+          height: 19px;
+          display: none;
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          border-radius: 50%;
+          background-color: #2262BC;
+      }
+
+  }
+  &.is_Active{
+      .circle{
+          border-color:  #2262BC;
+          &::after{
+          display: block;
+          }
+      }
+   
+  }
+  .content{
+      display: flex;
+      i{
+          margin-right: 15px;
+          margin-top: 3px;
+      }
+      font-size: 25px;
+  }
+  &:last-child{
+      padding: 0;
+      align-items: center;
+  }
+}
+
+
+.credit_card{
+    padding: 20px;
+    display: block;
+    .image_container{
+        width: 90px;
+        height: 70px;
+
+    }
+    .text{
+        font-size: 76px;
+        color: #2262BC;
+        font-family: ${({ theme }: Props) => theme.fonts.bold};
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+        line-height: 56px;
+        opacity: 0.06;
+    }
+
+    .number{
+        position: absolute;
+        top: 20px;
+        right: 80px;
+        font-size: 20px;
+        font-family: ${({ theme }: Props) => theme.fonts.bold};
+
     }
 }
 
@@ -189,6 +295,6 @@ img {
     min-height: 100%;
     position: relative;
     width: 100%;
-    padding-bottom: 300px;
+    padding-bottom: ${({ theme }: Props) => theme.height.footer};
 }
 `

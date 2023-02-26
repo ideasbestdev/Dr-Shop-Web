@@ -1,12 +1,10 @@
 import { useSelector } from 'react-redux'
-import { getUserState } from "@/statemangment/slice/userSlice";
-import { OrderProductListSection, OrderSummarySection } from '@/components/order';
+import { OrderCardAdressSection, OrderSummarySection } from '@/components/order';
 import styled from 'styled-components';
 import { SectionTitleStyle } from '@/styledcomponents/index';
 
 
 export default function Order() {
-    const { currentuser } = useSelector(getUserState);
     const PageStyle = styled.div`
     width: 100%;
     padding: 40px 4%;
@@ -24,9 +22,9 @@ export default function Order() {
     return (
         <>
             <PageStyle>
-                <SectionTitleStyle>Order Confirmation</SectionTitleStyle>
+                <SectionTitleStyle>Confirm and Pay</SectionTitleStyle>
                 <div>
-                    <OrderProductListSection />
+                    <OrderCardAdressSection />
                     <OrderSummarySection />
                 </div>
             </PageStyle>

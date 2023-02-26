@@ -1,2 +1,2 @@
-export * from "./OrderProductListSection";
+export * from "./OrderCardAdressSection";
 export * from "./OrderSummarySection";

@@ -13,6 +13,7 @@ export const ProfileListSectionStyle = styled.section<Props>`
             font-size: 26px;
             margin-bottom: 20px;
           }
+
           ul{
            width: 100%;
            li{
@@ -22,10 +23,9 @@ export const ProfileListSectionStyle = styled.section<Props>`
                        width: 90%;
                        display: flex;
                        align-items: center;
-                       font-size: 17px;
-                       color: #6E6E6E;
-                       padding: 26px 0;
-                       border-bottom: 1px solid #6E6E6E80;
+                       font-size: 20px;
+                       padding: 10px 0;
+                       font-family: ${({ theme }: Props) => theme.fonts.bold};
                        transition: color 0.3s, background-color 0.3s;
                        svg{
                            margin-right: 10px;
@@ -52,9 +52,9 @@ export const ProfileListSectionStyle = styled.section<Props>`
                    &:nth-child(${({ selected }: Props) => selected ? selected : 1}){
                        a{
                            width: 100%;
-                           color: #fff;
+                           color: ${({ theme }: Props) => theme.globalColors.primary_color};
                            border: none;
-                           background-color: ${({ theme }: Props) => theme.globalColors.primary_color};
+                           background-color: #2262BC1A;
                            border-radius: 39px;
                            justify-content: center;
                            path{

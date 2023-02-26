@@ -7,10 +7,15 @@ interface Props {
 }
 
 export const ExpandedListStyle = styled.div<Props>`
-    max-height: ${({ theme, maxHeight }: Props) => maxHeight ? "500px" : "20px"};
-    overflow-y: hidden;
-    transition: max-height 0.5s;
-    min-height: 20px;
+    min-height: 150px;
+    padding-bottom: 30px;
+    position: relative;
+    span{
+        bottom: -3px;
+        left: 0;
+        position: absolute;
+        cursor: pointer;
+    }
     svg{
         width: 7px;
         height: 14px;
@@ -18,19 +23,21 @@ export const ExpandedListStyle = styled.div<Props>`
         transition:  transform 0.3s;
         transform: ${({ maxHeight }: Props) => maxHeight ? "rotate(90deg)" : "rotate(0deg)"};
     }
-    a{
-        span{
-            padding-right: 10px;
+    ul{
+        overflow-y: hidden;
+        max-height: ${({ theme, maxHeight }: Props) => maxHeight ? "800px" : "174px"};
+        transition: max-height 0.5s;
+
+        li{
+            margin-top: 16px;
 
         }
+
+    }
+    a{
         display: flex;
         align-items: center;
         font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
-        @media (hover) {
-            &:hover{
-                font-family: ${({ theme }: Props) => theme.fonts.semi_bold}
-            };   
-        }
    }
    label{
         cursor: pointer;

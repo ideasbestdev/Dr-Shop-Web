@@ -1,0 +1,73 @@
+import { CartSectionStyle, LinkButtonStyle, SectionTitleStyle, TitleStyle } from '@/styledcomponents/index'
+import Image from 'next/image'
+import React from 'react'
+import { CartIcon, DeleteIcon, EditIcon, SubtotalIcon } from '../icons'
+import { AssetsImages } from '@/utils/index';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { ProductService } from '@/services/productService';
+import { CartModel, CartProductsModel, ProductModel } from '@/models/index';
+import { useSelector } from 'react-redux';
+import { getGlobalState } from '@/statemangment/slice/globalSlice';
+
+
+export async function getStaticProps() {
+    return {
+        props: {
+        },
+    }
+}
+
+
+export function CartSection() {
+    const [load, setLoad] = useState(true);
+    const [cart, setCart] = useState<CartModel>();
+    const { firstRequest } = useSelector(getGlobalState);
+
+    useEffect(() => {
+        async function getCart() {
+            const productService = new ProductService();
+            const response = await productService.getCart(firstRequest.user != null && firstRequest.user != undefined);
+            if (response.success) {
+                setCart(response.data);
+            }
+            setLoad(false);
+        }
+        if (Object.keys(firstRequest).length > 0) {
+            getCart()
+        }
+
+    }, [firstRequest])
+
+    return (
+        <CartSectionStyle>
+            <SectionTitleStyle>Shopping Cart</SectionTitleStyle>
+            <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td className='subTotal'><SubtotalIcon /><span>Subtotal</span></td>
+                        <td>$400</td>
+                    </tr>
+
+                    {
+                        cart?.cart_products?.map((value: CartProductsModel) =>
+                            <tr key={value.cart_id}>
+                                <td><div><Image layout='fill' src={`${value.product?.image?.base_url}/${value.product?.image?.webp_image}`} alt={value.product?.name} /></div></td>
+                                <td>{value.product?.name}</td>
+                                <td>x {value.quantity}</td>
+                                <td>$ {value.price}</td>
+                                <td><EditIcon /></td>
+                                <td><DeleteIcon color='#777777' /></td>
+                            </tr>
+                        )
+                    }
+                </tbody>
+            </table>
+            <LinkButtonStyle>Proceed to Checkout</LinkButtonStyle>
+        </CartSectionStyle>
+    )
+}

@@ -1,126 +1,96 @@
-import { UserModel, ImageModel, SelectModel, OptionModel } from '@/models/index';
+import { UserModel, ImageModel, SelectModel, PageLinksModel, CategoryModel, AccountModel, VariantModel, KeyValueModel, CartProductsModel } from '@/models/index';
 export interface ProductModel {
-    barcodes?: BarcodeModel[],
-    brand?: BrandModel,
+    id?: number,
+    uuid?: string,
+    name?: string,
+    description?: string,
+    supplier_id?: number,
     brand_id?: number,
-    categories?: CategoryModel[],
-    description: string,
-    id: number,
+    ribbon_id?: number,
+    price?: number,
+    discounted_price?: number,
+    quantity?: number,
+    quantity_threshold?: number,
+    status?: number,
+    nb_views?: number,
+    video_url?: string,
+    created_at?: string,
+    for_doctor_only?: boolean,
+    related?: ProductModel[],
+    supplier?: UserModel[],
+    barcodes?: string[],
+    tags?: string[],
+    rating?: RatingModel,
+    attributes?: AttributeModel[],
+    product_categories?: CategoryModel[],
+    prices?: PriceModel[],
+    reviews?: ReviewModel[],
+    is_favorite?: boolean,
+    review?: boolean,
+    favorite?: boolean,
     images?: ImageModel[],
-    is_approved: boolean,
-    name: string,
-    rating: RatingModel,
-    supplier: ProductSupplier,
-    supplier_id: number,
-    tags?: Tags[],
-    uuid: string,
-    variants: VariantModel[],
+    image?: ImageModel,
+    supplier_name?: string,
+    brand_name?: string,
+    has_review?: boolean,
+    variants?: VariantModel[],
 }
 
 
-interface BarcodeModel {
-    barcode: string,
-    id: number,
-    product_id: number,
-    uuid: string,
+interface ReviewModel {
+    id?: number,
+    uuid?: string,
+    rating?: number,
+    review?: string,
+    account?: AccountModel,
 }
 
-export interface BrandModel {
-    id: number,
-    image: ImageModel,
-    product_id: number,
-    name: string,
-    sort_order: number,
-    uuid: string,
+export interface PriceModel {
+    id?: number,
+    quantity?: number,
+    price?: number,
+    discounted_price?: number,
+    created_at?: string,
+    price_range?: PriceRangeModel[],
+    variations?: number[],
+
 }
 
-export interface CategoryModel {
-    id: number,
-    image: ImageModel,
-    is_published: boolean,
-    name: string,
-    parent_id?: number,
-    sort_order: number,
-    uuid: string,
+export interface PriceRangeModel {
+    from_quantity?: number,
+    to_quantity?: number,
+    price?: number,
+    discounted_price?: number,
+    created_at?: string,
 }
-
-interface Tags {
-    id: number,
-    product_id: number,
-    tag: string,
-    uuid: string,
-}
-
-export interface VariantModel {
-    color: ColorModel,
-    color_id: number,
-    discounted_price: number,
-    id: number,
-    pack?: any,
-    price: number,
-    product_id: number,
-    quantity: number,
-    size_value: string,
-    unit_size: SizeModel,
-    unit_size_id: number,
-    uuid: string,
-    variant_prices: VariantPriceModel[]
-}
-
-interface VariantPriceModel {
-    discounted_price: number,
-    from_quantity: number,
-    id: number,
-    price: number,
-    product_variant_id: number,
-    to_quantity: number,
-    uuid: string
+interface AttributeModel {
+    title?: string,
+    value?: string,
 }
 interface RatingModel {
-    avg_rating: number,
-    id: number,
-    nb_star1: number,
-    nb_star2: number,
-    nb_star3: number,
-    nb_star4: number,
-    nb_star5: number,
-    nb_stars: number,
-    product_id: number,
-    uuid: string,
+    avg_rating?: number,
+    nb_star1?: number,
+    nb_star2?: number,
+    nb_star3?: number,
+    nb_star4?: number,
+    nb_star5?: number,
+    nb_stars?: number,
+    created_at?: string,
 }
 
-interface ProductSupplier {
-    company_name: string,
-    id: number,
-    is_published: true,
-    parent_id?: number,
-    role_id?: number,
-    tax_id: string,
-    user: UserModel,
-    uuid: string,
+export interface RecommendedVariantModel {
+    keyValue?: KeyValueModel[],
+
 }
 
-export interface ColorModel {
-    hex_color: string,
-    hex_color2: string,
-    id: number,
-    name: string,
-    sort_order: number,
-    uuid: string,
-}
-
-export interface SizeModel {
-    id: number,
-    name: string,
-    sort_order: number,
-    uuid: string,
-}
 export interface FilterProductModel {
-    page: number,
+    page?: number,
     per_page?: number,
-    sort?: string,
-    descending: boolean,
+    sort_by?: number,
+    descending?: boolean,
     search?: string,
+    min_price?: number,
+    max_price?: number,
     name?: string,
     description?: string,
     approved?: boolean,
@@ -140,18 +110,26 @@ export interface FilterProductModel {
     unit_size_ids?: number[],
 }
 
-
-
-
-export interface FilterDataModel {
-    catgories: SelectModel[],
-    brands: SelectModel[],
-    colors: OptionModel[],
-    sizes: OptionModel[],
+export interface FilterState {
+    productFilter: FilterProductModel,
 }
-
 
 export interface AvailableColorSizes {
     color_ids: number[] | any,
     size_ids: number[] | string[] | any,
+    firstTime: boolean,
+}
+
+export interface ProductDetailPageModel {
+    productList: ProductModel[],
+    linksState: PageLinksModel[],
+    total: number,
+    to: number,
+    from: number,
+    loading: boolean,
+}
+
+
+export interface ProductSupplierModel {
+    [key: string]: CartProductsModel[];
 }

@@ -1,33 +1,40 @@
 import styled from 'styled-components';
+import { Theme } from '../Theme';
+
+interface Props {
+    theme: Theme,
+}
 
 
 export const BannerSectionStyle = styled.section`
     display: flex;
-    height: 100vh;
-    max-height: 800px;
-    > div{
-        &:nth-child(1){
-            flex: 1;
-            min-width: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            article{
-                max-width: 550px;
-            }
+    position: relative;
+    .content{
+        z-index: 1;
+        position: absolute;
+        padding: 0 ${({ theme }: Props) => theme.gridSpace};
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        h1{
+            max-width: 470px;
+            color: #fff;
         }
-        &:nth-child(2){
-            position: relative;
-            max-width: 55%;
-            div{
-                height: 100%;
-            }
-            span{
-                min-height: 100%;
-                img{
-                    object-fit: cover;
-                }
-            }
+        a{
+            color: #fff;
+            background-color: #89CA00;
+            width: 266px;
+            height: 70px;
+        }
+    }
+    .image_container{
+        width: 100%;
+        min-height: 550px;
+        img{
+            object-fit: cover;
         }
     }
 `

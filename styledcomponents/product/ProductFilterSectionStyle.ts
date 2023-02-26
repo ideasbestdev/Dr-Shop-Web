@@ -8,118 +8,120 @@ interface Props {
 }
 
 export const ProductFilterSectionStyle = styled.section<Props>`
-    min-width: ${({ width }: Props) => width ? width + "px" : "400px"};
-    min-height: 100%;
-    max-width: ${({ width }: Props) => width ? width + "px" : "400px"};
-    position: fixed;
+    min-width: 300px;
+    max-width: 300px;
+    position: static;
     top: ${({ scrolled }: Props) => scrolled ? "120px" : "267px"};
     left: 0;
     transition: top 0.3s;
-    padding-right: 20px;
-    height: 100%;
-    overflow: hidden;
+   background-color: #fff;
+   padding-left: ${({ theme }: Props) => theme.gridSpace};
+    h2{
+        font-size: 20px;
+        font-family:  ${({ theme }: Props) => theme.fonts.medium};
+        line-height: 1.4;
+
+    }
     a{
-        color: #6E6E6E;
+        color: #000000;
         cursor: pointer;
     }
-    >ul{
-        padding: 55px;
-     //   padding-top: ${({ scrolled }: Props) => scrolled ? "120px" : "55px"};
-        margin-top: -19px;
-        background-color: #EBEBEB;
-        overflow: auto;
-        height: 100%;
+    .colors_container{
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -10px;
+        width: calc(100% + 10px);
+        margin-top: 0;
+        div{
+            margin-top: 16px;
+            margin-left: 10px;
+        }
+    }
+    .filter_content{
+        background-color: #fff;
+        height: auto;
         padding-bottom: ${({ scrolled }: Props) => scrolled ? "120px" : "267px"};
-        width: ${({ width }: Props) => width ? width + 20 + "px" : "420px"};
+        width: 100%;
         transition: padding-top 0.3s;
         >li{
-            margin-top: 19px;
+            padding: 16px 0;
+            width: 100%;
+            border-bottom: 1px solid #B4B4B4;
             ul{
-                margin-top: 10px;
                 position: relative;
                 li{
-                    color: #6E6E6E;
-                    margin-top: 5px;
+                    color: #000000;
                     font-size: 14px;
-                    font-family: ${({ theme }: Props) => theme.fonts.light_italic};
-                }
-            }
-            &:nth-child(2){
-                ul{
-
-                    li{
-                        margin-top: 28px;
-                        &:nth-child(1){
-                            width: calc(100% - 22px);
-                            padding-left: 11px;   
-                            .rangeLine{
-                                &::before{
-                                    content: "";
-                                    left: 2px;
-                                    height: 5px;
-                                    background: #E1E1E1E1;
-                                    position: absolute;
-                                    width: 10px;
-                                    border-radius: 6px;
-                                }
-                            }
-                        }
-                        &:nth-child(2){
-                            display: flex;
-                            border: 2px solid #DBDBDB;
-                            border-radius: 24px;
-                            background-color: #fff;
-                            input{
-                                width: 50%;
-                                border: none;
-                                height: 44px;
-                                outline: none;
-                                background-color: transparent;
-                                text-align: center;
-                                padding: 0 10px;
-                                color: #605A65;
-                                &:nth-child(1){
-                                    border-right: 1px solid #E1E1E1;
-                                }
-                            }
-                        }
-                    }
                 }
             }
 
-            &:nth-child(4){
-                ul{
-                    padding: 10px;
-                }
-                li{
-                    display: flex;
-                    flex-wrap: wrap;
-                    margin-left: -32px;
-                    margin-top: -30px;
-                    width: calc(100% + 32px);
-                    div{
-                        margin-left: 32px;
-                        margin-top: 30px;
-
-                    }
-                }
+            &.noBorder{
+                border: none;
+            }
+        }
+        button{
+            margin-top: 32px;
+            min-width: 108px;
+        }
+        .price_range{
+            padding-left: 11px; 
+            border-bottom: none;
+           > div{
+                margin-top: 14px;
+                font-size: 14px;
+                margin-left: -11px;
             }
 
-            &:nth-child(5){
-               li{
-                    display: flex;
-                    flex-wrap: wrap;
-                    margin-left: -30px;
-                    margin-top: -20px;
-                    div{
-                        margin-left: 30px;
-                        margin-top: 20px;
-                    }
-               }
+
+
+            a{
+                margin-left: -11px;
+            } 
+            ul{
+                margin-top: 12px;
+            }
+            .rangeLine{
+                &::before{
+                    content: "";
+                    left: -2px;
+                    height: 5px;
+                    background: #E1E1E1E1;
+                    position: absolute;
+                    width: 10px;
+                    border-radius: 6px;
+                }
+            }
+            .range_thumb_1{
+          //      background-color
+            }
+        }
+    }
+
+    .on_sale{
+        margin-top: 70px;
+        a{
+            display: flex;
+            align-items: center;
+            .image_container{
+                margin-right: 15px;
+                min-width: 80px;
+                min-height: 80px;
+            }
+            .content{
+                width: calc(100% - 95px);            
             }
 
-            &:nth-child(7){
-                margin-top: 70px;
+            h2{
+                font-size: 16px;
+                color: #202020B3;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .price{
+                font-size: 16px;
+                margin-top: 5px;
             }
         }
     }
