@@ -1,76 +1,41 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { getUserState, setUser } from "@/statemangment/slice/userSlice";
-import { auth, INFO_ALERT_TYPE, PageUrls } from "@/utils/index";
-import { signOut } from "@firebase/auth";
-import { useRouter } from "next/router";
-import {
-    currentAlertIdentifier,
-    getAlertState,
-    setAlert,
-    setIdentifier
-} from "@/statemangment/slice/alertSlice";
-import { generateRandomNumber } from "@/helpers/index";
-import { AlertStateModel, ProductModel } from '@/models/index';
-import { BannerSection } from '@/components/home';
-import dynamic from 'next/dynamic';
-
-interface Props {
-    productList: ProductModel[],
-}
+import { BannerSection, BrandSection, CategorySection, DiscountSection, HotSaleProductSection, NewArrivalProductSection, PopularProductSection, TopSellerProductSection } from "@/components/home";
+import { VerificationPop } from "@/components/popups";
+import { HOME_PAGE_NAME } from "@/utils/index";
 
 export async function getStaticProps() {
-
     return {
         props: {
         },
     }
 }
 
-const LatestProductSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.LatestProductSection));
-const ServiceSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.ServiceSection));
-const DiscountSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.DiscountSection));
-const CategorySection = dynamic<any>(() => import("@/components/home").then((mod) => mod.CategorySection));
-const SupplierSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.SupplierSection));
-const BackToTopSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.BackToTopSection));
+// const LatestProductSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.LatestProductSection));
+// const ServiceSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.ServiceSection));
+// const DiscountSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.DiscountSection));
+// const CategorySection = dynamic<any>(() => import("@/components/home").then((mod) => mod.CategorySection));
+// const SupplierSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.SupplierSection));
+// const BackToTopSection = dynamic<any>(() => import("@/components/home").then((mod) => mod.BackToTopSection));
 
 export default function Home() {
-    const { currentuser } = useSelector(getUserState);
-    const router = useRouter();
-    const { identifier, message, type } = useSelector(getAlertState);
-    const dispatch = useDispatch();
-
-    const logout = () => {
-        signOut(auth).then(() => {
-            dispatch(setUser(null));
-            router.push(PageUrls.LOGIN)
-        });
-    }
-
-    function throwMessage() {
-        const generatedIdentifier = generateRandomNumber(4);
-
-        let customAlert: AlertStateModel = {
-            message: "new Message",
-            type: INFO_ALERT_TYPE,
-            identifier: generatedIdentifier,
-        }
-
-        dispatch(setIdentifier(generatedIdentifier));
-
-        if (customAlert.identifier == currentAlertIdentifier) {
-            dispatch(setAlert(customAlert));
-        }
-    }
 
     return (
         <>
+            <VerificationPop />
             <BannerSection />
-            <LatestProductSection />
-            <ServiceSection />
-            <DiscountSection />
             <CategorySection />
+            <BrandSection />
+            <NewArrivalProductSection />
+            <PopularProductSection />
+            <HotSaleProductSection />
+            <DiscountSection />
+            <TopSellerProductSection />
+            {/*   
+            <ServiceSection />
             <SupplierSection />
-            <BackToTopSection />
+            <BackToTopSection /> */}
         </>
     )
 }
+
+
+Home.componentName = HOME_PAGE_NAME;

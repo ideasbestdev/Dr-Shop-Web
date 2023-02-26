@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const CustomSizeStyle = styled.div<Props>`
-    margin-top: 10px;
+   // margin-top: 10px;
     label{
         width: 70px;
         height: 60px;
@@ -18,14 +18,15 @@ export const CustomSizeStyle = styled.div<Props>`
         align-items: center;
         justify-content: center;
         background-color: #ffffff;
-        color: #605A65;
-        border-radius: 8px;
+        color: #979797;
+        border-radius: 45px;
         font-size: 14px;
         font-family: ${({ theme }: Props) => theme.fonts.regular};
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
-        opacity: ${({ isActive }: Props) => isActive ? "1" : "0.5"};
-
+        background-color: ${({ isActive }: Props) => isActive ? "white" : "#EFEEEE"};
+        border: ${({ isActive }: Props) => isActive ? "#979797" : "none"};
+        
     }
     
     @media (hover) {

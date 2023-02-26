@@ -10,23 +10,20 @@ export const PageNumberStyle = styled.div<Props>`
     
 
     span{
-        display: flex;
-        align-items: center;
-        font-size: 20px;
-        color: ${({ theme, selected }: Props) => selected ? theme.globalColors.primary_color : "#9C9C9C"};
-        font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
-        cursor: pointer;
-        rect{
-            transition: fill 0.3s;
-        }
-        @media(hover){
+        font-size: 18px;
 
-            &:hover{
-                color: ${({ theme }: Props) => theme.globalColors.primary_color};
-                rect{
-                    fill: ${({ theme }: Props) => theme.globalColors.secondary_color};
-                }
-            }
+        &:not(.points){
+            display: flex;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        border-radius: 50%;
+        color: ${({ selected }: Props) => selected ? "white" : "black"};
+        font-family: ${({ theme }: Props) => theme.fonts.medium};
+        cursor: pointer;
+        border: ${({ selected }: Props) => selected ? "none" : "1px solid #999999"};
+        background-color: ${({ theme, selected }: Props) => selected ? theme.globalColors.primary_color : "white"};  
         }
     }
     

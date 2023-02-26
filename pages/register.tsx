@@ -1,421 +1,181 @@
-import React, { ChangeEvent, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { emailRegex, generateRandomNumber, initObject, passwordRegex, stringIsEmptyOrNull } from '@/helpers/index';
-import { setIdentifier, throwMessage } from '@/statemangment/slice/alertSlice';
-import { ComboService, UserService } from '@/services/index';
-import { AlertStateModel, SelectModel, ServerResModel, UserFormErrorsModel, UserModel, UserResModel } from '@/models/index';
-import { AssetsImages, baseUrl, DoctorUserController, ERROR_ALERT_TYPE, fontUrl, FORM_VALIDATION_ERROR, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, INVALID_PHONE_MESSAGE, PASSWORD_NOT_SAME_MESSAGE, REGISTER_SUCCESS, REQUIRED_MESSAGE, TOKEN_EXPIRE, TOKEN_KEY_NAME } from '@/utils/index';
-import { INFO_ALERT_TYPE } from '@/utils/index';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import Cookies from 'js-cookie';
-import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/utils/index';
-import { InputStyle, LinkButtonStyle, RegisterStyle, SectionTitleStyle, UploadFileStyle } from '@/styledcomponents/index';
-import Image from 'next/image';
-import IntlTelInput from 'react-intl-tel-input';
-import { CustomSelect } from '@/components/common';
-import { ErrorMessageStyle } from '@/styledcomponents/index';
-import { CloseIcon, RightArrowIcon } from '@/components/icons';
-import { useEffect } from 'react';
+import Image from "next/image";
+import { AssetsImages, emailRegexPattern, REQUIRED_MESSAGE, INVALID_EMAIL_MESSAGE, passwordRegexPattern, INVALID_PASSWORD_MESSAGE, ERROR_ALERT_TYPE, TOKEN_EXPIRE, TOKEN_KEY_NAME, PageUrls } from '@/utils/index';
+import { ButtonStyle, CheckboxStyle, CustomSelectStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, LoaderStyle, RegisterStyle, SectionTitleStyle, SelectStyle, UploadFileStyle } from '@/styledcomponents/index';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { CustomSelect } from "@/components/common";
+import { ComboService, ProductService, UserService } from '@/services/index';
+import { ChangeEvent, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { AlertStateModel, SelectModel, UserModel, UserResModel } from '@/models/index';
+import IntlTelInput from "react-intl-tel-input";
+import { generateRandomNumber, stringIsEmptyOrNull } from '@/helpers/index';
+import { ArrowDownIcon, CloseIcon } from "@/components/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { setAlert } from "@/statemangment/slice/alertSlice";
+import { getGlobalState, setUser, setVerificationPop } from "@/statemangment/slice/globalSlice";
+import Cookies from "js-cookie";
+import Link from "next/link";
 
-function Register() {
 
+
+export default function Register() {
     const dispatch = useDispatch();
-    const fileRef = useRef<HTMLInputElement>(null);
-    const [userPhone, setUserPhone] = useState<string>("+961 ");
-    const generatedIdentifier = generateRandomNumber(4);
-    const userService = new UserService();
-    const [licenseName, setLicenseName] = useState<string>();
-    const [userError, setUserErrors] = useState<UserFormErrorsModel>({});
-    const [industryData, setIndustryData] = useState<SelectModel[]>([])
+    const { firstRequest } = useSelector(getGlobalState);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const [user, setUser] = useState<UserModel>({
-        email: "",
-        companyName: "",
-        numberOfPhysicians: "",
-        tax_id: "",
-        first_name: "",
-        last_name: "",
-        password: "",
-        confirmPassword: "",
-        phone: "",
+    const onSubmit: SubmitHandler<UserModel> = async (data) => {
+        buttonRef.current?.classList.add("loading");
+        const userService = new UserService();
+        const productService = new ProductService();
+        const response = await userService.Register(data);
+        if (response.success) {
+            const userResponse: UserModel = response.data;
+            if (userResponse.api_token) {
+                Cookies.set(TOKEN_KEY_NAME, userResponse.api_token, { expires: TOKEN_EXPIRE });
+                //   productService.moveCart();
+                dispatch(setUser(userResponse));
+                //    userService.verifcate();
+                //     dispatch(setVerificationPop(true));
+            }
+        } else {
+            //     const generatedIdentifier = generateRandomNumber(4);
+            //     const customAlert: AlertStateModel = {
+            //         message: response.errors ? response.errors[0] : "Something went Error",
+            //         type: ERROR_ALERT_TYPE,
+            //         identifier: generatedIdentifier,
+            //     }
+            //     dispatch(setAlert(customAlert));
+        }
+        buttonRef.current?.classList.remove("loading");
+
+    };
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<UserModel>({
+        defaultValues: {
+            country_code: "+93"
+        }
     });
 
-    const [step, setStep] = useState<number>(1);
 
 
-    useEffect(function () {
-        async function getPageData() {
-            const comboService = new ComboService();
-            setIndustryData(await comboService.GetAllIndustry());
-        }
-        getPageData();
-        dispatch(setIdentifier(generatedIdentifier));
-    }, [])
 
-    function editUser(key: string, value: string): void {
-        switch (key) {
-            case "firstName":
-                user.first_name = value;
-                break;
-
-            case "lastName":
-                user.last_name = value;
-                break;
-
-            case "email":
-                user.email = value;
-                break;
-
-            case "password":
-                user.password = value;
-                break;
-
-            case "confirmPassword":
-                user.confirmPassword = value;
-                break;
-
-            case "taxId":
-                user.tax_id = value;
-                break;
-
-            case "companyName":
-                user.companyName = value;
-                break;
-
-            case "industry":
-                user.industry = value;
-                break;
-
-            case "state":
-                user.state = value;
-                break;
-
-            case "street":
-                user.street = value;
-                break;
-
-            case "city":
-                user.city = value;
-                break;
-
-            case "zipCode":
-                user.zipCode = value;
-                break;
-
-            case "numberOfPhysicians":
-                user.numberOfPhysicians = value;
-                break;
-
-            case "termsOfCondition":
-                user.termsOfCondition = value == "true";
-                break;
-
-            default:
-                break;
-        }
-
-        const newUser = Object.assign({}, user);
-
-        setUser(newUser);
-    }
-
-    function uploadFile(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.files != null) {
-            userError.licenseError = "";
-            const newUserError = Object.assign({}, userError);
-            setUserErrors(newUserError);
-            setLicenseName(e.target.files[0].name);
-
-            user.license = e.target.files[0];
-
-            const newUser = Object.assign({}, user);
-
-            setUser(newUser);
-
-        } else {
-            user.license = null;
-
-            const newUser = Object.assign({}, user);
-
-            setUser(newUser);
-        }
-    }
-
-    function deleteFile() {
-        user.license = null;
-        const newUser = Object.assign({}, user);
-        setUser(newUser);
-        if (fileRef.current) {
-            fileRef.current.value = ""
-        };
-        setTimeout(function () {
-            setLicenseName("");
-        }, 10);
-    }
-
-    function validateRegisterForm(): boolean {
-        let validForm: boolean = true;
-        initObject(userError);
-
-        if (!emailRegex(user.email)) {
-            userError.emailError = INVALID_EMAIL_MESSAGE;
-            validForm = false;
-        }
-
-        if (!passwordRegex(user.password)) {
-            userError.passwordError = INVALID_PASSWORD_MESSAGE;
-            validForm = false;
-        }
-
-        if (user.password != user.confirmPassword) {
-            userError.confirmPasswordError = PASSWORD_NOT_SAME_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(user.first_name)) {
-            userError.firstNameError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(user.last_name)) {
-            userError.lastNameError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(userPhone)) {
-            userError.phoneError = INVALID_PHONE_MESSAGE;
-            validForm = false;
-        }
-
-        if (userPhone != undefined && !isValidPhoneNumber(userPhone)) {
-            userError.phoneError = INVALID_PHONE_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(user.tax_id) && step == 2) {
-            userError.taxIdError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(user.companyName) && step == 2) {
-            userError.companyNameError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-        /*
-                if (stringIsEmptyOrNull(user.industry)) {
-                    userError.industryError = REQUIRED_MESSAGE;
-                    validForm = false;
-                }*/
-        if (stringIsEmptyOrNull(licenseName) && step == 2) {
-            userError.licenseError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-
-        /*if (stringIsEmptyOrNull(user.state) && step == 2) {
-            userError.stateError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(user.street)) {
-            userError.streetError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-
-        if (stringIsEmptyOrNull(user.city)) {
-            userError.cityError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-        if (stringIsEmptyOrNull(user.zipCode)) {
-            userError.zipCodeError = REQUIRED_MESSAGE;
-            validForm = false;
-        }*/
-        if (stringIsEmptyOrNull(user.numberOfPhysicians) && step == 2) {
-            userError.numberOfPhysiciansError = REQUIRED_MESSAGE;
-            validForm = false;
-        }
-        const newUserError = Object.assign({}, userError);
-        console.log(newUserError);
-        setUserErrors(newUserError);
-
-        return validForm;
-    }
-
-    const register = async () => {
-        if (validateRegisterForm() && step == 1) {
-            setStep(step + 1);
-            return;
-        }
-        /*    if (validateRegisterForm() && !user.termsOfCondition) {
-                let customAlert: AlertStateModel = {
-                    message: TERMS_OF_CONDITION_ERROR,
-                    type: ERROR_ALERT_TYPE,
-                    identifier: generatedIdentifier,
-                }
-    
-                dispatch(throwMessage(customAlert));
-                return;
-            }*/
-
-        if (validateRegisterForm()) {
-            let customAlert: AlertStateModel = {
-                message: REGISTER_SUCCESS,
-                type: INFO_ALERT_TYPE,
-                identifier: generatedIdentifier,
-            }
-            setStep(step + 1);
-
-            dispatch(throwMessage(customAlert));
-            user.phone = userPhone;
-            const response: ServerResModel = await userService.Register(user);
-
-            if (!response.success) return;
-
-            const userRes: UserResModel = response.data;
-            Cookies.set(TOKEN_KEY_NAME, response.data.api_token, { expires: TOKEN_EXPIRE });
-            SendEmailVerification(userRes);
-
-        } else {
-            let customAlert: AlertStateModel = {
-                message: FORM_VALIDATION_ERROR,
-                type: ERROR_ALERT_TYPE,
-                identifier: generatedIdentifier,
-            }
-
-            dispatch(throwMessage(customAlert));
-        }
-    }
-
-    function SendEmailVerification(userResponse: UserResModel) {
-        if (user.password == undefined || user.email == undefined) return;
-        signInWithEmailAndPassword(auth, user.email, user.password)
-            .then(async (userCredential) => {
-                const url = baseUrl + DoctorUserController + "v1/" + userResponse.id + "/" + userResponse.uuid + "/verify-email?email=" + user.email + "&callback=" + fontUrl;
-                const actionCodeSettings = {
-                    url: url,
-                    handleCodeInApp: true,
-                };
-                sendEmailVerification(userCredential.user, actionCodeSettings);
-            });
-    }
 
     return (
-        <RegisterStyle progress={step}>
-            <Image src={AssetsImages.stethoscope} alt="stethoscope" />
-            <div>
-                {
-                    step != 3 ?
-                        <form noValidate onSubmit={(e) => { e.preventDefault(); register() }}>
-                            <div>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            <ul>
-                                {
-                                    step == 1 ?
-                                        (<>
-                                            <li>
-                                                <InputStyle>
-                                                    <input type={"text"} placeholder="First Name" value={user.first_name} onChange={(e) => editUser("firstName", e.target.value)} />
-                                                </InputStyle>
-                                                <ErrorMessageStyle>{userError.firstNameError}</ErrorMessageStyle>
-                                            </li>
-                                            <li>
-                                                <InputStyle>
-                                                    <input type={"text"} placeholder="Last Name" value={user.last_name} onChange={(e) => editUser("lastName", e.target.value)} />
-                                                </InputStyle>
-                                                <ErrorMessageStyle>{userError.lastNameError}</ErrorMessageStyle>
-                                            </li>
-                                            <li>
-                                                <InputStyle>
-                                                    <IntlTelInput value={userPhone} defaultCountry='lb' onPhoneNumberChange={(isValid, value, selectedCountryData, fullNumber, extension) => setUserPhone(fullNumber)} onSelectFlag={(currentNumber, selectedCountryData, fullNumber, isValid) => setUserPhone(selectedCountryData.dialCode == undefined ? "" : "+" + selectedCountryData.dialCode + " ")} />
-                                                </InputStyle>
-                                                <ErrorMessageStyle>{userError.phoneError}</ErrorMessageStyle>
-                                            </li>
-                                            <li>
-                                                <InputStyle>
-                                                    <input type={"email"} value={user.email} placeholder="Email" onChange={(e) => editUser("email", e.target.value)} />
-                                                </InputStyle>
-                                                <ErrorMessageStyle>{userError.emailError}</ErrorMessageStyle>
-                                            </li>
-                                            <li>
-                                                <InputStyle>
-                                                    <input type={"password"} placeholder="Password" value={user.password} onChange={(e) => editUser("password", e.target.value)} />
-                                                </InputStyle>
-                                                <ErrorMessageStyle>{userError.passwordError}</ErrorMessageStyle>
-                                            </li>
-                                            <li>
-                                                <InputStyle>
-                                                    <input type={"password"} placeholder="Confirm Password" value={user.confirmPassword} onChange={(e) => editUser("confirmPassword", e.target.value)} />
-                                                </InputStyle>
-                                                <ErrorMessageStyle>{userError.confirmPasswordError}</ErrorMessageStyle>
-                                            </li>
-                                        </>
-                                        ) : step == 2 ?
-                                            (
-                                                <>
-                                                    <li>
-                                                        <InputStyle>
-                                                            <input type={"text"} placeholder="Company Name" value={user.companyName} onChange={(e) => editUser("companyName", e.target.value)} />
-                                                        </InputStyle>
-                                                        <ErrorMessageStyle>{userError.companyNameError}</ErrorMessageStyle>
-                                                    </li>
-                                                    <li>
-                                                        <InputStyle>
-                                                            <input type={"number"} placeholder="Number of Physicians" value={user.numberOfPhysicians} onChange={(e) => editUser("numberOfPhysicians", e.target.value)} />
-                                                        </InputStyle>
-                                                        <ErrorMessageStyle>{userError.numberOfPhysiciansError}</ErrorMessageStyle>
-                                                    </li>
-                                                    <li>
-                                                        <InputStyle>
-                                                            <input type={"text"} placeholder="Tax ID" value={user.tax_id} onChange={(e) => editUser("taxId", e.target.value)} />
-                                                        </InputStyle>
-                                                        <ErrorMessageStyle>{userError.taxIdError}</ErrorMessageStyle>
-                                                    </li>
-                                                    <li>
-                                                        <CustomSelect selectValue={user.industry} data={industryData} property={"industry"} onChange={editUser} />
-                                                        <ErrorMessageStyle>{userError.industryError}</ErrorMessageStyle>
-                                                    </li>
-                                                    <li>
-                                                        <UploadFileStyle>
-                                                            <label>{stringIsEmptyOrNull(licenseName) ? "License" : licenseName}</label>
-                                                            <input ref={fileRef} type={"file"} id="license" onChange={(e) => { uploadFile(e) }} hidden={true} />
-                                                            {
-                                                                stringIsEmptyOrNull(licenseName) ?
-                                                                    <label htmlFor="license" >
-                                                                        <Image src={AssetsImages.uploadFileIcon} alt="uploadFileIcon" />
-                                                                    </label> : <label onClick={() => deleteFile()}><CloseIcon /></label>}
+        <RegisterStyle>
+            <section className="image_container">
+                <Image src={AssetsImages.registerImage} alt="login_image" />
 
-                                                        </UploadFileStyle>
-                                                        <ErrorMessageStyle>{userError.licenseError}</ErrorMessageStyle>
-                                                    </li>
-                                                </>
-                                            ) : null
-                                }
-                            </ul>
-                            <button>
-                                {
-                                    step == 1 ? <>Continue <RightArrowIcon color='#003177' /></> : <LinkButtonStyle>Register</LinkButtonStyle>
-                                }
-                            </button>
-                        </form> : <form className='completed'>
-                            <div>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            <div>
-                                <div>
-                                    <Image src={AssetsImages.complete_icon} alt="complete_icon" />
+            </section>
+            <section className="container">
+                <div className="title">
+                    <SectionTitleStyle>Welcome to Dr. Supply Shop</SectionTitleStyle>
+                    <h3>Fill out the form to get started.</h3>
+                </div>
+                <form noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <SectionTitleStyle>Sign Up</SectionTitleStyle>
+                    <section className="content">
+                        <ul>
+                            <li>
+                                <InputStyle>
+                                    <input type={"text"} placeholder="First Name" {...register("first_name", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.first_name?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"text"} placeholder="Last Name" {...register("last_name", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.last_name?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"email"} placeholder="Email Address"  {...register("email", { required: REQUIRED_MESSAGE, pattern: { value: emailRegexPattern, message: INVALID_EMAIL_MESSAGE } })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.email?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"text"} placeholder="Company Name" {...register("companyName", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.companyName?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle className="phone_input">
+                                    <SelectStyle>
+                                        <select {...register("country_code")}>
+                                            {
+                                                firstRequest?.countries?.map(item => <option key={item.id} value={item.phone_code}>{item.phone_code}</option>)
+                                            }
+                                        </select>
+                                        <i><ArrowDownIcon /></i>
+                                    </SelectStyle>
+                                    <input type={"text"} placeholder="Phone" {...register("phone", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.phone?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <SelectStyle>
+                                    <select {...register("industry_id", { required: REQUIRED_MESSAGE })}>
+                                        <option value={""}>Industry</option>
+                                        {
+                                            firstRequest?.industries?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>)
+                                        }
+                                    </select>
+                                    <i><ArrowDownIcon /></i>
+                                </SelectStyle>
+                                <ErrorMessageStyle>{errors.industry_id?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"password"} placeholder="Password"  {...register("password", { required: REQUIRED_MESSAGE, pattern: { value: passwordRegexPattern, message: INVALID_PASSWORD_MESSAGE } })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.password?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"text"} placeholder="How did you hear about us" {...register("how_hear", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.how_hear?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"password"} placeholder="Repeat Password"  {...register("repeat_passowrd", {
+                                        validate: value =>
+                                            value === watch("password") || "The passwords do not match"
+                                    })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.repeat_passowrd?.message}</ErrorMessageStyle>
+                            </li>
+                            <li className="checkbox">
+                                <div className="checkbox_container">
+                                    <CheckboxStyle>
+                                        <input type={"checkbox"} id={"terms"} {...register("accepted_terms", { required: REQUIRED_MESSAGE })} />
+                                        <label htmlFor="terms">I have read and agree to the<Link href={""}><a>Terms and Conditions</a></Link></label>
+                                    </CheckboxStyle>
+                                    <ErrorMessageStyle>{errors.accepted_terms?.message}</ErrorMessageStyle>
+
                                 </div>
-                                <SectionTitleStyle>Completed!</SectionTitleStyle>
-                            </div>
-                        </form>
-                }
-            </div>
+                                <div className="checkbox_container">
+                                    <CheckboxStyle>
+                                        <input type={"checkbox"} id={"privacy"} {...register("accepted_privacy", { required: REQUIRED_MESSAGE })} />
+                                        <label htmlFor="privacy">I have read and agree to the<Link href={""}><a>Privacy and Policy</a></Link></label>
+                                    </CheckboxStyle>
+                                    <ErrorMessageStyle>{errors.accepted_privacy?.message}</ErrorMessageStyle>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <section className="bottom_section">
+                        <ButtonStyle ref={buttonRef} type={"submit"}>
+                            <span>Sign Up</span>
+                            <LoaderStyle></LoaderStyle>
+                        </ButtonStyle>
+                        <div className="dont_or_have_account">Already have an account?  <Link href={PageUrls.LOGIN}><a>Sign In</a></Link></div>
+                    </section>
+                </form>
+            </section>
         </RegisterStyle>
     )
 }
 
-export default Register
+Register.class = "noPaddingBottom";

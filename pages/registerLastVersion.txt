@@ -1,0 +1,178 @@
+import Image from "next/image";
+import { AssetsImages, emailRegexPattern, REQUIRED_MESSAGE, INVALID_EMAIL_MESSAGE, passwordRegexPattern, INVALID_PASSWORD_MESSAGE, ERROR_ALERT_TYPE, TOKEN_EXPIRE, TOKEN_KEY_NAME } from '@/utils/index';
+import { ErrorMessageStyle, InputStyle, LinkButtonStyle, RegisterStyle, UploadFileStyle } from '@/styledcomponents/index';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { CustomSelect } from "@/components/common";
+import { ComboService, ProductService, UserService } from '@/services/index';
+import { ChangeEvent, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { AlertStateModel, SelectModel, UserModel, UserResModel } from '@/models/index';
+import IntlTelInput from "react-intl-tel-input";
+import { generateRandomNumber, stringIsEmptyOrNull } from '@/helpers/index';
+import { CloseIcon } from "@/components/icons";
+import { useDispatch } from "react-redux";
+import { setAlert } from "@/statemangment/slice/alertSlice";
+import { setUser } from "@/statemangment/slice/globalSlice";
+import Cookies from "js-cookie";
+
+
+
+export default function Register() {
+    const dispatch = useDispatch();
+    const onSubmit: SubmitHandler<UserModel> = async (data) => {
+        const userService = new UserService();
+        const productService = new ProductService();
+        if (license != null) data.licenseImg = license;
+        const response = await userService.Register(data);
+        if (response.success) {
+            const userResponse: UserModel = response.data;
+            if (userResponse.api_token) {
+                Cookies.set(TOKEN_KEY_NAME, userResponse.api_token, { expires: TOKEN_EXPIRE });
+                productService.moveCart();
+                dispatch(setUser(userResponse))
+            }
+
+        } else {
+            const generatedIdentifier = generateRandomNumber(4);
+            const customAlert: AlertStateModel = {
+                message: response.errors ? response.errors[0] : "Something went Error",
+                type: ERROR_ALERT_TYPE,
+                identifier: generatedIdentifier,
+            }
+
+
+            dispatch(setAlert(customAlert));
+
+        }
+    };
+    const fileRef = useRef<HTMLInputElement>(null);
+
+    const [industryData, setIndustryData] = useState<SelectModel[]>([])
+    const [industry, setIndustry] = useState<string>()
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<UserModel>();
+    const [license, setLicense] = useState<File | null>()
+
+    useEffect(function () {
+        async function getPageData() {
+            const comboService = new ComboService();
+            setIndustryData(await comboService.GetAllIndustry());
+        }
+        getPageData();
+
+    }, []);
+
+
+    function uploadFile(e: ChangeEvent<HTMLInputElement>) {
+        if (e.target.files != null) {
+            setLicense(e.target.files[0]);
+        } else {
+            setLicense(null);
+        }
+    }
+
+    function deleteFile() {
+        if (fileRef.current) {
+            fileRef.current.value = ""
+        };
+        setTimeout(function () {
+            setLicense(null);
+        }, 10);
+    }
+
+    return (
+        <RegisterStyle>
+            <div className="image_container">
+                <Image src={AssetsImages.registerImage} alt="stethoscope" />
+            </div>
+            <div className="form_container">
+
+                <form noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <ul>
+                        <li>
+                            <InputStyle>
+                                <input type={"email"} placeholder="Email"  {...register("email", { required: REQUIRED_MESSAGE, pattern: { value: emailRegexPattern, message: INVALID_EMAIL_MESSAGE } })} />
+                            </InputStyle>
+                            <ErrorMessageStyle>{errors.email?.message}</ErrorMessageStyle>
+                        </li>
+                        <li>
+                            <InputStyle>
+                                <input type={"password"} placeholder="Password"  {...register("password", { required: REQUIRED_MESSAGE, pattern: { value: passwordRegexPattern, message: INVALID_PASSWORD_MESSAGE } })} />
+                            </InputStyle>
+                            <ErrorMessageStyle>{errors.password?.message}</ErrorMessageStyle>
+                        </li>
+                        <li>
+                            <InputStyle>
+                                <input type={"text"} placeholder="First Name" {...register("first_name", { required: REQUIRED_MESSAGE })} />
+                            </InputStyle>
+                            <ErrorMessageStyle>{errors.first_name?.message}</ErrorMessageStyle>
+                        </li>
+                        <li>
+                            <InputStyle>
+                                <input type={"text"} placeholder="Last Name" {...register("last_name", { required: REQUIRED_MESSAGE })} />
+                            </InputStyle>
+                            <ErrorMessageStyle>{errors.last_name?.message}</ErrorMessageStyle>
+                        </li>
+                        <li>
+                            <InputStyle>
+                                <input type={"text"} placeholder="Phone" {...register("phone", { required: REQUIRED_MESSAGE })} />
+                            </InputStyle>
+
+                            <ErrorMessageStyle>{errors.phone?.message}</ErrorMessageStyle>
+                        </li>
+                        <li>
+                            <InputStyle>
+                                <input type={"number"} placeholder="Number Of Physicians" {...register("nb_physicians", { required: REQUIRED_MESSAGE })} />
+                            </InputStyle>
+                            <ErrorMessageStyle>{errors.nb_physicians?.message}</ErrorMessageStyle>
+                        </li>
+                        <div className="doctor_fields">
+                            <input type={"checkbox"} id="doctor_checkbox" /><label htmlFor="doctor_checkbox">Is Doctor</label>
+                            <ul>
+                                <li>
+                                    <InputStyle>
+                                        <input type={"text"} placeholder="Company Name" {...register("companyName", { required: REQUIRED_MESSAGE })} />
+                                    </InputStyle>
+                                    <ErrorMessageStyle>{errors.companyName?.message}</ErrorMessageStyle>
+                                </li>
+                                <li>
+                                    <InputStyle>
+                                        <input type={"text"} placeholder="Syndicate Id" {...register("syndicate_id", { required: REQUIRED_MESSAGE })} />
+                                    </InputStyle>
+                                    <ErrorMessageStyle>{errors.syndicate_id?.message}</ErrorMessageStyle>
+                                </li>
+                                <li>
+                                    <InputStyle>
+                                        <input type={"text"} placeholder="Tax" {...register("tax_id", { required: REQUIRED_MESSAGE })} />
+                                    </InputStyle>
+                                    <ErrorMessageStyle>{errors.tax_id?.message}</ErrorMessageStyle>
+                                </li>
+                                <li>
+                                    <CustomSelect data={industryData} selectValue={industry} setValue={setIndustry} setInputValue={(value: number) => { setValue("industry_id", value, { shouldValidate: true }) }} />
+                                    <input type={"text"} value={industry} hidden  {...register("industry_id", { required: REQUIRED_MESSAGE })} />
+                                    <ErrorMessageStyle>{errors.industry_id?.message}</ErrorMessageStyle>
+                                </li>
+                                <li>
+                                    <UploadFileStyle>
+                                        <label>{stringIsEmptyOrNull(license?.name) ? "License" : license?.name}</label>
+                                        <input ref={fileRef} type={"file"} id="license" onChange={(e) => { uploadFile(e) }} hidden={true} />
+                                        {
+                                            stringIsEmptyOrNull(license?.name) ?
+                                                <label htmlFor="license" >
+                                                    <Image src={AssetsImages.uploadFileIcon} alt="uploadFileIcon" />
+                                                </label> : <label onClick={() => deleteFile()}><CloseIcon /></label>}
+
+                                    </UploadFileStyle>
+                                </li>
+                            </ul>
+                        </div>
+                    </ul>
+                    <button>
+                        <LinkButtonStyle>Register</LinkButtonStyle>
+                    </button>
+                </form>
+            </div>
+        </RegisterStyle>
+    )
+}
+
+Register.class = "noPaddingBottom";

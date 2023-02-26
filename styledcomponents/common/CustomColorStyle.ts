@@ -11,40 +11,30 @@ interface Props {
 export const CustomColorStyle = styled.div<Props>`
     label{
         background-color: ${({ color }: Props) => color};
-        width: 28px;
-        height: 28px;
+        width: 27px;
+        height: 27px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        overflow: hidden;
         cursor: pointer;
-        opacity: ${({ isActive }: Props) => isActive ? "1" : "0.3"};
-        &::before{
-            content: '';
-            pointer-events: "none";
+        border: ${({ isActive }: Props) => isActive ? "none" : "3px solid #979797"};
+        &:after{
+            content: "";
+            display:  ${({ isActive }: Props) => isActive ? "none" : "block"};
+            height: 3px;
+            border-top: 3px solid #979797;
+            width: 200%;
             position: absolute;
-            display: block;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-color: "transparent";
-        }
-        @media (hover){
-            &:hover{
-                &:before{
-                    border-color: ${({ selectedColor }: Props) => selectedColor ? selectedColor : "#fff"};
-                }
-            }
+            transform: rotate(45deg);
+            top: 18px;
         }
     }
-
+    
 
     input:checked ~ label {
-        &:before{
-            pointer-events:  "all";
-            border-color: ${({ selectedColor }: Props) => selectedColor ? selectedColor : "#fff"};
-        }
+        border: 3px solid #2262BC;
     }
 `

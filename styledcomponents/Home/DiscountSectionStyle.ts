@@ -5,12 +5,13 @@ interface Props {
 }
 
 export const DiscountSectionStyle = styled.section`
-    background-color: #EBEBEB;
-    padding: 55px 0;
+    padding-top: 30px;
+    width: 100%;
+    position: relative;
     >div{
         position: relative;
         display: flex;
-        height: 300px;
+        height: 400px;
         img{
             object-fit: cover;
         }
@@ -18,23 +19,24 @@ export const DiscountSectionStyle = styled.section`
             position: absolute;
             top: 0;
             left: 0;
-            width: 70%;
-            border-bottom: 300px solid #0031778C;
+            width: 90%;
+            border-bottom: 400px solid #2262BC8C;
             border-left: 0 solid transparent;
-            border-right: 300px solid transparent;
+            border-right: 400px solid transparent;
             border-top: 0 solid transparent;
+            padding-left: 20px;
+
             h1{
                 position: absolute;
                 z-index: 1;
                 color: white;
-                font-size: 70px;
+                font-size: 107px;
                 width: 100%;
-                height: 300px;
+                height: 400px;
                 display: flex;
-                align-items: center;
                 justify-content: center;
-                font-family: ${({ theme }: Props) => theme.fonts.poppins_bold};
-
+                align-items: center;
+                font-family: ${({ theme }: Props) => theme.fonts.extra_bold};
             }
         }
     }

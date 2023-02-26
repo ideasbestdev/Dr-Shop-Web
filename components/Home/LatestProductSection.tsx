@@ -24,7 +24,7 @@ export function LatestProductSection() {
 
     return (
         <LatestProductSectionStyle>
-            <SectionTitleStyle className='wow slideInUp'>Latest Products</SectionTitleStyle>
+            <SectionTitleStyle >Latest Products</SectionTitleStyle>
             {
                 productList.length > 0 ?
                     <Swiper
@@ -32,7 +32,7 @@ export function LatestProductSection() {
                         slidesPerView={"auto"}
                     >
                         {
-                            productList.map((value: ProductModel, index: number) => <SwiperSlide key={value.id} data-wow-delay={index * 0.3 + "s"} className='wow slideInUp'><ProductItemComponent product={value} /></SwiperSlide>)
+                            productList.map((value: ProductModel, index: number) => <SwiperSlide key={value.id} data-wow-delay={index * 0.3 + "s"} ><ProductItemComponent product={value} /></SwiperSlide>)
                         }
                     </Swiper> : <></>
             }

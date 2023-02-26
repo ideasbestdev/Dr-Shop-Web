@@ -9,6 +9,15 @@ interface Props {
 export const CustomSelectStyle = styled.div<Props>`
     position: relative;
     z-index: 1;
+    input{
+        bottom: 0px;
+    left: 0px;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+    box-sizing: border-box;
+    }
     span{
        // border: 1px solid #E1E1E1;
         height: ${({ theme }: Props) => theme.height.input_height};

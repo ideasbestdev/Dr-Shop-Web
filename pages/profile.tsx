@@ -1,8 +1,17 @@
 import { AddLocationSection, EditProfileSection, ProfileListSection } from '@/components/profile'
 import React from 'react'
 import { useState } from 'react';
+import styled from 'styled-components';
 
 export default function Profile() {
+    const PageStyle = styled.div`
+        padding: 100px;
+        display: flex;
+        .table_container{
+            padding: 0;
+        }
+  `;
+
     const [render, setRender] = useState({
         component: EditProfileSection
     });
@@ -15,10 +24,10 @@ export default function Profile() {
 
     return (
         <>
-            <div style={{ padding: "100px", display: "flex" }}>
+            <PageStyle >
                 <ProfileListSection renderChange={renderChange} />
                 <render.component />
-            </div>
+            </PageStyle>
         </>
     )
 }

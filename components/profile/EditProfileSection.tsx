@@ -1,133 +1,88 @@
-import { ButtonStyle, EditProfileSectionStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, SectionTitleStyle } from '@/styledcomponents/index'
-import React, { ChangeEvent } from 'react'
-import { CameraIcon, CartIcon } from '../icons'
-import { useState } from 'react';
-import Image from 'next/image';
-import { stringIsEmptyOrNull } from '@/helpers/index';
-import { UserFormErrorsModel, UserModel } from '@/models/index';
-import IntlTelInput from 'react-intl-tel-input';
+import { getGlobalState } from '@/statemangment/slice/globalSlice';
+import { ButtonStyle, EditProfileSectionStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, SectionTitleStyle, SelectStyle } from '@/styledcomponents/index'
+import React from 'react'
 import { useSelector } from 'react-redux';
-import { getUserState } from '@/statemangment/slice/userSlice';
-
+import { useForm } from 'react-hook-form';
+import { UserModel, AccountModel } from '@/models/index';
+import { emailRegexPattern, INVALID_EMAIL_MESSAGE, REQUIRED_MESSAGE } from '@/utils/index';
+import { ArrowDownIcon } from '@/components/icons';
+import { useEffect } from 'react';
 export function EditProfileSection() {
-    const { currentuser } = useSelector(getUserState);
 
-    const [blobImage, setBlobImage] = useState<string>("");
-    const [userPhone, setUserPhone] = useState<string>(currentuser?.phone ? currentuser.phone : "+961 ");
-    const [userError, setUserErrors] = useState<UserFormErrorsModel>({});
-    const [user, setUser] = useState<UserModel | null>(currentuser);
+    const { firstRequest } = useSelector(getGlobalState);
 
-    function editUser(key: string, value: string): void {
-        if (!user) return;
-        switch (key) {
-            case "firstName":
-                user.first_name = value;
-                break;
-
-            case "lastName":
-                user.last_name = value;
-                break;
-
-            case "email":
-                user.email = value;
-                break;
-
-            case "password":
-                user.password = value;
-                break;
-
-            case "confirmPassword":
-                user.confirmPassword = value;
-                break;
-
-            case "taxId":
-                user.tax_id = value;
-                break;
-
-            case "companyName":
-                user.companyName = value;
-                break;
-
-            case "industry":
-                user.industry = value;
-                break;
-
-            case "state":
-                user.state = value;
-                break;
-
-            case "street":
-                user.street = value;
-                break;
-
-            case "city":
-                user.city = value;
-                break;
-
-            case "zipCode":
-                user.zipCode = value;
-                break;
-
-            case "numberOfPhysicians":
-                user.numberOfPhysicians = value;
-                break;
-
-            case "termsOfCondition":
-                user.termsOfCondition = value == "true";
-                break;
-
-            default:
-                break;
-        }
-
-        const newUser = Object.assign({}, user);
-
-        setUser(newUser);
+    async function saveProfile() {
+        //        if (!user) return;
+        // const response = await userService.EditProfile(user);
+        // if (response.success) {
+        //     const userResponse: UserResModel = response.data;
+        //     const returnedUser = userResponse.user;
+        //     setUser(returnedUser);
+        //     dispatch(setCurrentUser(returnedUser));
+        //     if (returnedUser.avatar) {
+        //         const avatarImage: ImageModel = returnedUser.avatar;
+        //         setBlobImage(avatarImage.webp_image)
+        //     }
+        // }
     }
 
-    function uploadFile(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.files != null) {
-            setBlobImage(URL.createObjectURL(e.target.files[0]));
-        } else {
-            setBlobImage("");
+    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<AccountModel>({
+    });
+    useEffect(function () {
+        if (firstRequest.user?.account) {
+            reset(firstRequest.user.account);
         }
-    }
+    }, [firstRequest])
 
     return (
         <EditProfileSectionStyle>
-            <form>
-                <div>{stringIsEmptyOrNull(blobImage) ? null : <Image src={blobImage} layout={"fill"} alt={blobImage} />}<input onChange={(e) => { uploadFile(e) }} type={"file"} hidden id="userProfile" accept="image/*" /><label htmlFor='userProfile'><CameraIcon color='#000' /></label></div>
-                <SectionTitleStyle>Dr Walid Shahrour</SectionTitleStyle>
-                <article>
-                    <ul>
-                        <li>
-                            <InputStyle>
-                                <input type={"text"} placeholder="First Name" value={user?.first_name} onChange={(e) => editUser("firstName", e.target.value)} />
-                            </InputStyle>
-                            <ErrorMessageStyle>{userError.firstNameError}</ErrorMessageStyle>
-                        </li>
-                        <li>
-                            <InputStyle>
-                                <input type={"text"} placeholder="Last Name" value={user?.last_name} onChange={(e) => editUser("lastName", e.target.value)} />
-                            </InputStyle>
-                            <ErrorMessageStyle>{userError.lastNameError}</ErrorMessageStyle>
-                        </li>
-                        <li>
-                            <InputStyle>
-                                <IntlTelInput value={userPhone} defaultCountry='lb' onPhoneNumberChange={(isValid, value, selectedCountryData, fullNumber, extension) => setUserPhone(fullNumber)} onSelectFlag={(currentNumber, selectedCountryData, fullNumber, isValid) => setUserPhone(selectedCountryData.dialCode == undefined ? "" : "+" + selectedCountryData.dialCode + " ")} />
-                            </InputStyle>
-                            <ErrorMessageStyle>{userError.phoneError}</ErrorMessageStyle>
-                        </li>
-                        <li>
-                            <InputStyle>
-                                <input type={"email"} placeholder="Email" value={user?.email} onChange={(e) => editUser("email", e.target.value)} />
-                            </InputStyle>
-                            <ErrorMessageStyle>{userError.emailError}</ErrorMessageStyle>
-                        </li>
-                    </ul>
-                    <button><LinkButtonStyle>Save Changes</LinkButtonStyle></button>
-                </article>
-            </form>
-        </EditProfileSectionStyle>
+            <section className="container">
+                <form noValidate>
+                    <SectionTitleStyle>Profile</SectionTitleStyle>
+                    <section className="content">
+                        <ul>
+                            <li>
+                                <InputStyle>
+                                    <input type={"text"} placeholder="First Name" {...register("first_name", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.first_name?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"text"} placeholder="Last Name" {...register("last_name", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.last_name?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle>
+                                    <input type={"email"} placeholder="Email Address"  {...register("email", { required: REQUIRED_MESSAGE, pattern: { value: emailRegexPattern, message: INVALID_EMAIL_MESSAGE } })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.email?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <InputStyle className="phone_input">
+                                    <SelectStyle>
+                                        <select {...register("country_code")}>
+                                            {
+                                                firstRequest?.countries?.map(item => <option key={item.id} value={item.phone_code}>{item.phone_code}</option>)
+                                            }
+                                        </select>
+                                        <i><ArrowDownIcon /></i>
+                                    </SelectStyle>
+                                    <input type={"text"} placeholder="Phone" {...register("phone", { required: REQUIRED_MESSAGE })} />
+                                </InputStyle>
+                                <ErrorMessageStyle>{errors.phone?.message}</ErrorMessageStyle>
+                            </li>
+
+                        </ul>
+                    </section>
+                    <section className="bottom_section">
+                        <ButtonStyle type={"submit"}>
+                            <span>Sign Up</span>
+                        </ButtonStyle>
+                    </section>
+                </form>
+            </section>
+        </EditProfileSectionStyle >
     )
 }

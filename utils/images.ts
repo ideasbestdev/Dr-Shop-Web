@@ -1,52 +1,49 @@
-import logo from "@/assets/images/logo.png";
-import footer_logo from "@/assets/images/footer_logo.png";
 import uploadFileIcon from "@/assets/images/uploadFileIcon.png";
-import homeBanner from "@/assets/images/home_banner.jpg";
-import protexProduct from "@/assets/images/protex.png";
-import oneStopIcon from "@/assets/images/oneStopIcon.png";
-import customerIcon from "@/assets/images/customerIcon.png";
-import inventoryIcon from "@/assets/images/inventoryIcon.png";
-import deliveryIcon from "@/assets/images/deliveryIcon.png";
+import homeBanner from "@/assets/images/homeBanner.jpg";
 import homeDiscount from "@/assets/images/homeDiscount.jpg";
-import abbott from "@/assets/images/abbott.png";
-import astrazeneca from "@/assets/images/astrazeneca.png";
-import essilor from "@/assets/images/essilor.png";
-import novartis from "@/assets/images/novartis.png";
-import pfizer from "@/assets/images/pfizer.png";
-import mask from "@/assets/images/mask.png";
-import stethoscope from "@/assets/images/stethoscope.jpg";
-import circleCloseIcon from "@/assets/images/circle_close_icon.png";
-import complete_icon from "@/assets/images/complete_icon.png";
-import verificate_complete_icon from "@/assets/images/verificate_complete_icon.png";
-import like_icon from "@/assets/images/like_icon.png";
-import arrow_down from "@/assets/images/arrow_down.png";
-import plus_icon from "@/assets/images/plus_icon.png";
-import minus_icon from "@/assets/images/minus_icon.png";
-
+import dental from "@/assets/images/dental.png";
+import medical from "@/assets/images/medical.png";
+import optical from "@/assets/images/optical.png";
+import solaruim from "@/assets/images/solaruim.png";
+import surgical from "@/assets/images/surgical.png";
+import abbott from "@/assets/images/abbott.jpg";
+import jhonson from "@/assets/images/jhonson.jpg";
+import philips from "@/assets/images/philips.jpg";
+import medtronic from "@/assets/images/medtronic.jpg";
+import loginImage from "@/assets/images/loginImage.jpg";
+import registerImage from "@/assets/images/registerImage.jpg";
+import card from "@/assets/images/card.png";
+import visa from "@/assets/images/visa.png";
+import master from "@/assets/images/master.png";
+import onlinepayment from "@/assets/images/online-payment.png";
+import shoppingcart from "@/assets/images/shopping-cart.png";
+import user from "@/assets/images/user.png";
+import order from "@/assets/images/order.png";
+import address from "@/assets/images/address.png";
+import favourite from "@/assets/images/favourite.png";
 
 export const AssetsImages = {
-    logo,
     uploadFileIcon,
     homeBanner,
-    protexProduct,
-    oneStopIcon,
-    customerIcon,
-    inventoryIcon,
-    deliveryIcon,
     homeDiscount,
+    dental,
+    medical,
+    optical,
+    solaruim,
+    surgical,
     abbott,
-    astrazeneca,
-    essilor,
-    novartis,
-    pfizer,
-    mask,
-    stethoscope,
-    circleCloseIcon,
-    footer_logo,
-    complete_icon,
-    verificate_complete_icon,
-    like_icon,
-    arrow_down,
-    plus_icon,
-    minus_icon,
+    jhonson,
+    philips,
+    medtronic,
+    loginImage,
+    registerImage,
+    card,
+    visa,
+    master,
+    onlinepayment,
+    shoppingcart,
+    user,
+    order,
+    address,
+    favourite
 }

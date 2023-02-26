@@ -1,12 +1,8 @@
-import React from 'react'
 
-interface Props {
-    color?: string;
-}
-export function SearchIcon({ color }: Props) {
+export function SearchIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="19.031" height="19.031" viewBox="0 0 19.031 19.031">
-            <path id="Vector" d="M17.031,17.031l-5.677-5.677ZM13.246,6.623a6.623,6.623,0,1,1-1.94-4.683A6.623,6.623,0,0,1,13.246,6.623Z" transform="translate(1 1)" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <svg id="Blooicons_Search" data-name="Blooicons / Search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path id="Shape" d="M21.439,23.561,16.788,18.91A10.5,10.5,0,1,1,10.5,0V3A7.5,7.5,0,1,0,18,10.5,7.5,7.5,0,0,0,10.5,3V0A10.5,10.5,0,0,1,18.91,16.788l4.652,4.651a1.5,1.5,0,0,1-2.122,2.122Z" fill="#979797" />
         </svg>
     )
 }

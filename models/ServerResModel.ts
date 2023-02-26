@@ -1,14 +1,21 @@
-import { ProductModel, UserModel } from '@/models/index';
+import { ProductModel, UserModel, SelectModel, FirstRequestModel, CartModel } from '@/models/index';
 
 export interface ServerResModel {
-    data: UserResModel | ProductModel | any;
+    data: UserModel | ProductModel | FirstRequestModel | CartModel | any;
     success: boolean;
     links?: PageLinksModel[],
     total?: number,
     to?: number,
     from?: number,
+    errors?: string[],
+    error?: ErrorModel,
 }
 
+interface ErrorModel {
+    code?: number,
+    message?: string,
+    reason?: string
+}
 export interface PageLinksModel {
     url: string | null,
     label: string,
@@ -21,5 +28,3 @@ export interface UserResModel {
     uuid: string,
     user: UserModel
 }
-
-

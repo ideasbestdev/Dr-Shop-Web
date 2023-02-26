@@ -1,11 +1,14 @@
 import { ProductModel } from '@/models/ProductModel'
 import { ProductItemStyle } from '@/styledcomponents/index'
 import Image from 'next/image'
-import React from 'react'
-import { AddProductIcon } from '../icons'
+import React, { useState } from 'react'
+import { AddProductIcon, CartIcon, HeartIcon } from '../icons'
 import { useEffect } from 'react';
 import StarRatings from 'react-star-ratings'
 import { useRouter } from 'next/router'
+import { ProductService } from '@/services/index';
+import { useSelector } from 'react-redux'
+import { getGlobalState } from '@/statemangment/slice/globalSlice'
 
 interface Props {
     product: ProductModel
@@ -13,27 +16,51 @@ interface Props {
 
 export function ProductItemComponent({ product }: Props) {
     const route = useRouter();
+    const prodcutService = new ProductService();
+    const { firstRequest } = useSelector(getGlobalState);
+    const [productItem, setProductItem] = useState<ProductModel>(product);
+    function handleFav(e: React.MouseEvent) {
+        e.stopPropagation();
+        if (!firstRequest.user) return;
+        prodcutService.addRemoveFavProduct(productItem.id, !productItem.is_favorite, firstRequest.user.uuid);
+        setProductItem({ ...productItem, is_favorite: !productItem.is_favorite })
+    }
+
+    function handleCart() {
+        prodcutService.addToCart(productItem, 1, (firstRequest.user != null && firstRequest.user != undefined));
+
+    }
+
+    //route.push(`/products/${product.id}`)
     return (
-        <ProductItemStyle onClick={() => route.push(`/products/${product.id}`)}>
-            <div>
-                <Image width={220} height={220} src={product.images ? product.images[0].webp_image : ""} alt={product.images ? product.images[0].webp_image : ""} />
-                <i><AddProductIcon /></i>
-            </div>
-            <div>
-                <div className='star'>
-                    <StarRatings
-                        rating={product.rating.avg_rating}
-                        starDimension="18px"
-                        starSpacing="3px"
-                        starEmptyColor='#F2994A66'
-                        starRatedColor='#F2994A'
-                        svgIconViewBox="0 0 18.105 18.105"
-                        svgIconPath="M7.894.878a1.2,1.2,0,0,1,2.316,0l1.3,4.185a1.27,1.27,0,0,0,.442.635,1.183,1.183,0,0,0,.715.243h4.216a1.282,1.282,0,0,1,.716,2.3l-3.409,2.586a1.27,1.27,0,0,0-.443.635,1.325,1.325,0,0,0,0,.786l1.3,4.185a1.232,1.232,0,0,1-1.875,1.421L9.766,15.27a1.176,1.176,0,0,0-1.431,0L4.926,17.856a1.232,1.232,0,0,1-1.874-1.421l1.3-4.185a1.325,1.325,0,0,0,0-.786,1.27,1.27,0,0,0-.443-.635L.5,8.243a1.282,1.282,0,0,1,.716-2.3H5.434A1.183,1.183,0,0,0,6.149,5.7a1.27,1.27,0,0,0,.443-.635L7.895.879Z"
-                    />
+        <ProductItemStyle onClick={() => { route.push(`/products/${productItem.id}`) }} isFav={productItem.is_favorite && firstRequest.user != null}>
+            <section className='top_section'>
+                <div className='image_container'>
+                    <Image width={220} height={220} src={productItem.image ? `${productItem.image?.base_url}/${productItem.image?.webp_image}` : ""} alt={productItem.name} />
                 </div>
-                <h2>{product.name}</h2>
-                <h3>{product.variants[0].discounted_price > 0 ? <><del>${product.variants[0].price}</del><span>${product.variants[0].discounted_price}</span></> : <span>${product.variants[0].price}</span>} </h3>
-            </div>
+                <i className='cart_icon' onClick={(e) => { e.stopPropagation(); handleCart() }}><CartIcon /></i>
+                {/* <div className='ribbon new_ribbon'>
+                    new
+                </div> */}
+                <div className='ribbon offer_ribbon'>
+                    25% OFF
+                </div>
+            </section>
+            <section className='bottom_section'>
+                <div className='title_Fav'>
+                    <h2>{productItem.name}</h2>
+                    <i className='fav_icon' onClick={(e) => handleFav(e)}><HeartIcon /></i>
+                </div>
+                <h3 className='price'>
+                    {productItem.discounted_price != undefined && productItem.discounted_price > 0 ?
+                        <>
+                            {productItem.discounted_price?.toFixed(2)} USD
+                            <del><span>{productItem.price?.toFixed(2)}</span> USD</del>
+                        </> :
+                        <>{productItem.price?.toFixed(2)} USD</>
+                    }
+                </h3>
+            </section>
         </ProductItemStyle>
     )
 }

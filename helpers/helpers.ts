@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { DEVICEID_KEY_NAME, TOKEN_KEY_NAME } from "@/utils/index";
 import { UserModel, FilterProductModel } from '@/models/index';
-import { isArray } from "util";
+import Payment from 'payment'
 
 export function stringIsEmptyOrNull(value?: string) {
     if (value == null || value == undefined || value.trim().length == 0) {
@@ -19,6 +19,9 @@ export function generateRandomNumber(length: number): string {
     return randomNumer;
 }
 
+export function intersectionNumberArray(first_array: number[], second_array: number[]): number[] {
+    return first_array.filter((element) => second_array.includes(element))
+}
 
 export function initObject(initialState: any): any {
     Object.keys(initialState).map((key) => {
@@ -45,80 +48,14 @@ export function getDeviceId(): string {
     if (Cookies.get(DEVICEID_KEY_NAME) == undefined) {
         Cookies.set(DEVICEID_KEY_NAME, uuidv4());
     }
-    const device_id: string = "" + Cookies.get("device_id");
+    const device_id: string = "" + Cookies.get(DEVICEID_KEY_NAME);
     return device_id;
 }
 
 
-function editUser(key: string, value: string, user: UserModel): UserModel {
-    switch (key) {
-        case "firstName":
-            user.first_name = value;
-            break;
-
-        case "lastName":
-            user.last_name = value;
-            break;
-
-        case "email":
-            user.email = value;
-            break;
-
-        case "password":
-            user.password = value;
-            break;
-
-        case "confirmPassword":
-            user.confirmPassword = value;
-            break;
-
-        case "taxId":
-            user.tax_id = value;
-            break;
-
-        case "companyName":
-            user.companyName = value;
-            break;
-
-        case "industry":
-            user.industry = value;
-            break;
-
-        case "state":
-            user.state = value;
-            break;
-
-        case "street":
-            user.street = value;
-            break;
-
-        case "city":
-            user.city = value;
-            break;
-
-        case "zipCode":
-            user.zipCode = value;
-            break;
-
-        case "numberOfPhysicians":
-            user.numberOfPhysicians = value;
-            break;
-
-        case "termsOfCondition":
-            user.termsOfCondition = value == "true";
-            break;
-
-        default:
-            break;
-    }
-
-    const newUser = Object.assign({}, user);
-
-    return newUser
-}
 
 
-export function isAuthenticated(): boolean {
+export function isAuthenticatedHelper(): boolean {
     return Cookies.get(TOKEN_KEY_NAME) ? true : false;
 }
 
@@ -143,9 +80,6 @@ export function convertObjectToQueryString(inputObject: any) {
     return str;
 }
 
-
-
-
 export function toggleRadio(event: React.MouseEvent) {
     var element = document.getElementById(event.currentTarget.id) as HTMLInputElement;
     if (element == null) return;
@@ -159,5 +93,99 @@ export function toggleRadio(event: React.MouseEvent) {
     element.parentElement?.previousElementSibling?.firstElementChild?.setAttribute('data-waschecked', "false");
 }
 
+export function getUrlObject(): any {
+    const urlParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlParams);
+    console.log(params);
+    return params;
+}
 
 
+export function convertObjectToObjectQuery(obj: any): Object {
+    var myObj: any = {};
+
+    Object.keys(obj).map(function (key, index) {
+        if (obj[key] == undefined || obj[key] == null || obj[key] !== obj[key] || typeof obj[key] == 'function') return;
+        if (typeof obj[key] != "object") {
+            myObj[key] = obj[key];
+        } else {
+            if (Array.isArray(obj[key])) {
+                for (let index = 0; index < obj[key].length; index++) {
+                    if (obj[key][index] != null && !(obj[key][index] !== obj[key][index]) && obj[key][index] != undefined) {
+                        const element = obj[key][index];
+                        myObj[key + "[" + index + "]"] = element;
+                    }
+                }
+            }
+        }
+    });
+    return myObj;
+}
+
+
+export function clean(obj: any): Object {
+    for (var propName in obj) {
+        if (obj[propName] == null || obj[propName] == undefined || obj[propName] !== obj[propName] || obj[propName] == "NaN") {
+            delete obj[propName];
+        }
+    }
+    return obj
+}
+
+
+function clearNumber(value = '') {
+    return value.replace(/\D+/g, '')
+}
+
+export function formatCreditCardNumber(value: any) {
+    if (!value) {
+        return value
+    }
+
+    const issuer = Payment.fns.cardType(value)
+    const clearValue = clearNumber(value)
+    let nextValue
+    switch (issuer) {
+        case 'amex':
+            nextValue = `${clearValue.slice(0, 4)} ${clearValue.slice(
+                4,
+                10
+            )} ${clearValue.slice(10, 15)}`
+            break
+        case 'dinersclub':
+            nextValue = `${clearValue.slice(0, 4)} ${clearValue.slice(
+                4,
+                10
+            )} ${clearValue.slice(10, 14)}`
+            break
+        default:
+            nextValue = `${clearValue.slice(0, 4)} ${clearValue.slice(
+                4,
+                8
+            )} ${clearValue.slice(8, 12)} ${clearValue.slice(12, 19)}`
+            break
+    }
+
+    return nextValue.trim()
+}
+
+export function formatCVC(value: any, allValues: any = {}) {
+    const clearValue = clearNumber(value)
+    let maxLength = 3
+
+    if (allValues.number) {
+        const issuer = Payment.fns.cardType(allValues.number)
+    }
+
+    return clearValue.slice(0, maxLength)
+}
+
+export function formatExpirationDate(value: any) {
+    const clearValue = clearNumber(value)
+
+    if (clearValue.length >= 3) {
+        return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`
+    }
+
+    return clearValue
+}

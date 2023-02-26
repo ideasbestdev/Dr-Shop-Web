@@ -1,18 +1,10 @@
-import React from 'react'
-
-interface Props {
-    color?: string;
-}
-export function UserIcon({ color }: Props) {
+export function UserIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 12.75 15.965">
-            <g id="Group" transform="translate(0.75 0.75)">
-                <path id="Vector" d="M6.429,3.214A3.214,3.214,0,1,1,5.487.941a3.214,3.214,0,0,1,.941,2.273Z" transform="translate(2.411 0)" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                <path id="Vector-2" data-name="Vector" d="M5.625,0A5.625,5.625,0,0,0,0,5.625H11.25A5.625,5.625,0,0,0,5.625,0Z" transform="translate(0 8.84)" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="12.15" height="14.927" viewBox="0 0 12.15 14.927">
+            <g id="user" transform="translate(-3.25 -1.25)">
+                <path id="Path_4" data-name="Path 4" d="M6.027,4.548a3.3,3.3,0,1,1,3.3,3.3,3.3,3.3,0,0,1-3.3-3.3ZM7.1,9.581A3.853,3.853,0,0,0,3.25,13.435a2.742,2.742,0,0,0,2.742,2.742h6.665A2.742,2.742,0,0,0,15.4,13.435a3.853,3.853,0,0,0-3.853-3.853Z" transform="translate(0 0)" fill="#212121" fillRule="evenodd" />
             </g>
         </svg>
-
-
     )
 }
 

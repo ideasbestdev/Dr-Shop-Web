@@ -1,38 +1,59 @@
-import { ExpandedListStyle, ProductFilterSectionStyle } from '@/styledcomponents/index'
+import { ButtonStyle, CheckboxStyle, ExpandedListStyle, ProductFilterSectionStyle, SectionTitleStyle, SectionTitleWithLinkStyle } from '@/styledcomponents/index'
 import React, { useEffect, useState } from 'react'
-import { CustomColor, CustomRange, CustomSize } from '@/components/common';
-import { FilterDataModel } from '@/models/ProductModel';
-import { SelectModel } from '@/models/SelectModel';
-import { FilterProductModel } from '@/models/index';
+import { CustomColor, CustomRange } from '@/components/common';
+import { BrandModel, CategoryModel, ConfigModel, FilterProductModel, ProductModel, SelectModel, SortModel } from '@/models/index';
 import { useRouter } from 'next/router';
-import { priceRegex, convertObjectToQueryString } from '@/helpers/index';
-import { ProductService } from '@/services/index';
+import { priceRegex, convertObjectToQueryString, getUrlObject, convertObjectToObjectQuery, clean } from '@/helpers/index';
 import { RightArrowIcon } from '../icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGlobalState } from '@/statemangment/slice/globalSlice';
+import { defaultPriceRangeMax, priceRangeId } from '@/utils/config';
+import { DebounceInput } from 'react-debounce-input';
+import queryString from 'query-string';
+import { PageUrls, PRODUCT_LIST_PER_PAGE } from '@/utils/index';
+import { ProductService } from '@/services/index';
+import Link from 'next/link';
+import Image from 'next/image';
+import { getFilterState, setBrandsFilter, setCategoriesFilter, setColorsFilter, setPriceFilter, setProductFilter } from '@/statemangment/slice/filterSlice';
 
 interface Props {
     width?: number,
-    filterData: FilterDataModel,
+
 }
 
-export function ProductFilterSection({ width, filterData }: Props) {
+export function ProductFilterSection({ width }: Props) {
     const STEP = 1;
-    const MIN = 0;
-    const MAX = 5000;
 
-    const [productFilter, setProductFilter] = useState<FilterProductModel>({
-        descending: true,
-        page: 1,
-        category_ids: [],
-        brand_ids: [],
-        color_ids: [],
-        unit_size_ids: [],
-    });
+    const [productList, setProductList] = useState<ProductModel[]>([])
+    const dispatch = useDispatch();
+    const { firstRequest } = useSelector(getGlobalState);
+    const { productFilter } = useSelector(getFilterState);
+    // const [productFilter, setProductFilter] = useState<FilterProductModel>({
+    //     descending: true,
+    //     page: 1,
+    //     category_ids: [],
+    //     brand_ids: [],
+    //     color_ids: [],
+    //     unit_size_ids: [],
+    // });
 
+    const priceRangeObject: ConfigModel | undefined = firstRequest.config?.find(d => d.id == priceRangeId);
     const route = useRouter();
+    const searchedObject: FilterProductModel = queryString.parse(location.search);
+    const MIN = priceRangeObject && priceRangeObject.data?.min ? priceRangeObject.data.min : 0;
+    const MAX = priceRangeObject && priceRangeObject.data?.max ? priceRangeObject.data.max : 5000;
+    let rangeValues = [MIN, MAX, -1];
+
+    if (priceRangeObject && priceRangeObject.data?.min && priceRangeObject && priceRangeObject.data?.max) {
+        rangeValues = [MIN, MAX];
+    }
+
+    if (searchedObject.max_price && searchedObject.min_price) {
+        rangeValues = [searchedObject.min_price, searchedObject.max_price];
+    }
 
     const [scrolled, setScrolled] = useState(false);
-
-    const [values, setValues] = useState([MIN, MAX]);
+    const [values, setValues] = useState(rangeValues);
 
     const [expand, setExpand] = useState({
         category: false,
@@ -78,7 +99,8 @@ export function ProductFilterSection({ width, filterData }: Props) {
         setExpand(newExpand);
     }
 
-    function changeRange(value: string, index: number) {
+    function changeRange(value?: string, index?: number) {
+        if (value == undefined || index == undefined) return;
         if (Number(value.replace("$", "")) > MAX) return;
         if (value.length == 1) {
             if (index == 0) {
@@ -101,202 +123,283 @@ export function ProductFilterSection({ width, filterData }: Props) {
                 setValues(newValue);
             }
         }
+
+        editFilterProduct("price");
     }
 
-
+    useEffect(function () {
+        if (priceRangeObject && values.length > 2) {
+            setValues([MIN, MAX]);
+        }
+    }, [firstRequest])
 
     useEffect(() => {
         function handleScroll() {
-            if (window.scrollY > 70 && !scrolled) {
-                setScrolled(true);
+            if (window.scrollY > 70) {
+                !scrolled ? setScrolled(true) : null;
             }
             else if (window.scrollY <= 70) {
-                setScrolled(false);
+                scrolled ? setScrolled(false) : null;
             }
         }
-        Object.keys(route.query).map(function (key, index) {
-
-            if (key == "descending") {
-                productFilter.descending = Boolean(route.query[key]);
-            }
-
+        const cloneSearched = searchedObject as any;
+        const newProductFilter: FilterProductModel = {
+            descending: true,
+            page: 1,
+            category_ids: [],
+            brand_ids: [],
+            color_ids: [],
+            unit_size_ids: [],
+        };
+        Object.keys(cloneSearched).map(function (key, index) {
             if (key.includes("category_ids")) {
-                productFilter.category_ids?.push(Number(route.query[key]));
+                newProductFilter.category_ids?.push(Number(cloneSearched[key]));
             }
 
             if (key.includes("brand_ids")) {
-                productFilter.brand_ids?.push(Number(route.query[key]));
+                newProductFilter.brand_ids?.push(Number(cloneSearched[key]));
             }
 
             if (key.includes("color_ids")) {
-                productFilter.color_ids?.push(Number(route.query[key]));
+                newProductFilter.color_ids?.push(Number(cloneSearched[key]));
             }
 
             if (key.includes("unit_size_ids")) {
-                productFilter.unit_size_ids?.push(Number(route.query[key]));
+                newProductFilter.unit_size_ids?.push(Number(cloneSearched[key]));
             }
-
-            if (key == "page") {
-                productFilter.page = Number(route.query[key]);
-            }
-
         });
-        let newProductFilter = Object.assign({}, productFilter);
-        setProductFilter(newProductFilter);
+        if (searchedObject.descending) {
+            newProductFilter.descending = Boolean(searchedObject.descending);
+        }
+        if (searchedObject.page) {
+            newProductFilter.page = Number(searchedObject.page);
+        }
+
+        if (searchedObject.per_page) {
+            newProductFilter.per_page = Number(searchedObject.per_page);
+        }
+
+        if (searchedObject.search) {
+            newProductFilter.search = searchedObject.search;
+        }
+
+        if (searchedObject.sort_by) {
+            newProductFilter.sort_by = Number(searchedObject.sort_by);
+        }
+
+        //   let newProductFilter = Object.assign({}, productFilter);
+        ///setProductFilter(newProductFilter);
+        dispatch(setProductFilter(newProductFilter));
         window.addEventListener('scroll', handleScroll);
+
     }, []);
 
+    useEffect(() => {
+        async function getProducts() {
+            const productService: ProductService = new ProductService();
+            const response = await productService.getProducts(1, 5);
+            if (response.success) {
+                setProductList(response.data);
+            }
+        }
+        getProducts();
+    }, [])
 
 
-    function editFilterProduct(key: string, id: number, checked: boolean = false) {
-        productFilter.page = 1;
+    function editFilterProduct(key: string, id: number = -1, checked: boolean = false) {
+
+
         switch (key) {
             case "category_ids":
                 if (checked == false) {
-                    productFilter.category_ids = productFilter.category_ids?.filter(d => d != id);
+                    if (productFilter.category_ids) {
+                        dispatch(setCategoriesFilter({ ...productFilter, category_ids: productFilter.category_ids.filter(d => d != id) }));
+                    }
                 } else {
-                    productFilter.category_ids?.push(id);
+                    if (productFilter.category_ids && !productFilter.category_ids?.includes(id)) {
+                        dispatch(setCategoriesFilter({ ...productFilter, category_ids: [...productFilter.category_ids, id] }));
+                    }
                 }
                 break;
             case "brand_ids":
                 if (checked == false) {
-                    productFilter.brand_ids = productFilter.brand_ids?.filter(d => d != id);
+                    if (productFilter.brand_ids) {
+                        dispatch(setBrandsFilter({ ...productFilter, brand_ids: productFilter.brand_ids.filter(d => d != id) }));
+                    }
                 } else {
-                    productFilter.brand_ids?.push(id);
+                    if (productFilter.brand_ids && !productFilter.brand_ids?.includes(id)) {
+                        dispatch(setBrandsFilter({ ...productFilter, brand_ids: [...productFilter.brand_ids, id] }));
+                    }
                 }
                 break;
+
+            case "price":
+                dispatch(setPriceFilter({ ...productFilter, min_price: values[0], max_price: values[1] }));
+                break;
+
             case "color_ids":
                 if (checked == false) {
-                    productFilter.color_ids = productFilter.color_ids?.filter(d => d != id);
+                    if (productFilter.color_ids) {
+                        dispatch(setColorsFilter({ ...productFilter, color_ids: productFilter.color_ids.filter(d => d != id) }));
+                    }
                 } else {
-                    productFilter.color_ids?.push(id);
-                }
-                break;
-            case "unit_size_ids":
-                if (checked == false) {
-                    productFilter.unit_size_ids = productFilter.unit_size_ids?.filter(d => d != id);
-                } else {
-                    productFilter.unit_size_ids?.push(id);
+                    if (productFilter.color_ids && !productFilter.color_ids?.includes(id)) {
+                        dispatch(setColorsFilter({ ...productFilter, color_ids: [...productFilter.color_ids, id] }));
+                    }
                 }
                 break;
             default:
                 break;
         }
 
-        let newProductFilter = Object.assign({}, productFilter);
-        setProductFilter(newProductFilter);
-
-        const queryObject: any = {};
-        let anyObject: any = Object.assign({}, productFilter);
-        Object.keys(anyObject).map(function (key, index) {
-            if (anyObject[key] == undefined || typeof anyObject[key] == 'function') return;
-            if (typeof anyObject[key] != "object") {
-                queryObject[key] = anyObject[key];
-            } else {
-                if (Array.isArray(anyObject[key])) {
-                    for (let index = 0; index < anyObject[key].length; index++) {
-                        const element = anyObject[key][index];
-                        queryObject[key + "[" + index + "]"] = element;
-                    }
-                }
-            }
-        });
-
-        let queryString = convertObjectToQueryString(queryObject);
-
-        //  route.push({
-        //        query: queryObject
-        //    })
-        if (window.location.pathname.includes("/products/")) {
-            route.push('/products?' + queryString);
-        } else {
-            route.push('/products?' + queryString, undefined, { shallow: true })
-        }
 
     }
 
+    function result() {
+        document.getElementById('result_loader')?.classList.add("loading");
+        let searchedQueryString = queryString.stringify(productFilter, { arrayFormat: 'index' });
+        let searchedObjQuery: any = clean(queryString.parse(searchedQueryString));
+        if (searchedObjQuery) {
+            route.push('/products', {
+                query: searchedObjQuery,
+            }, { shallow: true })
+        }
+    }
+
     return (
+
         <>
             <ProductFilterSectionStyle scrolled={scrolled} width={width}>
-                <ul>
+                <SectionTitleWithLinkStyle>
+                    <SectionTitleStyle>Filters</SectionTitleStyle>
+                </SectionTitleWithLinkStyle>
+                <ul className='filter_content'>
                     <li>
-                        <ExpandedListStyle maxHeight={expand.category}>
-                            <a onClick={() => editExpand("category")}><span>Category</span><RightArrowIcon color='#707070' /></a>
+                        <ExpandedListStyle maxHeight={expand.brand}>
+                            <a>Brand</a>
                             <ul>
-                                {filterData.catgories.map((value: SelectModel, index: number) =>
-                                    <li key={value.id}>
-                                        <input onChange={(e) => {
-                                            editFilterProduct("category_ids", value.id, e.target.checked);
-                                        }} id={`cat_${value.id}`} type="checkbox" name='cat' checked={productFilter.category_ids?.includes(value.id)} hidden />
-                                        <label htmlFor={`cat_${value.id}`}>{value.name}</label>
+                                {firstRequest.brands?.map((value: BrandModel, index: number) =>
+                                    <li key={`brand_li_${value.id}`}>
+                                        <CheckboxStyle className='v2' >
+                                            <input checked={value.id ? productFilter.brand_ids?.includes(value.id) : false} onChange={(e) => value.id ? editFilterProduct("brand_ids", value.id, e.target.checked) : null} id={`brand_${value.id}`} type="checkbox" name='brand' hidden />
+                                            <label htmlFor={`brand_${value.id}`}>{value.name}</label>
+                                        </CheckboxStyle>
                                     </li>
                                 )}
                             </ul>
+                            <span hidden={expand.brand} onClick={() => editExpand("brand")}>+ Show more</span>
+                            <span hidden={!expand.brand} onClick={() => editExpand("brand")}>- Show less</span>
                         </ExpandedListStyle>
                     </li>
+
                     <li>
-                        <ExpandedListStyle maxHeight={expand.price}>
-                            <a onClick={() => editExpand("price")}><span>Price</span><RightArrowIcon color='#707070' /></a>
+                        <ExpandedListStyle maxHeight={expand.category}>
+                            <a>
+                                Category
+                            </a>
                             <ul>
-                                <li>
-                                    <CustomRange values={values} setValues={setValues} MAX={MAX} MIN={MIN} STEP={STEP} />
-                                </li>
-                                <li>
-                                    <input type={"tel"} value={"$" + values[0]} onChange={(e) => { changeRange(e.target.value, 0) }} />
-                                    <input type={"tel"} value={"$" + values[1]} onChange={(e) => { changeRange(e.target.value, 1) }} />
-                                </li>
+                                {firstRequest.categories?.map((value: CategoryModel, index: number) =>
+                                    <li key={`cat_li_${value.id}`}>
+                                        <CheckboxStyle className='v2'>
+                                            <input onChange={(e) => {
+                                                value.id ? editFilterProduct("category_ids", value.id, e.target.checked) : null;
+                                            }} id={`cat_${value.id}`} type="checkbox" name='cat' checked={value.id ? productFilter.category_ids?.includes(value.id) : false} hidden />
+                                            <label htmlFor={`cat_${value.id}`}>{value.name}</label>
+                                        </CheckboxStyle>
+                                    </li>
+                                )}
                             </ul>
+                            <span hidden={expand.category} onClick={() => editExpand("category")}>+ Show more</span>
+                            <span hidden={!expand.category} onClick={() => editExpand("category")}>- Show less</span>
                         </ExpandedListStyle>
                     </li>
-                    <li>
-                        <ExpandedListStyle maxHeight={expand.brand}>
-                            <a onClick={() => editExpand("brand")}><span>Brand</span><RightArrowIcon color='#707070' /></a>
-                            <ul>
-                                {filterData.brands.map((value: SelectModel, index: number) => <li key={value.id}><input checked={productFilter.brand_ids?.includes(value.id)} onChange={(e) => editFilterProduct("brand_ids", value.id, e.target.checked)} id={`brand_${value.id}`} type="checkbox" name='brand' hidden /><label htmlFor={`brand_${value.id}`}>{value.name}</label></li>)}
-                            </ul>
-                        </ExpandedListStyle>
-                    </li>
+
                     <li>
                         <ExpandedListStyle maxHeight={expand.color}>
-                            <a onClick={() => editExpand("color")}><span>Color</span><RightArrowIcon color='#707070' /></a>
+                            <a>Color</a>
                             <ul>
-                                <li>
-                                    <CustomColor selectedIds={productFilter.color_ids} editFilterProduct={editFilterProduct} colors={filterData.colors} />
+                                <li className='colors_container'>
+                                    <CustomColor selectedIds={productFilter.color_ids} editFilterProduct={editFilterProduct} colors={firstRequest.color_categories} />
                                 </li>
                             </ul>
+                            <span hidden={expand.color} onClick={() => editExpand("color")}>+ Show more</span>
+                            <span hidden={!expand.color} onClick={() => editExpand("color")}>- Show less</span>
                         </ExpandedListStyle>
                     </li>
-                    <li>
-                        <ExpandedListStyle maxHeight={expand.size}>
-                            <a onClick={() => editExpand("size")}><span>Sizes</span><RightArrowIcon color='#707070' /></a>
-                            <ul>
-                                <li><CustomSize selectedIds={productFilter.unit_size_ids} editFilterProduct={editFilterProduct} sizes={filterData.sizes} /></li>
-                            </ul>
-                        </ExpandedListStyle>
+
+                    {
+                        values.length == 2 ?
+                            <li className='price_range'>
+                                <a>Price</a>
+                                <ul>
+                                    <li>
+                                        <CustomRange values={values} setValues={setValues} MAX={MAX} MIN={MIN} STEP={STEP} priceChanged={() => editFilterProduct("price")} />
+                                    </li>
+                                    {/* <li>
+                                        <DebounceInput debounceTimeout={300} type={"tel"} value={"$" + values[0]} onChange={(e) => { changeRange(e.target.value, 0) }} />
+                                        <DebounceInput debounceTimeout={300} type={"tel"} value={"$" + values[1]} onChange={(e) => { changeRange(e.target.value, 1) }} />
+                                    </li> */}
+                                </ul>
+
+                                <div>Price: ${values[0]} — ${values[1]}</div>
+                            </li> : <></>
+                    }
+
+                    <li className='noBorder'>
+                        <ButtonStyle id='result_loader' onClick={() => result()}><span>RESULTS</span></ButtonStyle>
                     </li>
+
+
+                    {/* 
                     <li>
                         <ExpandedListStyle maxHeight={expand.sortBy}>
                             <a onClick={() => editExpand("sortBy")}><span>Sort By</span><RightArrowIcon color='#707070' /></a>
                             <ul>
-                                <li>Mask</li>
-                                <li>Mask</li>
-                                <li>Mask</li>
-                                <li>Mask</li>
-                                <li>Mask</li>
-                                <li>Mask</li>
+                                {firstRequest.sort?.map((value: SortModel, index: number) =>
+                                    <li key={`sort_li_${value.id}`}>
+                                        <input id={`sort_${value.id}`} checked={productFilter.sort_by == undefined && index == 0 ? true : value.id == productFilter.sort_by} onChange={(e) => editFilterProduct("sort", Number(value.id), e.target.checked)} type="radio" name='sort' hidden />
+                                        <label htmlFor={`sort_${value.id}`}>{value.name}</label>
+                                    </li>
+                                )}
                             </ul>
                         </ExpandedListStyle>
-                    </li>
-                    <li>
-                        <div>
-                            <a>My Wishlist</a>
-                            <ul>
-                                <li>Empty</li>
-                            </ul>
-                        </div>
+                    </li> */}
+                    <li className='on_sale noBorder'>
+                        <SectionTitleWithLinkStyle>
+                            <SectionTitleStyle>On Sale Product</SectionTitleStyle>
+                        </SectionTitleWithLinkStyle>
+                        <ul>
+                            {
+                                productList.map((productItem: ProductModel, index: number) =>
+                                    <li key={productItem.id}>
+                                        <Link href={PageUrls.PRODUCTS + "/" + productItem.id}>
+                                            <a>
+                                                <div className='image_container'>
+                                                    <Image width={80} height={80} src={productItem.image ? `${productItem.image?.base_url}/${productItem.image?.webp_image}` : ""} alt={productItem.name} />
+                                                </div>
+                                                <div className='content'>
+                                                    <h2>{productItem.name}</h2>
+                                                    <h3 className='price'>
+                                                        {productItem.discounted_price != undefined && productItem.discounted_price > 0 ?
+                                                            <>
+                                                                {productItem.discounted_price?.toFixed(2)} USD
+                                                            </> :
+                                                            <>{productItem.price?.toFixed(2)} USD</>
+                                                        }
+                                                    </h3>
+                                                </div>
+                                            </a>
+                                        </Link>
+                                    </li>
+                                )
+                            }
+                        </ul>
                     </li>
                 </ul>
             </ProductFilterSectionStyle>
         </>
+
+
+
     )
 }

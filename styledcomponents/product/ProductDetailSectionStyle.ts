@@ -28,18 +28,16 @@ export const ProductDetailSectionStyle = styled.section<Props>`
             .thumbnails{
                 padding: 10px;
                 .swiper-slide{
-                    opacity: 0.5;
                     width: 70px;
                     height: 70px;
-                    border-radius: 19px;
-                    box-shadow: 0px 3px 6px #00000038;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     transition: opacity 0.3s;
+                    border: 1px solid #999999;
                     cursor: pointer;
                     div{
-                        max-width: 40px;
+                        max-width: 60px;
                         position: relative;
                     }
                     @media (hover) {
@@ -48,7 +46,7 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                         }   
                     }
                     &.my-swiper-slide-active{
-                        opacity: 1;
+                        border-bottom: 5px solid ${({ theme }: Props) => theme.globalColors.primary_color};
                     }
                 }
 
@@ -56,7 +54,6 @@ export const ProductDetailSectionStyle = styled.section<Props>`
             .images-swiper{
                 width: 400px;
                 height: 400px;
-                box-shadow: 0px 3px 6px #00000038;
                 border-radius: 19px;
                 .swiper-slide{
                     display: flex;
@@ -87,26 +84,39 @@ export const ProductDetailSectionStyle = styled.section<Props>`
             
             flex: 1;
             padding-right: 40px;
-
             margin-left: 60px;
-            h1{
+            h2{
                 text-align: start;
-                line-height: 38px;
+                line-height: 31px;
+                font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+                font-size: 31px;
+            }
+            .category{
+                color: #999999;
+                font-size: 16px;
+                font-family: ${({ theme }: Props) => theme.fonts.medium};
+                margin-top: 10px;
+                padding-bottom: 25px;
             }
             .description{
-                font-family: ${({ theme }: Props) => theme.fonts.italic};
-             //   max-width: 460px;
-                margin-top: 15px;
-                line-height: 20px;
+                padding-top: 17px;
+                border-top: 1px solid #97979780;
             }
             >ul{
                 margin-top: 10px;
             }
             .price{
-                font-family: ${({ theme }: Props) => theme.fonts.black};
-                font-size: 32px;
-                color: ${({ theme }: Props) => theme.globalColors.primary_color};
-                margin-top: 15px;
+                margin-top: 22px;
+                width: fit-content;
+                color: black;
+                font-size: 39px;
+                margin-bottom: 20px;
+                del{
+                    margin-left: 30px;
+                    font-size: 29px;    
+                    align-self: flex-end;
+                    line-height: 29px;
+                }
             }
             .label{
                 color: #6E6E6E;
@@ -114,85 +124,84 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                 font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
             }
             .sizes{
-                display: flex;
-                flex-wrap: nowrap;
-                align-items: center;
-                margin-top: 20px;
-                
-                div label{
-                    width: auto;
-                    height: auto;
-                    min-width: 50px;
-                    min-height: 40px;
-                    padding: 5px;
-                    box-shadow: 0px 1px 6px #00000029;
-                    margin-left: 15px;
-                    margin-top: 0;
-                }
-            }
-            .quantity{
-                margin-top: 30px;
-                display: flex;
-                .label{
-                    margin-right: 20px;
-                }
-            }
-            .colors{
-                display: flex;
-                flex-wrap: nowrap;
-                align-items: center;
-                margin-top: 30px;
 
-                div{
-                    margin-left: 25px;
-                    margin-top: 0;
-                    width: 20px;
-                    height: 20px;
-                    &::before{
-                        width: 27px;
-                        height: 27px;
-                    }
-                }
-            }
-            .expand{
-                margin-top: 40px;
-                a{
-                    font-size: 14px;
-                    color: #6E6E6E;
-                    font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
-
-                }
-                ul{
-                    padding-top: 15px;
-                    display: flex;
-                    flex-direction: column;
-                    margin-top: -10px;
-                    li{
-                        color: #6E6E6E;
-                        font-size: 16px;
-                        font-family: ${({ theme }: Props) => theme.fonts.bold};
-                        display: flex;
-                        margin-top: 10px;
-                        .label{
-                            font-size: 14px;
-                            font-family: ${({ theme }: Props) => theme.fonts.light_italic};
-                            margin-right: 20px;
-                            min-width: 61px;
-                            display: block;
+                div {
+                    &:not(.color_container){
+                        label{
+                            width: auto;
+                            height: auto;
+                            min-width: 90px;
+                            min-height: 42px;
+                            padding: 5px;
+                            box-shadow: 0px 1px 6px #00000029;
+                            margin-top: 0;
                         }
                     }
                 }
             }
-            .buttons{
-                align-self: flex-end;
-                margin-top: -80px;
-                a{
-                    &:first-child{
-                        box-shadow: 0px 3px 6px #00000029;
+            .sizes, .color_container{
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 13px 0;
+                border-top: 1px solid #97979780;
+                >label{
+                    color: black;
+                    font-size: 18px;
+                    font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+                    min-width: 77px;
+                }
+                div{
+                    margin-left: 20px;
+                }
+            }
+            .color_container{
+                div{
+                    label{
+                        width: 41px;
+                        height: 41px;
                     }
-                    &:nth-child(2){
-                        margin-top: 15px;
-
+                }
+            }
+            .variantion_container{
+                >div{
+                    &:last-child{
+                        border-bottom: 1px solid #97979780;
+  
+                    }
+                }
+            }
+            .bottom_section{
+                margin-top: 20px;
+                .label{
+                    color: black;
+                    font-size: 18px;
+                    font-family: ${({ theme }: Props) => theme.fonts.semi_bold};
+                }
+                .quantity{
+                    margin-top: 10px;
+                }
+                .container, .buttons{
+                    display: flex;
+                    align-items: center;
+                    a{
+                        margin-top: 0;
+                    }
+                }
+                .buttons{
+                    margin-left: 60px;
+                    i{
+                        margin-left: 12px;
+                        width: 54px;
+                        height: 54px;
+                        display: grid;
+                        place-items: center;
+                        background-color: #349D52;
+                        border-radius: 10px;
+                        path{
+                            stroke: white;
+                            fill: white;
+                        }
                     }
                 }
             }

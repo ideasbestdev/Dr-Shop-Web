@@ -1,3 +1,5 @@
+import { masterCardRegexPattern, visaOrMasterRegexPattern, visaRegexPattern } from "../utils";
+
 export function emailRegex(email?: string): boolean {
     const emailRegex = /\S+@\S+\.\S+/;
     if (email != undefined && emailRegex.test(email)) {
@@ -20,4 +22,14 @@ export function priceRegex(price?: string): boolean {
         return true;
     }
     return false;
+}
+
+export function cardsRegex(cardNumber?: string): string {
+    if (cardNumber != undefined && masterCardRegexPattern.test(cardNumber)) {
+        return "master";
+    }
+    if (cardNumber != undefined && visaRegexPattern.test(cardNumber)) {
+        return "visa";
+    }
+    return "";
 }

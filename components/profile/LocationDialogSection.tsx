@@ -22,7 +22,7 @@ export function LocationDialogSection({ show, setShow }: Props) {
     return (
         <LocationDialogStyle show={show}>
             <div onClick={(e) => e.stopPropagation()} >
-                <div onClick={() => setShow(false)}><Image src={AssetsImages.circleCloseIcon} alt="circleCloseIcon" /></div>
+                <div onClick={() => setShow(false)}><Image src={""} alt="circleCloseIcon" /></div>
                 <SectionTitleStyle>Home Address</SectionTitleStyle>
                 <ul>
                     <li><h2>State: </h2><span>Michigan</span></li>

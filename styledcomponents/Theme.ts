@@ -23,18 +23,14 @@ export const theme: Theme = {
     },
 
     height: {
-        header: '269px',
-        top_header: '39px',
-        middle_header: '170px',
-        bottom_header: '60px',
-        header_scroll: "121px",
-        top_header_scroll: "0",
-        middle_header_scroll: "82px",
-        bottom_header_scroll: "39px",
+        header: '163px',
+        top_header: '43px',
+        bottom_header: '120px',
+        footer: "490px",
         editor: '400px',
         section_options: '75px',
         input_height: '64px',
-        button_height: "49px"
+        button_height: "40px"
     },
 
     width: {
@@ -43,26 +39,23 @@ export const theme: Theme = {
     },
 
     globalColors: {
-        primary_color: "#003177",
+        primary_color: "#2262BC",
         secondary_color: "#D23A3A",
     },
 
     fonts: {
-        extra_bold: "Montserrat-ExtraBold",
-        bold: "Montserrat-Bold",
+        extra_bold: "Nunito-ExtraBold",
+        bold: "Nunito-Bold",
+        semi_bold: "Nunito-SemiBold",
         black: "Montserrat-Black",
-        semi_bold: "Montserrat-SemiBold",
-        medium: "Montserrat-Medium",
+        medium: "Nunito-Medium",
+        regular: "Nunito-Regular",
+        light: "Nunito-Light",
         light_italic: "Montserrat-LightItalic",
         italic: "Montserrat-Italic",
-        regular: "Montserrat-Regular",
         poppins_bold: 'Poppins-Bold',
         sfPro_regular: 'SFProText-Regular',
     },
-    images: {
-        arrow_down: AssetsImages.arrow_down,
-    }
-
 }
 
 interface BackgroundColors {
@@ -87,6 +80,7 @@ interface Fonts {
     semi_bold: string,
     medium: string,
     italic: string,
+    light: string,
     regular: string,
     poppins_bold: string,
     light_italic: string,
@@ -99,13 +93,9 @@ interface BreakPoints {
 
 interface Heights {
     header: string,
+    footer: string,
     top_header: string,
-    middle_header: string,
     bottom_header: string,
-    header_scroll: string,
-    top_header_scroll: string,
-    middle_header_scroll: string,
-    bottom_header_scroll: string,
     editor: string,
     input_height: string,
     section_options: string,
@@ -131,7 +121,6 @@ export interface Theme {
     globalColors: GlobalColors,
     fonts: Fonts,
     gridSpace: string,
-    images: any
 }
 
 

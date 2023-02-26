@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserState } from "@/statemangment/slice/userSlice";
 import { ProductDetailSection, ProductFilterSection, SimilarProductSection } from '@/components/product/index';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,9 @@ import { GetServerSidePropsContext, PreviewData } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { ProductModel } from '@/models/index';
 import { ProductService } from '@/services/index';
+import { PRODUCT_DETAIL_PAGE_NAME } from '@/utils/constants';
+import { useRouter } from 'next/router';
+import { BrandSection, NewArrivalProductSection } from '@/components/home';
 
 interface Props {
     product: ProductModel,
@@ -23,33 +25,42 @@ export async function getServerSideProps(context: GetServerSidePropsContext<Pars
     }
     return {
         props: {
-            product,
+            product
 
         },
     }
 }
 
-export default function ProductItem({ product }: Props) {
+export default function ProductItemPage({ product }: Props) {
     const FlexDiv = styled.div`
       width: 100%;
-      padding-left: 280px;
+      padding-left: 40px;
     `;
 
-    const { currentuser } = useSelector(getUserState);
     const dipatch = useDispatch();
     const [load, setLoad] = useState(false);
-    useEffect(function () {
-        setLoad(true);
-    }, [])
+    const route = useRouter();
+    // useEffect(function () {
+    //     //  setLoad(true);
+    //     const productService: ProductService = new ProductService();
+    //     let response = productService.getProductById(route.query.id != undefined ? Number(route.query.id) : -1).then((res) => {
+    //         console.log(res);
+
+    //     });
+    // }, [])
     return (
         <>
-            <div style={{ display: "flex" }}>
-                {load == true ? <ProductFilterSection filterData={JSON.parse(localStorage.getItem("filter") ?? "")} width={280} /> : null}
-                <FlexDiv >
-                    <ProductDetailSection product={product} />
-                    {/* <SimilarProductSection /> */}
-                </FlexDiv>
-            </div>
+
+            {/* {load == true ? <ProductFilterSection filterData={JSON.parse(localStorage.getItem("filter") ?? "")} width={280} /> : null} */}
+            <FlexDiv >
+                <ProductDetailSection product={product} />
+                {/* <SimilarProductSection /> */}
+            </FlexDiv>
+            <NewArrivalProductSection />
+            <BrandSection />
         </>
     )
 }
+
+
+ProductItemPage.componentName = PRODUCT_DETAIL_PAGE_NAME;
