@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { generateRandomNumber } from "@/helpers/index";
-import { AssetsImages, emailRegexPattern, ERROR_ALERT_TYPE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, PageUrls, passwordRegexPattern, REQUIRED_MESSAGE, TOKEN_EXPIRE, TOKEN_KEY_NAME } from "@/utils/index";
+import { AssetsImages, emailRegexPattern, ERROR_ALERT_TYPE, INFO_ALERT_TYPE, INVALID_EMAIL_MESSAGE, INVALID_PASSWORD_MESSAGE, PageUrls, passwordRegexPattern, REQUIRED_MESSAGE, TOKEN_EXPIRE, TOKEN_KEY_NAME } from "@/utils/index";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { AlertStateModel, ServerResModel, UserModel } from "@/models/index";
@@ -42,11 +42,20 @@ export default function Login() {
                 console.log(userResponse);
                 //      productService.moveCart();
                 dispatch(setUser(userResponse));
-                if (userResponse.account?.email_verified == false) {
-                    // const userServce = new UserService();
-                    //  userServce.verifcate();
-                    dispatch(setVerificationPop(true));
-                }
+                // if (true) {
+                //     const userServce = new UserService();
+                //     const emailRes = await userServce.sendEmailVerifcate();
+                //     const generatedIdentifier = generateRandomNumber(4);
+                //     if (emailRes.success) {
+                //         const customAlert: AlertStateModel = {
+                //             message: "An email with otp code has been send",
+                //             type: INFO_ALERT_TYPE,
+                //             identifier: generatedIdentifier,
+                //         }
+                //         dispatch(setAlert(customAlert));
+                //     }
+                //     dispatch(setVerificationPop(true));
+                // }
 
 
                 route.push(PageUrls.HOME);

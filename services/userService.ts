@@ -1,9 +1,10 @@
-import { AddressModel, CardModel, ServerResModel, UserModel } from '@/models/index';
+import { AddressModel, CardModel, ServerResModel, UserModel, AccountModel } from '@/models/index';
 import http from '@/utils/axios';
 import { DoctorConfigController, AccountController, DEVICEID_KEY_NAME, AddressController, CardController, apiversion } from "@/utils/index";
 import { UAParser } from 'ua-parser-js';
 import { getDeviceId } from '@/helpers/index';
 import { AxiosError } from 'axios';
+import queryString from 'query-string';
 
 
 
@@ -33,11 +34,30 @@ export class UserService {
         return serverRes;
     }
 
-    verifcate() {
-        http.post(AccountController + apiversion + "/verify/email").then((response: any) => {
-            console.log(response);
+    async sendEmailVerifcate(): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        await http.post(AccountController + apiversion + "/verify/email").then((response: any) => {
+            serverRes = response.data;
         }, (error) => {
         });
+
+        return serverRes;
+    }
+
+    async verifcate(code: string): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        await http.get(AccountController + apiversion + "/verify/email?code=" + code).then((response: any) => {
+            serverRes = response.data;
+        }, (error) => {
+        });
+
+        return serverRes;
     }
 
     async Login(user: UserModel): Promise<ServerResModel> {
@@ -56,7 +76,7 @@ export class UserService {
         return serverRes;
     }
 
-    async EditProfile(user: UserModel): Promise<ServerResModel> {
+    async EditProfile(user: AccountModel): Promise<ServerResModel> {
         user.phone = user.phone?.split(" ").join("");
         let serverRes: ServerResModel = {
             data: {},
@@ -112,13 +132,41 @@ export class UserService {
         return serverRes;
     }
 
+    async EditAddress(data: AddressModel): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        const datatoUpdate: AddressModel = {
+            name: data.name,
+            contact_country_code: data.contact_country_code,
+            contact_phone: data.contact_phone,
+            country_id: data.country_id,
+            building_name: data.building_name,
+            street: data.street,
+            state_id: data.state_id,
+            floor: data.floor,
+            zip_code: data.zip_code,
+            city_id: data.city_id,
+            is_default: data.is_default,
+        }
+        await http.put(AddressController + apiversion + "/" + data.id + "?uuid=" + data.uuid, queryString.stringify(datatoUpdate), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+            .then((response: any) => {
+                serverRes = response.data;
+            }, (error) => {
+            });
+        return serverRes;
+    }
 
     async AddCard(data: CardModel): Promise<ServerResModel> {
         let serverRes: ServerResModel = {
             data: {},
             success: false,
         }
-        delete data.yearsMonth;
         await http.post(CardController + apiversion, data)
             .then((response: any) => {
                 serverRes = response.data;

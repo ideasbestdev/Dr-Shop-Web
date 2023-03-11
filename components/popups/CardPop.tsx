@@ -12,11 +12,11 @@ import { getGlobalState, setSelectedCard } from '@/statemangment/slice/globalSli
 interface Props {
     show?: boolean;
     setShowPop?: React.Dispatch<React.SetStateAction<any>>;
-    setAddressList?: Function;
+    setCardList?: Function;
     cardList?: CardModel[]
 }
 
-export function CardPop({ show, setShowPop, setAddressList, cardList }: Props) {
+export function CardPop({ show, setShowPop, setCardList, cardList }: Props) {
     const [addpop, setAddPop] = useState(false);
     const { selectedCard } = useSelector(getGlobalState);
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export function CardPop({ show, setShowPop, setAddressList, cardList }: Props) {
                                     cardList?.map((item) =>
                                         <li key={item.id} onClick={() => { dispatch(setSelectedCard(item)); setShowPop ? setShowPop(false) : null }} className={`card  credit_card ${selectedCard?.id == item.id ? "is_Active" : ""}`}>
                                             <div className='image_container'>
-                                                <Image src={item.type == "master" ? AssetsImages.master : AssetsImages.visa} />
+                                                <Image alt={item.type} src={item.type == "master" ? AssetsImages.master : AssetsImages.visa} />
                                             </div>
                                             <div className="number">
                                                 {item.card_number}
@@ -53,7 +53,7 @@ export function CardPop({ show, setShowPop, setAddressList, cardList }: Props) {
                         <div className="bottom_section">
                             <div className="Add_Card" onClick={() => setAddPop(true)}>
                                 <div className='image_container'>
-                                    <Image src={AssetsImages.card} />
+                                    <Image alt="addCard" src={AssetsImages.card} />
                                 </div>
                                 <a>Add a Credit Card</a>
                             </div>
@@ -62,7 +62,7 @@ export function CardPop({ show, setShowPop, setAddressList, cardList }: Props) {
 
                 </div>
             </PopContainerStyle>
-            <AddCardPop show={addpop} setShowPop={setAddPop} />
+            <AddCardPop show={addpop} setShowPop={setAddPop} setCardList={setCardList} />
 
         </>
     )

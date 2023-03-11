@@ -68,12 +68,13 @@ export class ProductService {
             data: {},
             success: false,
         };
+        var myFav = isFav ? 1 : 0;
         if (product_id && uuid) {
             if (isFav) {
-                const response = await http.post(ProductController + "favorite/" + apiversion, { product_id });
+                const response = await http.post(ProductController + "favorite/" + apiversion, { product_id, is_favorite: myFav });
                 console.log("add", response);
             } else {
-                const response = await http.post(ProductController + "favorite/" + apiversion, { product_id });
+                const response = await http.post(ProductController + "favorite/" + apiversion, { product_id, is_favorite: myFav });
                 console.log("delete", response);
             }
         }
@@ -81,7 +82,7 @@ export class ProductService {
     }
 
 
-    async addToCart(product?: ProductModel, quantity?: number, isAuth?: boolean): Promise<ServerResModel> {
+    async addToCart(product?: ProductModel, quantity?: number, isAuth?: boolean, variantId?: number): Promise<ServerResModel> {
         let serRes: ServerResModel = {
             data: {},
             success: false,
@@ -92,6 +93,9 @@ export class ProductService {
             product_id: product?.id,
             quantity: quantity,
             cart_key: isAuth ? Cookies.get(TOKEN_KEY_NAME) : getDeviceId(),
+        }
+        if (variantId) {
+            data.product_price_id = variantId;
         }
         const response = await http.post(CartController + apiversion + "/", data);
         serRes = response.data;

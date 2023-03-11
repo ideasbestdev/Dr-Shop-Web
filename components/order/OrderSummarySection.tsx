@@ -10,11 +10,12 @@ import { useState } from 'react';
 import { UserService } from '@/services/index';
 import Cookies from 'js-cookie';
 import { TOKEN_KEY_NAME } from '@/utils/config';
+import { useRouter } from 'next/router';
 
 export function OrderSummarySection() {
     const { firstRequest, selectedProducts, selectedAddress, selectedCard } = useSelector(getGlobalState);
     const [checkout, setCheckout] = useState<CheckouttModel>()
-
+    const router = useRouter();
     function productBySupplierName(): ProductSupplierModel {
         const pruductsBySupplier: ProductSupplierModel = {};
         selectedProducts?.map((item) => {
@@ -32,6 +33,7 @@ export function OrderSummarySection() {
     const productBySupplierList = productBySupplierName();
 
     useEffect(function () {
+
         async function getCheckout() {
             const productService: ProductService = new ProductService();
             let url = "";
@@ -42,6 +44,9 @@ export function OrderSummarySection() {
                 var checkoutData: CheckouttModel = response.data;
                 setCheckout(checkoutData);
             }
+        }
+        if (selectedProducts == undefined || selectedProducts.length == 0 || selectedAddress == undefined) {
+            router.replace("/");
         }
         getCheckout();
 

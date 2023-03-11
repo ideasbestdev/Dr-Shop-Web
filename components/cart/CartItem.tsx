@@ -2,7 +2,7 @@ import { CartProductsModel } from '@/models/CartModel'
 import { ProductService } from '@/services/productService'
 import { CheckboxStyle, CustomQuantityStyle } from '@/styledcomponents/index'
 import Image from 'next/image'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useId, useRef } from 'react'
 import useCounter from '../customHookes/useCounter'
 import { CloseIcon } from '../icons'
 
@@ -18,6 +18,7 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
     const productPrice = value.discounted_price && value.discounted_price > 0 ? value.discounted_price : value.price ? value.price : 0;
     const [checked, setChecked] = useState(true);
     const ref = useRef<HTMLDivElement | null>(null);
+    const id = useId();
     function changeQuantity(quantity: number) {
         var currentQuantity = count + quantity;
 
@@ -45,8 +46,19 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
                 </div>
             </div>
             <div className='product_title'>{value.product?.name}</div>
-            <div>In Stock</div>
-            <div>$ {productPrice}</div>
+            <div className='inStock'>In Stock</div>
+            {/* <div>$ {productPrice}</div> */}
+            <div>
+                <div className={`price ${value.discounted_price != undefined && value.discounted_price > 0 ? "hasDis" : ""}`}>
+                    {value.discounted_price != undefined && value.discounted_price > 0 ?
+                        <>
+                            $ {value.discounted_price?.toFixed(2)}
+                            <del>$ <span>{value.price?.toFixed(2)}</span></del>
+                        </> :
+                        <>$ {value.price?.toFixed(2)}</>
+                    }
+                </div>
+            </div>
             <div>
                 <div className='quantity'>
                     <CustomQuantityStyle>
@@ -59,8 +71,8 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
             <div>$ {count * productPrice}</div>
             <div className='checkbox'>
                 <CheckboxStyle className='v3'>
-                    <input type={"checkbox"} id={"cart_" + value.product_id} onChange={() => { removeAddProductChecked(count * productPrice, value, !value.isChecked, index); }} checked={value.isChecked} />
-                    <label htmlFor={"cart_" + value.product_id}></label>
+                    <input type={"checkbox"} id={"cart_" + id} onChange={() => { removeAddProductChecked(count * productPrice, value, !value.isChecked, index); }} checked={value.isChecked} />
+                    <label htmlFor={"cart_" + id}></label>
                 </CheckboxStyle>
             </div>
         </>

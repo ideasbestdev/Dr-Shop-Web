@@ -21,9 +21,11 @@ import user from "@/assets/images/user.png";
 import order from "@/assets/images/order.png";
 import address from "@/assets/images/address.png";
 import favourite from "@/assets/images/favourite.png";
+import cart from "@/assets/images/cart.png";
 
 export const AssetsImages = {
     uploadFileIcon,
+    cart,
     homeBanner,
     homeDiscount,
     dental,

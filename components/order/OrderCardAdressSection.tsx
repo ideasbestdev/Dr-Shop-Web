@@ -23,7 +23,6 @@ export function OrderCardAdressSection() {
             if (response.success) {
                 setCardList(response.data);
             }
-            console.log(response.data);
         }
         getCardList();
     }, [])
@@ -35,12 +34,12 @@ export function OrderCardAdressSection() {
                     {
                         !selectedCard ? <li className='card selected_card' onClick={() => setShowPop(true)}>
                             <div className='image_container'>
-                                <Image src={AssetsImages.card} />
+                                <Image alt='master' src={AssetsImages.card} />
                             </div>
                             <a>Select Payment Method</a>
-                        </li> : <li className={`card  credit_card`}>
+                        </li> : <li className={`card  credit_card`} onClick={() => setShowPop(true)}>
                             <div className='image_container'>
-                                <Image src={selectedCard.type == "master" ? AssetsImages.master : AssetsImages.visa} />
+                                <Image alt='visa' src={selectedCard.type == "master" ? AssetsImages.master : AssetsImages.visa} />
                             </div>
                             <div className="number">
                                 {selectedCard.card_number}
@@ -70,7 +69,7 @@ export function OrderCardAdressSection() {
                     <li></li>
                 </ul>
             </OrderCardAdressSectionStyle>
-            <CardPop show={showPop} setShowPop={setShowPop} cardList={cardList} />
+            <CardPop show={showPop} setShowPop={setShowPop} cardList={cardList} setCardList={setCardList} />
         </>
 
     )

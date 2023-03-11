@@ -13,7 +13,7 @@ export function CategorySection() {
                 <li>
                     <a>
                         <div className='image_container'>
-                            <Image src={AssetsImages.medical} />
+                            <Image alt='medical' src={AssetsImages.medical} />
                         </div>
                         <h3>Medical</h3>
                     </a>
@@ -21,7 +21,7 @@ export function CategorySection() {
                 <li>
                     <a>
                         <div className='image_container'>
-                            <Image src={AssetsImages.surgical} />
+                            <Image alt='surgical' src={AssetsImages.surgical} />
                         </div>
                         <h3>Surgical</h3>
                     </a>
@@ -29,7 +29,7 @@ export function CategorySection() {
                 <li>
                     <a>
                         <div className='image_container'>
-                            <Image src={AssetsImages.dental} />
+                            <Image alt='dental' src={AssetsImages.dental} />
                         </div>
                         <h3>Dental</h3>
                     </a>
@@ -37,7 +37,7 @@ export function CategorySection() {
                 <li>
                     <a>
                         <div className='image_container'>
-                            <Image src={AssetsImages.optical} />
+                            <Image alt='optical' src={AssetsImages.optical} />
                         </div>
                         <h3>Optical </h3>
                     </a>
@@ -45,7 +45,7 @@ export function CategorySection() {
                 <li>
                     <a>
                         <div className='image_container'>
-                            <Image src={AssetsImages.solaruim} />
+                            <Image alt='solaruim' src={AssetsImages.solaruim} />
                         </div>
                         <h3>Solaruim</h3>
                     </a>

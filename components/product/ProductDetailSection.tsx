@@ -10,12 +10,13 @@ import { HeartIcon } from '../icons';
 import { useSelector } from 'react-redux';
 import { getGlobalState } from '@/statemangment/slice/globalSlice';
 import { ProductService } from '@/services/productService';
-
+//nzl opacity lal color
 interface Props {
-    product: ProductModel,
+    productItem: ProductModel,
 }
 
-export function ProductDetailSection({ product }: Props) {
+export function ProductDetailSection({ productItem }: Props) {
+    const [product, setProduct] = useState(productItem);
     const [max, setMax] = useState(product.quantity);
     const { count, setCount, increment, decrement, reset } = useCounter(0, max, 0)
     const [bigSwiper, setBigSwiper] = useState<any>({});
@@ -33,22 +34,28 @@ export function ProductDetailSection({ product }: Props) {
         if (id == undefined || key == undefined || product.prices == undefined) return;
 
         let tempVaraintIds: any = {};
-        tempVaraintIds = Object.assign({}, selectedVaraintIds);
-        tempVaraintIds[key] = id;
-        let tempVaraintIdsValues: number[] = Object.values(tempVaraintIds);
-        const varaintionIds: number[] = [];
-        const priceFiltered: PriceModel[] = product.prices.filter(d => d.variations != undefined && tempVaraintIdsValues.every(elem => d.variations?.includes(elem)));
-        priceFiltered.map((variant: PriceModel) => {
-            variant.variations?.map((id: number) => {
-                if (!varaintionIds.includes(id)) varaintionIds.push(id);
-            });
-        });
-
         if (!recommendVaraitions?.includes(id)) {
             tempVaraintIds = {};
             tempVaraintIds[key] = id;
             setSelectedVaraint(undefined);
+        } else {
+            tempVaraintIds = Object.assign({}, selectedVaraintIds);
         }
+        tempVaraintIds[key] = id;
+        let tempVaraintIdsValues: number[] = Object.values(tempVaraintIds);
+        const varaintionIds: number[] = [];
+        const priceFiltered: PriceModel[] = product.prices.filter(d => d.variations != undefined && tempVaraintIdsValues.every(elem => d.variations?.includes(elem)));
+        priceFiltered.map((value: PriceModel) => {
+            value.variations?.map((id: number) => {
+                if (!varaintionIds.includes(id)) varaintionIds.push(id);
+            });
+            console.log(value);
+
+        });
+
+
+
+        console.log(varaintionIds)
         setselectedVaraintIds(tempVaraintIds);
         setRecommendVaraitions(varaintionIds);
 
@@ -59,10 +66,21 @@ export function ProductDetailSection({ product }: Props) {
     }
 
     function handleCart() {
-        prodcutService.addToCart(product, count, (firstRequest.user != null && firstRequest.user != undefined));
+        //     
+        // console.log(selectedVaraint, selectedVaraintIds, recommendVaraitions);
+        let tempVaraintIdsValues: number[] = Object.values(selectedVaraintIds);
+        if (tempVaraintIdsValues.length == product.variants?.length || recommendVaraitions.length == 0) {
+            prodcutService.addToCart(product, count, (firstRequest.user != null && firstRequest.user != undefined), selectedVaraint?.id);
+        }
+    }
+    function handleFav(e: React.MouseEvent) {
+        e.stopPropagation();
+        if (!firstRequest.user) return;
+        prodcutService.addRemoveFavProduct(product.id, !product.is_favorite, firstRequest.user.uuid);
+        setProduct({ ...product, is_favorite: !product.is_favorite })
     }
     return (
-        <ProductDetailSectionStyle>
+        <ProductDetailSectionStyle isFav={product.is_favorite && firstRequest.user != null}>
             <div>
                 <Swiper
                     spaceBetween={50}
@@ -144,12 +162,12 @@ export function ProductDetailSection({ product }: Props) {
                                 <>
                                     {variant.variations?.map((variation: VariantionModel) =>
                                         variant.id == colorId ?
-                                            <CustomColorStyle color={variation.value} isActive={variation.id != undefined ? recommendVaraitions?.includes(variation.id) : false} key={`variation_${variation.id}`} >
+                                            <CustomColorStyle color={variation.value} isActive={variation.id != undefined ? recommendVaraitions.length == 0 || recommendVaraitions?.includes(variation.id) : false} key={`variation_${variation.id}`} >
                                                 <input checked={Object.values(selectedVaraintIds).includes(variation.id)} type={"radio"} onChange={() => selectVaraint(variant.name, variation.id)} name={`${variant.name}_${randomString}`} id={`size_${randomString}_${variation.id}`} hidden />
                                                 <label htmlFor={`size_${randomString}_${variation.id}`}></label>
                                             </CustomColorStyle>
                                             :
-                                            <CustomSizeStyle isActive={variation.id != undefined ? recommendVaraitions?.includes(variation.id) : false} key={`variation_${variation.id}`} >
+                                            <CustomSizeStyle isActive={variation.id != undefined ? recommendVaraitions.length == 0 || recommendVaraitions?.includes(variation.id) : false} key={`variation_${variation.id}`} >
                                                 <input checked={Object.values(selectedVaraintIds).includes(variation.id)} type={"radio"} onChange={() => selectVaraint(variant.name, variation.id)} name={`${variant.name}_${randomString}`} id={`size_${randomString}_${variation.id}`} hidden />
                                                 <label htmlFor={`size_${randomString}_${variation.id}`}>{variation.name}</label>
                                             </CustomSizeStyle>
@@ -171,7 +189,7 @@ export function ProductDetailSection({ product }: Props) {
                         </div>
                         <div className='buttons'>
                             <LinkButtonStyle onClick={handleCart}>Add to Cart</LinkButtonStyle>
-                            <i><HeartIcon /></i>
+                            <i onClick={(e) => handleFav(e)}><HeartIcon /></i>
                         </div>
                     </div>
                 </div>

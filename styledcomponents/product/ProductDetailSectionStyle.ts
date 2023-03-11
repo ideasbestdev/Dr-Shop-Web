@@ -3,6 +3,7 @@ import { Theme } from '../Theme';
 
 interface Props {
     theme: Theme,
+    isFav?: boolean
 }
 
 export const ProductDetailSectionStyle = styled.section<Props>`
@@ -198,9 +199,12 @@ export const ProductDetailSectionStyle = styled.section<Props>`
                         place-items: center;
                         background-color: #349D52;
                         border-radius: 10px;
+                        cursor: pointer;
                         path{
                             stroke: white;
-                            fill: white;
+                            fill: ${({ theme, isFav }: Props) => isFav ? "white" : "transparent"};
+
+                          //  fill: white;
                         }
                     }
                 }

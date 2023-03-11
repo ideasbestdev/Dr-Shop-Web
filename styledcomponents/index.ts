@@ -88,6 +88,7 @@ export * from "./profile/AddLocationSectionStyle";
 export * from "./profile/LocationDialogStyle";
 export * from "./profile/FavoriteSectionStyle";
 export * from "./profile/AddCardSectionStyle";
+export * from "./profile/CardListStyle";
 //#endregion
 
 //#region cart styles

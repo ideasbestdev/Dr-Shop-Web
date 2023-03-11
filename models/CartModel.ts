@@ -5,6 +5,8 @@ export interface CartRequestModel {
     device_id?: string,
     product_id?: number,
     quantity?: number,
+    cart_product_id?: number,
+    product_price_id?: number,
 }
 
 export interface CartModel {

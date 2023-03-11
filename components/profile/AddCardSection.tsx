@@ -17,29 +17,28 @@ import { UserService } from '@/services/userService'
 import { AlertStateModel } from '@/models/AlertStateModel'
 import { setAlert } from '@/statemangment/slice/alertSlice'
 import { useDispatch } from 'react-redux'
+import { ArrowDownIcon } from '../icons'
 
 
 interface Props {
     setShowPop?: Function,
-    setAddressList?: Function
+    setCardList?: Function
+    setSelectedCard?: Function,
+    selectedCard?: CardModel,
 }
 
-export function AddCardSection({ setShowPop, setAddressList }: Props) {
+export function AddCardSection({ setShowPop, setCardList, setSelectedCard, selectedCard }: Props) {
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<CardModel>({
 
     });
     const buttonRef = useRef<HTMLButtonElement>(null);
-
-
-
-    const handleInputChange = (target: any) => {
-        if (target.name === 'card_number') {
-            target.value = formatCreditCardNumber(target.value)
-        } else if (target.name === 'yearsMonth') {
-            target.value = formatExpirationDate(target.value)
-        } else if (target.name === 'cvv') {
-            target.value = formatCVC(target.value)
+    async function getCards() {
+        const userService = new UserService();
+        const response = await userService.getUserCards();
+        if (response.success && setCardList) {
+            const cardList: CardModel[] = response.data;
+            setCardList(cardList);
         }
     }
     const onSubmit: SubmitHandler<CardModel> = async (data, e) => {
@@ -47,19 +46,17 @@ export function AddCardSection({ setShowPop, setAddressList }: Props) {
         if (data.card_number) {
             buttonRef.current?.classList.add("loading");
             data.card_number = data.card_number.replaceAll(" ", "");
-            const issuer = cardsRegex(data.card_number);
-            data.active = 1;
-            data.type = "master";
-            data.month = data.yearsMonth?.split('/')[0];
-            data.year = "20" + data.yearsMonth?.split('/')[1];
-            if (data.is_default) {
-                data.is_default = 1;
+            data.is_default = 0;
+            data.type = cardsRegex(data.card_number);
+
+            if (data.active) {
+                data.active = 1;
             } else {
-                data.is_default = 0;
+                data.active = 0;
             }
             const userService = new UserService();
-            userService.AddCard(data);
-            const response = await userService.AddAddress(data);
+
+            const response = await userService.AddCard(data);
             if (response.success) {
                 if (e) {
                     e.target.reset();
@@ -67,9 +64,9 @@ export function AddCardSection({ setShowPop, setAddressList }: Props) {
                 if (setShowPop) {
                     setShowPop(false);
                 }
+                getCards();
 
             } else {
-
                 const generatedIdentifier = generateRandomNumber(4);
                 const customAlert: AlertStateModel = {
                     message: response.errors ? response.errors[0] : "Something went Error",
@@ -82,7 +79,7 @@ export function AddCardSection({ setShowPop, setAddressList }: Props) {
         buttonRef.current?.classList.remove("loading");
 
     };
-
+    const currentYear = new Date().getFullYear();
     return (
         <>
             <AddCardSectionStyle onSubmit={handleSubmit(onSubmit)}>
@@ -93,21 +90,55 @@ export function AddCardSection({ setShowPop, setAddressList }: Props) {
                             <li>
                                 <label>Card Number</label>
                                 <InputStyle>
-                                    <input type={"text"} placeholder="xxxx xxxx xxxx xxxx" maxLength={19}  {...register("card_number", { required: REQUIRED_MESSAGE, onChange: (e) => { handleInputChange(e.target) } })} />
+                                    <input type={"number"} placeholder="xxxx xxxx xxxx xxxx" maxLength={19}  {...register("card_number", { required: REQUIRED_MESSAGE, validate: (card_number) => cardsRegex(card_number) != "" ? true : "Card must be master or visa" })} />
                                 </InputStyle>
                                 <ErrorMessageStyle>{errors.card_number?.message}</ErrorMessageStyle>
                             </li>
                             <li>
-                                <label>Expiration Date</label>
-                                <InputStyle>
-                                    <input type={"text"} placeholder="MM / YY" {...register("yearsMonth", { required: REQUIRED_MESSAGE, pattern: { value: expiryRegexPattern, message: "Date must be MM/YY" }, onChange: (e) => { handleInputChange(e.target) } })} />
-                                </InputStyle>
-                                <ErrorMessageStyle>{errors.yearsMonth?.message}</ErrorMessageStyle>
+                                <label>Month Expiration</label>
+                                <SelectStyle>
+                                    <select {...register("month", { required: REQUIRED_MESSAGE })}>
+                                        <option value={""}>month</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <i>
+                                        <ArrowDownIcon />
+
+                                    </i>
+                                </SelectStyle>
+                                <ErrorMessageStyle>{errors.month?.message}</ErrorMessageStyle>
+                            </li>
+                            <li>
+                                <label>Year Expiration</label>
+                                <SelectStyle>
+                                    <select {...register("year", { required: REQUIRED_MESSAGE })}>
+                                        <option value={""}>year</option>
+                                        {
+                                            Array(20).fill(0).map((value, index) => <option key={index} value={currentYear - 1 + index}>{currentYear - 1 + index}</option>)
+                                        }
+                                    </select>
+                                    <i>
+                                        <ArrowDownIcon />
+
+                                    </i>
+                                </SelectStyle>
+                                <ErrorMessageStyle>{errors.month?.message}</ErrorMessageStyle>
                             </li>
                             <li>
                                 <label>Security Code (CVV)</label>
                                 <InputStyle>
-                                    <input type={"text"} placeholder="xxx" {...register("cvv", { required: REQUIRED_MESSAGE, onChange: (e) => { handleInputChange(e.target) } })} />
+                                    <input type={"text"} placeholder="xxx" {...register("cvv", { required: REQUIRED_MESSAGE })} />
                                 </InputStyle>
                                 <ErrorMessageStyle>{errors.cvv?.message}</ErrorMessageStyle>
                             </li>
@@ -120,11 +151,9 @@ export function AddCardSection({ setShowPop, setAddressList }: Props) {
                             </li>
                             <li>
                                 <CheckboxStyle className='v3'>
-                                    <input type={"checkbox"} id={"is_default"} {...register("is_default")} />
-                                    <label htmlFor="is_default">Set as default payment card</label>
-
+                                    <input type={"checkbox"} id={"is_active"} {...register("active")} />
+                                    <label htmlFor="is_active">Set as default payment card</label>
                                 </CheckboxStyle>
-
                             </li>
                         </ul>
 

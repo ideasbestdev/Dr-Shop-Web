@@ -259,7 +259,13 @@ main{
   }
 }
 
-
+.card .plus ~ h4{
+        font-size: 22px;
+        color: ${({ theme }: Props) => theme.globalColors.primary_color};
+        font-family: ${({ theme }: Props) => theme.fonts.regular};
+        margin-top: 5px;
+        font-weight: normal;
+    }
 .credit_card{
     padding: 20px;
     display: block;

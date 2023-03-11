@@ -8,12 +8,23 @@ import Cookies from 'js-cookie';
 
 const http = axios.create({
     baseURL: baseUrl,
+    headers: {
+        "Content-Type": "multipart/form-data"
+
+    }
 });
 
 http.interceptors.request.use(function (config: any) {
     const token = Cookies.get(TOKEN_KEY_NAME);
-    config.headers['Content-Type'] = "multipart/form-data";
-    config.headers.common.Accept = "multipart/form-data";
+    // if (localStorage.getItem("EditLocation") == "true") {
+    //     config.headers['Content-Type'] = "multipart/form-data";
+
+    // } else {
+    //     config.headers['Content-Type'] = "multipart/form-data";
+
+    // }
+    // localStorage.removeItem("EditLocation")
+    //config.headers.common.Accept = "multipart/form-data";
     config.headers['x-device-id'] = getDeviceId();
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;

@@ -15,11 +15,13 @@ import { setAlert } from '@/statemangment/slice/alertSlice';
 
 interface Props {
     setShowPop?: Function,
-    setAddressList?: Function
+    setAddressList?: Function,
+    selectedAddress?: AddressModel,
+    setSelectedAddress?: Function,
 }
 
-export function AddLocationSection({ setShowPop, setAddressList }: Props) {
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<AddressModel>({
+export function AddLocationSection({ setShowPop, setAddressList, selectedAddress, setSelectedAddress }: Props) {
+    const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<AddressModel>({
         defaultValues: {
             contact_country_code: "+93"
         }
@@ -48,7 +50,12 @@ export function AddLocationSection({ setShowPop, setAddressList }: Props) {
         } else {
             data.is_default = 0;
         }
-        const response = await userService.AddAddress(data);
+        let response;
+        if (selectedAddress?.id) {
+            response = await userService.EditAddress(data);
+        } else {
+            response = await userService.AddAddress(data);
+        }
         if (response.success) {
             if (e) {
                 e.target.reset();
@@ -58,6 +65,9 @@ export function AddLocationSection({ setShowPop, setAddressList }: Props) {
             }
 
             getAddress();
+            if (setSelectedAddress) {
+                setSelectedAddress(undefined);
+            }
         } else {
 
             const generatedIdentifier = generateRandomNumber(4);
@@ -87,6 +97,25 @@ export function AddLocationSection({ setShowPop, setAddressList }: Props) {
         setValue("city", "", { shouldValidate: true });
     }
 
+    useEffect(function () {
+        async function prepareFormData() {
+            if (selectedAddress) {
+                if (selectedAddress.country_id) {
+                    const response = await comboService.GetAllStates(selectedAddress.country_id);
+                    setStates(response);
+                }
+                if (selectedAddress.state_id) {
+                    const response = await comboService.GetAllCities(selectedAddress.state_id);
+                    setCities(response);
+                }
+                reset(selectedAddress);
+            }
+
+        }
+        if (selectedAddress) {
+            prepareFormData()
+        }
+    }, [])
 
     return (
         <>
@@ -149,7 +178,7 @@ export function AddLocationSection({ setShowPop, setAddressList }: Props) {
                             <li>
                                 <label>State</label>
                                 <SelectStyle>
-                                    <select {...register("state", { required: REQUIRED_MESSAGE, onChange: (e) => { stateChanged(e.target.value) } })}>
+                                    <select {...register("state_id", { required: REQUIRED_MESSAGE, onChange: (e) => { stateChanged(e.target.value) } })}>
                                         <option value={""}>State</option>
                                         {
                                             states?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>)
@@ -177,7 +206,7 @@ export function AddLocationSection({ setShowPop, setAddressList }: Props) {
                             <li>
                                 <label>City</label>
                                 <SelectStyle>
-                                    <select {...register("city", { required: REQUIRED_MESSAGE })}>
+                                    <select {...register("city_id", { required: REQUIRED_MESSAGE })}>
                                         <option value={""}>City</option>
                                         {
                                             cities?.map((item, index) => <option key={index} value={item.id}>{item.name}</option>)
@@ -189,7 +218,7 @@ export function AddLocationSection({ setShowPop, setAddressList }: Props) {
                             </li>
                             <li>
                                 <CheckboxStyle className='v3'>
-                                    <input type={"checkbox"} id={"is_default"} {...register("is_default", { required: REQUIRED_MESSAGE })} />
+                                    <input type={"checkbox"} id={"is_default"} {...register("is_default")} />
                                     <label htmlFor="is_default">Set as default shipping address</label>
                                 </CheckboxStyle>
                             </li>

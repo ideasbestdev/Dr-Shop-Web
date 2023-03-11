@@ -9,10 +9,10 @@ import { AddCardSection } from '@/components/profile';
 interface Props {
     show?: boolean;
     setShowPop?: React.Dispatch<React.SetStateAction<any>>;
-    setAddressList?: Function;
+    setCardList?: Function;
 }
 
-export function AddCardPop({ show, setShowPop, setAddressList }: Props) {
+export function AddCardPop({ show, setShowPop, setCardList }: Props) {
 
     return (
         <>
@@ -22,7 +22,7 @@ export function AddCardPop({ show, setShowPop, setAddressList }: Props) {
                     <div className="wrap">
                         <CardPopStyle>
                             <i className="close" onClick={() => setShowPop ? setShowPop(false) : null}><CloseIcon /></i>
-                            <AddCardSection />
+                            <AddCardSection setShowPop={setShowPop} setCardList={setCardList} />
                         </CardPopStyle>
                     </div>
                 </PopContainerStyle>

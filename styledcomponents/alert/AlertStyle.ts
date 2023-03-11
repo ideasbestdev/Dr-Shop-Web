@@ -12,7 +12,7 @@ export const AlertStyle = styled.div`
     left: 0;
     width: 100%;
     padding: 20px;
-    z-index: 100;
+    z-index: 10000;
     color: white;
     display: ${({ show }: Props) => show ? "block" : "none"};
     background-color: ${({ type }: Props) => type == "info" ? "deepskyblue" : "red"};;

@@ -11,6 +11,7 @@ import { getGlobalState } from "@/statemangment/slice/globalSlice";
 export function FavoriteSection() {
     const [productList, setProductList] = useState<ProductModel[]>([])
     const { firstRequest } = useSelector(getGlobalState);
+    const prodcutService = new ProductService();
 
     useEffect(() => {
         async function getFavProducts() {
@@ -29,6 +30,11 @@ export function FavoriteSection() {
         const productService: ProductService = new ProductService();
         productService.addRemoveFavProduct(id, false, firstRequest.user.uuid);
         setProductList(productList.filter(d => d.id != id));
+    }
+
+    function handleCart(productItem: ProductModel) {
+        prodcutService.addToCart(productItem, 1, (firstRequest.user != null && firstRequest.user != undefined));
+
     }
     return (
         <FavProductStyle className={`${productList.length > 0 ? "" : "noItems"}`}>
@@ -76,7 +82,7 @@ export function FavoriteSection() {
                                             <div className="button">
                                                 <div className="button_content">
                                                     <div className="status">In stock</div>
-                                                    <ButtonStyle>Add to Cart</ButtonStyle>
+                                                    <ButtonStyle onClick={(e) => { e.stopPropagation(); handleCart(product) }}>Add to Cart</ButtonStyle>
                                                 </div>
                                             </div>
                                         </li>

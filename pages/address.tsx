@@ -9,14 +9,16 @@ import Link from "next/link";
 import { AddressPop } from '@/components/popups/AddressPop';
 import { useSelector, useDispatch } from 'react-redux';
 import { getGlobalState, setSelectedAddress } from '@/statemangment/slice/globalSlice';
+import { useRouter } from 'next/router';
 
 
 export default function Address() {
     const [addressList, setAddressList] = useState<AddressModel[]>([]);
     const [showPop, setShowPop] = useState(false);
     const [selectedAddressId, setSelectedAddressId] = useState<number>();
-    const { selectedAddress } = useSelector(getGlobalState);
+    const { selectedAddress, selectedProducts } = useSelector(getGlobalState);
     const dispatch = useDispatch();
+    const route = useRouter();
     useEffect(() => {
         async function getAddress() {
             const userService = new UserService();
@@ -29,6 +31,9 @@ export default function Address() {
                     dispatch(setSelectedAddress(defaultAddress));
                 }
             }
+        }
+        if (selectedProducts == undefined || selectedProducts?.length == 0) {
+            route.replace("/");
         }
         getAddress();
     }, []);

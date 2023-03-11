@@ -36,7 +36,7 @@ export const expiryRegexPattern = /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/;
 
 export const visaOrMasterRegexPattern = /^5[1-5][0-9]{1,}|^2[2-7][0-9]{1,}$|^4[0-9]{2,}$/;
 
-export const passwordRegexPattern = /^(?=.*\d).{8,}$/;
+export const passwordRegexPattern = /^(?=.*\d).{6,}$/;
 
 export const priceRangeId = 3;
 

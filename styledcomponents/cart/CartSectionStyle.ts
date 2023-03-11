@@ -15,6 +15,10 @@ export const CartSectionStyle = styled.section`
         font-size: 26px;
         padding-left: ${({ theme }: Props) => theme.gridSpace};
     }
+
+    &.profile{
+        margin: 0;
+    }
     .cart_list{
         display: table;
         border-collapse: separate;
@@ -42,6 +46,24 @@ export const CartSectionStyle = styled.section`
                 input{
                     pointer-events: none;
                 }
+            }
+            .inStock{
+                color: #349D52;
+                font-family: ${({ theme }: Props) => theme.fonts.bold};
+
+            }
+            .price {
+                flex-direction: column-reverse;
+                font-size: 20px;
+                color: black;
+                line-height: normal;
+                del{
+                    font-size: 16px;
+                }
+            }
+            .price.hasDis{
+                color: #349D52;
+
             }
             .update_cart{
                 pointer-events: none;

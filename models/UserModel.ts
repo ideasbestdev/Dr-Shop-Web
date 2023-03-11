@@ -68,6 +68,8 @@ export interface AddressModel {
     id?: number,
     name?: string,
     country_id?: number,
+    state_id?: number,
+    city_id?: number,
     state?: string,
     city?: string,
     street?: string,
@@ -79,6 +81,7 @@ export interface AddressModel {
     contact_phone?: string,
     contact_email?: string,
     is_default?: number,
+    uuid?: string,
 }
 
 export interface CardModel {
@@ -90,7 +93,6 @@ export interface CardModel {
     cvv?: number,
     type?: string,
     active?: number,
-    yearsMonth?: string,
     is_default?: number,
 
 }

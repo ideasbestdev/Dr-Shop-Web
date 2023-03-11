@@ -48,12 +48,13 @@ export default function ProductItemPage({ product }: Props) {
 
     //     });
     // }, [])
+    console.log(product)
     return (
         <>
 
             {/* {load == true ? <ProductFilterSection filterData={JSON.parse(localStorage.getItem("filter") ?? "")} width={280} /> : null} */}
             <FlexDiv >
-                <ProductDetailSection product={product} />
+                <ProductDetailSection productItem={product} />
                 {/* <SimilarProductSection /> */}
             </FlexDiv>
             <NewArrivalProductSection />

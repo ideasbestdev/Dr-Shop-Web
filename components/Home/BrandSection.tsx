@@ -16,28 +16,28 @@ export function BrandSection() {
                 <SwiperSlide>
                     <Link href={""}>
                         <a className="image_container">
-                            <Image src={AssetsImages.philips} />
+                            <Image alt="alt" src={AssetsImages.philips} />
                         </a>
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href={""}>
                         <a className="image_container">
-                            <Image src={AssetsImages.abbott} />
+                            <Image alt="alt" src={AssetsImages.abbott} />
                         </a>
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href={""}>
                         <a className="image_container">
-                            <Image src={AssetsImages.jhonson} />
+                            <Image alt="alt" src={AssetsImages.jhonson} />
                         </a>
                     </Link>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Link href={""}>
                         <a className="image_container">
-                            <Image src={AssetsImages.medtronic} />
+                            <Image alt="alt" src={AssetsImages.medtronic} />
                         </a>
                     </Link>
                 </SwiperSlide>

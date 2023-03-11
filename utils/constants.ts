@@ -1,6 +1,6 @@
 //#region validation errors
 export const INVALID_EMAIL_MESSAGE = "Invalid Email";
-export const INVALID_PASSWORD_MESSAGE = "Password must be at least 8 characters";
+export const INVALID_PASSWORD_MESSAGE = "Password must be at least 6 characters";
 export const PASSWORD_NOT_SAME_MESSAGE = "Password are not same";
 export const REQUIRED_MESSAGE = "This field is required";
 export const INVALID_PHONE_MESSAGE = "Invalid phone number";

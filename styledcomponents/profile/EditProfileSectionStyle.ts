@@ -6,68 +6,71 @@ interface Props {
 }
 
 export const EditProfileSectionStyle = styled.section<Props>`
-    flex: 1;
-    background-color: #FAFAFA;
-    min-height: 500px;
-    padding: 28px 60px;
+     flex: 1;
     display: flex;
+    position: relative;
+    h2{
+        width: 100%;
+    }
     form{
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        h1{
-            color: #486B92;
-            margin-top: 20px;
-            margin-bottom: 80px;
-            font-size: 17px;
+         display: flex;
+         align-items: center;
+         flex-direction: column;
+         padding: 48px 30px 20px;
+         select{
+            background-color: #fff;
         }
-        >div{
-            &:first-child{
-                width: 129px;
-                height: 129px;
-                position: relative;
-                border-radius: 50%;
-                margin-left: auto;
-                margin-right: auto;
-                border: 1px solid ${({ theme }: Props) => theme.globalColors.primary_color};
-                img{
-                    object-fit: cover;
-                    border-radius: 50%;
+         .content{
+             width: 100%;
+             display: flex;
+         }
+         ul{
+             margin-top: 25px;
+             width: 100%;
+             display: flex;
+             flex-wrap: wrap;
+             li{
+                &:last-child{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    label{
+                        &::before{
+                            margin-right: 10px;
+                        }
+                    }
                 }
                 label{
-                    position: absolute;
-                    bottom: -10px;
-                    right: 21px;
-                    z-index: 1;
-                    cursor: pointer;
+                    &:first-child{
+                        margin-bottom: 10px;
+                        display: block;
+                    }
                 }
-            }
-        }
-
-        button{
-            background: transparent;
-            margin: 0 auto;
-            display: block;
-            a{
-                margin-top: 80px;
-            }
-        }
-        article{
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            flex: 1;
-            > ul{
-                display: flex;
-                flex-wrap: wrap;
-                margin-top: -50px;
-                width: 100%;
-                justify-content: space-between;
-                >li{
-                    margin-top: 50px;
-                    width: 50%;
+                 input[type="text"],  input[type="number"],  input[type="password"],  input[type="email"],  input[type="tel"], select{
+                    font-size: 20px;
                 }
-            }
-        }
-    }
+                div{
+                    height: 50px;
+                }
+                 width: 50%;
+                 &:nth-child(even){
+                     padding-left: 15px;
+                 }
+                 &:nth-child(odd){
+                     padding-right: 15px;
+                 }
+                 div{
+                     width: 100%;
+                 }
+                 &:not(even){
+                     margin-top: 25px;
+                 }
+             }
+         }
+         button{
+             width: 100%;
+             margin-top: 80px;
+             height: 50px;
+          }
+     }
 `

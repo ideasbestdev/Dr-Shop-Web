@@ -9,15 +9,15 @@ import { ProductService } from '@/services/productService';
 import { CartModel, CartProductsModel, ProductModel } from '@/models/index';
 import { useSelector } from 'react-redux';
 import { getGlobalState, setSelectedProducts, setVerificationPop } from '@/statemangment/slice/globalSlice';
-import { Instructionline } from './../common/Instructionline';
+import { Instructionline } from '../common/Instructionline';
 import useCounter from '../customHookes/useCounter';
-import { CartItem } from './CartItem';
 import { BrandSection } from '../home';
 import { useDispatch } from 'react-redux';
 import { UserService } from '@/services/userService';
 import { useRouter } from 'next/router';
+import { CartItem } from '../cart/CartItem';
 
-export function CartSection() {
+export function CartProfileSection() {
     const route = useRouter();
     const dispatch = useDispatch();
     const [load, setLoad] = useState(true);
@@ -91,8 +91,9 @@ export function CartSection() {
     }
 
     return (
-        <CartSectionStyle>
-            <Instructionline index={1} />
+        <CartSectionStyle className='profile'>
+            <SectionTitleStyle>Cart</SectionTitleStyle>
+
             <ul className='cart_list'>
                 <li>
                     <div>
@@ -134,7 +135,6 @@ export function CartSection() {
                 </ul>
             </section>
             <LinkButtonStyle onClick={CheckOut}>Checkout</LinkButtonStyle>
-            <BrandSection />
         </CartSectionStyle>
     )
 }
