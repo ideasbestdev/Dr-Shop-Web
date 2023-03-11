@@ -48,7 +48,6 @@ export * from "./home/DiscountSectionStyle";
 export * from "./home/CategorySectionStyle";
 export * from "./home/BrandSectionStyle";
 export * from "./home/SupplierSectionStyle";
-export * from "./home/BackToTopSectionStyle";
 //#endregion
 
 //#region register styles
