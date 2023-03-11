@@ -15,10 +15,11 @@ import { useRouter } from 'next/router';
 export default function Address() {
     const [addressList, setAddressList] = useState<AddressModel[]>([]);
     const [showPop, setShowPop] = useState(false);
-    const [selectedAddressId, setSelectedAddressId] = useState<number>();
     const { selectedAddress, selectedProducts } = useSelector(getGlobalState);
     const dispatch = useDispatch();
     const route = useRouter();
+
+
     useEffect(() => {
         async function getAddress() {
             const userService = new UserService();
@@ -36,6 +37,7 @@ export default function Address() {
             route.replace("/");
         }
         getAddress();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

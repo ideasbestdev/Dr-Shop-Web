@@ -9,7 +9,7 @@ import { AlertStyle } from '@/styledcomponents/index';
 import { AlertStateModel } from "@/models/index";
 
 export function Alert() {
-    const { message, identifier, type } = useSelector(getAlertState);
+    const { message, type } = useSelector(getAlertState);
     const dispatch = useDispatch();
     const initialState: AlertStateModel = {
         message: "",
@@ -22,6 +22,7 @@ export function Alert() {
             dispatch(setAlert(initialState));
         }
         document.addEventListener('click', handleClick);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

@@ -1,16 +1,14 @@
 import { ButtonStyle, CheckboxStyle, ExpandedListStyle, ProductFilterSectionStyle, SectionTitleStyle, SectionTitleWithLinkStyle } from '@/styledcomponents/index'
 import React, { useEffect, useState } from 'react'
 import { CustomColor, CustomRange } from '@/components/common';
-import { BrandModel, CategoryModel, ConfigModel, FilterProductModel, ProductModel, SelectModel, SortModel } from '@/models/index';
+import { BrandModel, CategoryModel, ConfigModel, FilterProductModel, ProductModel } from '@/models/index';
 import { useRouter } from 'next/router';
-import { priceRegex, convertObjectToQueryString, getUrlObject, convertObjectToObjectQuery, clean } from '@/helpers/index';
-import { RightArrowIcon } from '../icons';
+import { priceRegex, clean } from '@/helpers/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGlobalState } from '@/statemangment/slice/globalSlice';
-import { defaultPriceRangeMax, priceRangeId } from '@/utils/config';
-import { DebounceInput } from 'react-debounce-input';
+import { priceRangeId } from '@/utils/config';
 import queryString from 'query-string';
-import { PageUrls, PRODUCT_LIST_PER_PAGE } from '@/utils/index';
+import { PageUrls } from '@/utils/index';
 import { ProductService } from '@/services/index';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -131,6 +129,7 @@ export function ProductFilterSection({ width }: Props) {
         if (priceRangeObject && values.length > 2) {
             setValues([MIN, MAX]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstRequest])
 
     useEffect(() => {
@@ -191,7 +190,7 @@ export function ProductFilterSection({ width }: Props) {
         ///setProductFilter(newProductFilter);
         dispatch(setProductFilter(newProductFilter));
         window.addEventListener('scroll', handleScroll);
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -203,6 +202,7 @@ export function ProductFilterSection({ width }: Props) {
             }
         }
         getProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

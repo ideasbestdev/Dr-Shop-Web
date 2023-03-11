@@ -1,5 +1,4 @@
 import { LocationDialogStyle, SectionTitleStyle } from '@/styledcomponents/index'
-import { AssetsImages } from '@/utils/images'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
 
@@ -17,6 +16,7 @@ export function LocationDialogSection({ show, setShow }: Props) {
         }
         document.addEventListener('click', handleClick);
         document.addEventListener("keydown", (e) => e.key == "Escape" ? setShow(false) : null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

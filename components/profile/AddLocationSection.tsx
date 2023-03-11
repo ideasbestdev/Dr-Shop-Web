@@ -1,6 +1,6 @@
-import { AddressModel, AlertStateModel, CityModel, StateModel, UserModel } from '@/models/index';
+import { AddressModel, AlertStateModel, CityModel, StateModel } from '@/models/index';
 import { UserService } from '@/services/userService';
-import { AddLocationSectionStyle, ButtonStyle, CheckboxStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, SectionTitleStyle, SelectStyle } from '@/styledcomponents/index'
+import { AddLocationSectionStyle, ButtonStyle, CheckboxStyle, ErrorMessageStyle, InputStyle, SectionTitleStyle, SelectStyle } from '@/styledcomponents/index'
 import React, { useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LocationDialogSection } from './LocationDialogSection';
@@ -115,6 +115,7 @@ export function AddLocationSection({ setShowPop, setAddressList, selectedAddress
         if (selectedAddress) {
             prepareFormData()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

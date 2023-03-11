@@ -1,19 +1,12 @@
-import { CartSectionStyle, CheckboxStyle, CustomQuantityStyle, LinkButtonStyle, SectionTitleStyle, SectionTitleWithLinkStyle, TitleStyle } from '@/styledcomponents/index'
-import Image from 'next/image'
+import { CartSectionStyle, LinkButtonStyle, SectionTitleStyle, SectionTitleWithLinkStyle } from '@/styledcomponents/index'
 import React from 'react'
-import { CartIcon, CloseIcon, DeleteIcon, EditIcon, SubtotalIcon, UpdateCartIcon } from '../icons'
-import { AssetsImages } from '@/utils/index';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { ProductService } from '@/services/productService';
-import { CartModel, CartProductsModel, ProductModel } from '@/models/index';
+import { CartModel, CartProductsModel } from '@/models/index';
 import { useSelector } from 'react-redux';
-import { getGlobalState, setSelectedProducts, setVerificationPop } from '@/statemangment/slice/globalSlice';
-import { Instructionline } from '../common/Instructionline';
-import useCounter from '../customHookes/useCounter';
-import { BrandSection } from '../home';
+import { getGlobalState, setSelectedProducts } from '@/statemangment/slice/globalSlice';
 import { useDispatch } from 'react-redux';
-import { UserService } from '@/services/userService';
 import { useRouter } from 'next/router';
 import { CartItem } from '../cart/CartItem';
 
@@ -24,7 +17,6 @@ export function CartProfileSection() {
     const [cart, setCart] = useState<CartModel>();
     const { firstRequest } = useSelector(getGlobalState);
     const [total, setTotal] = useState<number>(0);
-    const [cartChanged, setCartChanged] = useState(false);
     const productService: ProductService = new ProductService();
     useEffect(() => {
         dispatch(setSelectedProducts([]));
@@ -42,7 +34,7 @@ export function CartProfileSection() {
         if (Object.keys(firstRequest).length > 0) {
             getCart()
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstRequest])
 
     async function ChangeTotal(value: number, currentQuantity: number, cartItem: CartProductsModel, index: number) {

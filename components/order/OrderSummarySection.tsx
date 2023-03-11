@@ -49,7 +49,7 @@ export function OrderSummarySection() {
             router.replace("/");
         }
         getCheckout();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     function pay() {

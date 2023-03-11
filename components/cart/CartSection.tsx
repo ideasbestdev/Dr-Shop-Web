@@ -42,7 +42,7 @@ export function CartSection() {
         if (Object.keys(firstRequest).length > 0) {
             getCart()
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstRequest])
 
     async function ChangeTotal(value: number, currentQuantity: number, cartItem: CartProductsModel, index: number) {

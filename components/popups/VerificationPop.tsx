@@ -54,6 +54,7 @@ export function VerificationPop({ show }: Props) {
             setValue("");
             startCountdown();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showVerificationPop]);
 
     async function verify(event: any) {

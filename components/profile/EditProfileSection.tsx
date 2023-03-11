@@ -1,9 +1,9 @@
 import { getGlobalState } from '@/statemangment/slice/globalSlice';
-import { ButtonStyle, EditProfileSectionStyle, ErrorMessageStyle, InputStyle, LinkButtonStyle, SectionTitleStyle, SelectStyle } from '@/styledcomponents/index'
+import { ButtonStyle, EditProfileSectionStyle, ErrorMessageStyle, InputStyle, SectionTitleStyle, SelectStyle } from '@/styledcomponents/index'
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { UserModel, AccountModel } from '@/models/index';
+import { AccountModel } from '@/models/index';
 import { emailRegexPattern, INVALID_EMAIL_MESSAGE, REQUIRED_MESSAGE } from '@/utils/index';
 import { ArrowDownIcon } from '@/components/icons';
 import { useEffect, useRef } from 'react';
@@ -42,6 +42,7 @@ export function EditProfileSection() {
         if (firstRequest.user?.account) {
             reset(firstRequest.user.account);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstRequest])
 
     return (
