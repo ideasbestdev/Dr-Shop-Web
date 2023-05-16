@@ -27,7 +27,7 @@ export function TopSellerProductSection() {
         <SwiperProductListSectionStyle className='home_margin'>
             <SectionTitleWithLinkStyle>
                 <SectionTitleStyle>Top Seller</SectionTitleStyle>
-                <Link href={""}><a>See All</a></Link>
+                {/* <Link href={""}><a>See All</a></Link> */}
             </SectionTitleWithLinkStyle>
             {
                 productList.length > 0 ?

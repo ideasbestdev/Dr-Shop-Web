@@ -260,12 +260,12 @@ main{
 }
 
 .card .plus ~ h4{
-        font-size: 22px;
-        color: ${({ theme }: Props) => theme.globalColors.primary_color};
-        font-family: ${({ theme }: Props) => theme.fonts.regular};
-        margin-top: 5px;
-        font-weight: normal;
-    }
+    font-size: 22px;
+    color: ${({ theme }: Props) => theme.globalColors.primary_color};
+    font-family: ${({ theme }: Props) => theme.fonts.regular};
+    margin-top: 5px;
+    font-weight: normal;
+}
 .credit_card{
     padding: 20px;
     display: block;
@@ -302,5 +302,10 @@ main{
     position: relative;
     width: 100%;
     padding-bottom: ${({ theme }: Props) => theme.height.footer};
+    @media (max-width: 768px) {
+        padding-top: ${({ theme }: Props) => theme.height.phone_header};
+        padding-bottom: ${({ theme }: Props) => theme.height.phone_footer};
+
+    }
 }
 `

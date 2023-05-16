@@ -26,7 +26,7 @@ export class ComboService {
             per_page: 7,
             descending: true,
         };
-        await http.get(ComboController + "brand/" + apiversion + "/list?" + convertObjectToQueryString(filter))
+        await http.get(ComboController + "brand/" + apiversion + "/all")
             .then((response: any) => {
                 comboList = response.data.data;
             }, (error) => {

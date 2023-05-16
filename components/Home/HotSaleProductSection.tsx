@@ -7,19 +7,22 @@ import { useEffect } from 'react';
 import { ProductService } from '@/services/index';
 import Link from 'next/link';
 
+interface Prop {
+    data?: ProductModel[]
+}
+export function HotSaleProductSection({ data }: Prop) {
+    const [productList, setProductList] = useState<ProductModel[] | undefined>(data)
 
-export function HotSaleProductSection() {
-
-    const [productList, setProductList] = useState<ProductModel[]>([])
     useEffect(() => {
-        async function getProducts() {
-            const productService: ProductService = new ProductService();
-            const response = await productService.getProducts(1, 10);
-            if (response.success) {
-                setProductList(response.data);
-            }
-        }
-        getProducts();
+        setProductList(data);
+        //     async function getProducts() {
+        //         const productService: ProductService = new ProductService();
+        //         const response = await productService.getProducts(1, 10);
+        //         if (response.success) {
+        //             setProductList(response.data);
+        //         }
+        //     }
+        //     getProducts();
     }, [])
 
 
@@ -27,10 +30,10 @@ export function HotSaleProductSection() {
         <SwiperProductListSectionStyle className='home_margin bigger_active'>
             <SectionTitleWithLinkStyle>
                 <SectionTitleStyle>Hot Sales</SectionTitleStyle>
-                <Link href={""}><a>See All</a></Link>
+                {/* <Link href={""}><a>See All</a></Link> */}
             </SectionTitleWithLinkStyle>
             {
-                productList.length > 0 ?
+                productList && productList.length > 0 ?
                     <Swiper
                         slidesPerView={"auto"}
                         watchSlidesProgress={true}

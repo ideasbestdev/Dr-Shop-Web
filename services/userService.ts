@@ -1,6 +1,6 @@
 import { AddressModel, CardModel, ServerResModel, UserModel, AccountModel } from '@/models/index';
 import http from '@/utils/axios';
-import { DoctorConfigController, AccountController, DEVICEID_KEY_NAME, AddressController, CardController, apiversion } from "@/utils/index";
+import { DoctorConfigController, AccountController, DEVICEID_KEY_NAME, AddressController, CardController, apiversion, OrderController, HomeController, baseUrl } from "@/utils/index";
 import { UAParser } from 'ua-parser-js';
 import { getDeviceId } from '@/helpers/index';
 import { AxiosError } from 'axios';
@@ -55,6 +55,7 @@ export class UserService {
         await http.get(AccountController + apiversion + "/verify/email?code=" + code).then((response: any) => {
             serverRes = response.data;
         }, (error) => {
+            serverRes.error = error.response?.data.error;
         });
 
         return serverRes;
@@ -65,8 +66,13 @@ export class UserService {
             data: {},
             success: false,
         }
+        if (!baseUrl) return serverRes;
         if (user.email == undefined) return serverRes;
-        await http.post(AccountController + apiversion + "/login?email=" + encodeURIComponent(user.email) + "&password=" + user.password + "&device_id=" + getDeviceId())
+        // await http.post(AccountController + apiversion + "/login?email=" + encodeURIComponent(user.email) + "&password=" + user.password + "&device_id=" + getDeviceId())
+        await http.post(baseUrl + apiversion + "/user/login", {
+            email: user.email,
+            password: user.password
+        })
             .then((response: any) => {
                 serverRes = response.data;
             }, (error) => {
@@ -118,6 +124,19 @@ export class UserService {
         return serverRes;
     }
 
+    async getUserOrders(): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        await http.get(OrderController + apiversion + "/list?page=1&per_page=100")
+            .then((response: any) => {
+                serverRes = response.data;
+            }, (error) => {
+            });
+        return serverRes;
+    }
+
     async AddAddress(data: AddressModel): Promise<ServerResModel> {
         let serverRes: ServerResModel = {
             data: {},
@@ -162,6 +181,32 @@ export class UserService {
         return serverRes;
     }
 
+    async EditCard(data: CardModel): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        const datatoUpdate: CardModel = {
+            card_number: data.card_number,
+            name_on_card: data.name_on_card,
+            year: data.year,
+            month: data.month,
+            cvv: data.cvv,
+            type: data.type,
+            active: data.active,
+        }
+        await http.put(CardController + apiversion + "/" + data.id + "?uuid=" + data.uuid, queryString.stringify(datatoUpdate), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+            .then((response: any) => {
+                serverRes = response.data;
+            }, (error) => {
+            });
+        return serverRes;
+    }
+
     async AddCard(data: CardModel): Promise<ServerResModel> {
         let serverRes: ServerResModel = {
             data: {},
@@ -187,6 +232,33 @@ export class UserService {
                 serverRes = response.data;
             }, (error) => {
             });
+        return serverRes;
+    }
+
+    async getUserOrder(id: string | undefined): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        await http.get(OrderController + apiversion + "/" + id)
+            .then((response: any) => {
+                serverRes = response.data;
+            }, (error) => {
+            });
+        return serverRes;
+    }
+
+
+    async HomeRequest(): Promise<ServerResModel> {
+        let serverRes: ServerResModel = {
+            data: {},
+            success: false,
+        }
+        await http.get(HomeController + apiversion + "/data").then((response: any) => {
+            serverRes = response.data;
+        }, (error) => {
+        });
+
         return serverRes;
     }
 }

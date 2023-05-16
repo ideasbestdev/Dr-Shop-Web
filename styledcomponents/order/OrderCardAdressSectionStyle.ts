@@ -8,6 +8,32 @@ interface Props {
 export const OrderCardAdressSectionStyle = styled.section<Props>`
   width: 50%;
   padding-right: 40px;
+  &.v2{
+    .card{
+      max-width: 100%;
+    }
+  }
+  .order_number{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.16);
+    height: 70px;
+    align-items: center;
+    padding: 0 20px;
+    h4, h5{
+      font-weight: normal;
+    }
+    h4{
+      font-family: ${({ theme }: Props) => theme.fonts.bold};
+      font-size: 25px;
+    }
+    h5{
+      font-family: ${({ theme }: Props) => theme.fonts.medium};
+      font-size: 21px;
+      color: #2262BC;
+    }
+  }
   .card{
       width: 100%;
       max-width: 500px;

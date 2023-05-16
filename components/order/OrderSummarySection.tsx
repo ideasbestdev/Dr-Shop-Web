@@ -11,10 +11,13 @@ import { UserService } from '@/services/index';
 import Cookies from 'js-cookie';
 import { TOKEN_KEY_NAME } from '@/utils/config';
 import { useRouter } from 'next/router';
+import { OrderPop } from '../popups/OrderPop';
 
 export function OrderSummarySection() {
     const { firstRequest, selectedProducts, selectedAddress, selectedCard } = useSelector(getGlobalState);
-    const [checkout, setCheckout] = useState<CheckouttModel>()
+    const [checkout, setCheckout] = useState<CheckouttModel>();
+    const [orderId, setOrderId] = useState<number | undefined>(undefined)
+
     const router = useRouter();
     function productBySupplierName(): ProductSupplierModel {
         const pruductsBySupplier: ProductSupplierModel = {};
@@ -65,7 +68,9 @@ export function OrderSummarySection() {
         order.cart_products_ids = order.cart_products_ids?.filter(d => d > 0);
 
         order.cart_products_ids?.map((item, index) => dataToSend[`cart_product_ids[${index}]`] = item);
-        productService.createOrder(dataToSend);
+        productService.createOrder(dataToSend).then((response) => {
+            setOrderId(response.data);
+        });
     }
 
     return (
@@ -81,15 +86,17 @@ export function OrderSummarySection() {
                     )
                 }
                 <li>
-                    <h3>Shipping<span>{checkout?.delivery_charge}</span></h3>
+                    <h3>Shipping<span>{checkout?.delivery_charge} USD</span></h3>
                 </li>
                 <li>
-                    <h3>Total<span>{checkout?.total_amount}</span></h3>
+                    <h3>Total<span>{checkout?.total_amount} USD</span></h3>
                 </li>
             </ul>
             <ButtonStyle onClick={() => pay()}>
                 Confirm and Pay
             </ButtonStyle>
+            <OrderPop show={orderId != undefined} setShowPop={setOrderId} orderId={orderId} />
+
         </OrderSummarySectionStyle>
     )
 }

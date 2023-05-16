@@ -18,6 +18,7 @@ import { AlertStateModel } from '@/models/AlertStateModel'
 import { setAlert } from '@/statemangment/slice/alertSlice'
 import { useDispatch } from 'react-redux'
 import { ArrowDownIcon } from '../icons'
+import { useEffect } from 'react';
 
 
 interface Props {
@@ -29,7 +30,7 @@ interface Props {
 
 export function AddCardSection({ setShowPop, setCardList, setSelectedCard, selectedCard }: Props) {
     const dispatch = useDispatch();
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<CardModel>({
+    const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<CardModel>({
 
     });
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -55,8 +56,13 @@ export function AddCardSection({ setShowPop, setCardList, setSelectedCard, selec
                 data.active = 0;
             }
             const userService = new UserService();
-
-            const response = await userService.AddCard(data);
+            let response;
+            if (selectedCard?.id) {
+                response = await userService.EditCard(data);
+            } else {
+                response = await userService.AddCard(data);
+            }
+            // const response = await userService.AddCard(data);
             if (response.success) {
                 if (e) {
                     e.target.reset();
@@ -65,7 +71,9 @@ export function AddCardSection({ setShowPop, setCardList, setSelectedCard, selec
                     setShowPop(false);
                 }
                 getCards();
-
+                if (setSelectedCard) {
+                    setSelectedCard(undefined);
+                }
             } else {
                 const generatedIdentifier = generateRandomNumber(4);
                 const customAlert: AlertStateModel = {
@@ -80,6 +88,18 @@ export function AddCardSection({ setShowPop, setCardList, setSelectedCard, selec
 
     };
     const currentYear = new Date().getFullYear();
+    useEffect(function () {
+        async function prepareFormData() {
+            if (selectedCard) {
+                reset(selectedCard);
+            }
+
+        }
+        if (selectedCard) {
+            prepareFormData()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     return (
         <>
             <AddCardSectionStyle onSubmit={handleSubmit(onSubmit)}>
@@ -152,7 +172,7 @@ export function AddCardSection({ setShowPop, setCardList, setSelectedCard, selec
                             <li>
                                 <CheckboxStyle className='v3'>
                                     <input type={"checkbox"} id={"is_active"} {...register("active")} />
-                                    <label htmlFor="is_active">Set as default payment card</label>
+                                    <label htmlFor="is_active">Set as active payment card</label>
                                 </CheckboxStyle>
                             </li>
                         </ul>

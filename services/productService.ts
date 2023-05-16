@@ -82,7 +82,7 @@ export class ProductService {
     }
 
 
-    async addToCart(product?: ProductModel, quantity?: number, isAuth?: boolean, variantId?: number): Promise<ServerResModel> {
+    async addToCart(product?: ProductModel, quantity?: number, isAuth?: boolean, variantId?: number, cart_product_id?: string): Promise<ServerResModel> {
         let serRes: ServerResModel = {
             data: {},
             success: false,
@@ -93,6 +93,9 @@ export class ProductService {
             product_id: product?.id,
             quantity: quantity,
             cart_key: isAuth ? Cookies.get(TOKEN_KEY_NAME) : getDeviceId(),
+        }
+        if (cart_product_id) {
+            data.cart_product_id = cart_product_id;
         }
         if (variantId) {
             data.product_price_id = variantId;
@@ -159,7 +162,6 @@ export class ProductService {
         };
         const response = await http.post(OrderController + apiversion, data);
         serRes = response.data;
-        console.log(serRes)
         return serRes;
     }
 }

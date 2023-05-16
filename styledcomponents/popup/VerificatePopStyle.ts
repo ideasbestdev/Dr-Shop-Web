@@ -15,6 +15,10 @@ export const VerificatePopStyle = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+        max-width: 700px;
+        justify-content: center;
+        text-align: center;
+        margin: 0 auto;
         .close{
             align-self: flex-end;
         }

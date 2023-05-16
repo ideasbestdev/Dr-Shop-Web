@@ -5,7 +5,7 @@ export interface CartRequestModel {
     device_id?: string,
     product_id?: number,
     quantity?: number,
-    cart_product_id?: number,
+    cart_product_id?: string,
     product_price_id?: number,
 }
 
@@ -31,11 +31,22 @@ export interface CartProductsModel {
     price?: number,
     product?: ProductModel,
     product_id?: number,
-    product_price?: number,
+    product_price?: CartProdctPriceModel,
     product_price_id?: number,
     quantity?: number,
     uuid?: string,
     isChecked?: boolean,
+}
+
+export interface CartProdctPriceModel {
+    variations?: CartVariation[];
+    quantity?: number;
+}
+
+export interface CartVariation {
+    name?: string,
+    variant_id?: number,
+    id?: number,
 }
 
 export interface CheckouttModel {

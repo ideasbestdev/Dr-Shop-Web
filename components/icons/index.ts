@@ -17,6 +17,7 @@ export * from "./header/UserIcon";
 export * from "./header/TrackIcon";
 export * from "./header/Logo";
 export * from "./header/NotificationIcon";
+export * from "./header/CatIcon";
 //#endregion
 
 //#region product icons

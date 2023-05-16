@@ -10,8 +10,10 @@ export const BrandSectionStyle = styled.section<Props>`
      position: relative;
     .swiper {
         margin-top: 60px;
+
         .swiper-slide{
-            width: auto;
+            //width: auto;
+
         }
     }
 `

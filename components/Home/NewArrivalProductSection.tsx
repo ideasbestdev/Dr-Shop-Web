@@ -27,7 +27,7 @@ export function NewArrivalProductSection() {
         <SwiperProductListSectionStyle>
             <SectionTitleWithLinkStyle>
                 <SectionTitleStyle>New Arrival</SectionTitleStyle>
-                <Link href={""}><a>See All</a></Link>
+                {/* <Link href={""}><a>See All</a></Link> */}
             </SectionTitleWithLinkStyle>
             {
                 productList.length > 0 ?

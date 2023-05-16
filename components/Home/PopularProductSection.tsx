@@ -8,29 +8,36 @@ import { ProductService } from '@/services/index';
 import Link from 'next/link';
 
 
-export function PopularProductSection() {
 
-    const [productList, setProductList] = useState<ProductModel[]>([])
+interface Prop {
+    data?: ProductModel[]
+}
+
+export function PopularProductSection({ data }: Prop) {
+
+    const [productList, setProductList] = useState<ProductModel[] | undefined>(data);
     useEffect(() => {
-        async function getProducts() {
-            const productService: ProductService = new ProductService();
-            const response = await productService.getProducts(1, 10);
-            if (response.success) {
-                setProductList(response.data);
-            }
-        }
-        getProducts();
+        setProductList(data);
+        //     async function getProducts() {
+        //         const productService: ProductService = new ProductService();
+        //         const response = await productService.getProducts(1, 10);
+        //         if (response.success) {
+        //             setProductList(response.data);
+        //         }
+        //     }
+        //     getProducts();
     }, [])
 
+    console.log("product", productList);
 
     return (
         <SwiperProductListSectionStyle className='home_margin'>
             <SectionTitleWithLinkStyle>
                 <SectionTitleStyle>Popular Products</SectionTitleStyle>
-                <Link href={""}><a>See All</a></Link>
+                {/* <Link href={""}><a>See All</a></Link> */}
             </SectionTitleWithLinkStyle>
             {
-                productList.length > 0 ?
+                productList && productList.length > 0 ?
                     <Swiper
                         spaceBetween={50}
                         slidesPerView={"auto"}

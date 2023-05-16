@@ -1,56 +1,58 @@
 import { CategorySectionStyle, SectionTitleStyle, SectionTitleWithLinkStyle } from '@/styledcomponents/index'
 import Image from 'next/image'
 import React from 'react'
-import { AssetsImages } from '@/utils/index';
+import { CategoryModel } from '@/models/index';
+import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-export function CategorySection() {
+
+interface Prop {
+    data?: CategoryModel[]
+}
+
+export function CategorySection({ data }: Prop) {
+    console.log("cat", data)
     return (
         <CategorySectionStyle>
             <SectionTitleWithLinkStyle>
                 <SectionTitleStyle>All Categories</SectionTitleStyle>
             </SectionTitleWithLinkStyle>
-            <ul>
-                <li>
-                    <a>
-                        <div className='image_container'>
-                            <Image alt='medical' src={AssetsImages.medical} />
-                        </div>
-                        <h3>Medical</h3>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <div className='image_container'>
-                            <Image alt='surgical' src={AssetsImages.surgical} />
-                        </div>
-                        <h3>Surgical</h3>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <div className='image_container'>
-                            <Image alt='dental' src={AssetsImages.dental} />
-                        </div>
-                        <h3>Dental</h3>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <div className='image_container'>
-                            <Image alt='optical' src={AssetsImages.optical} />
-                        </div>
-                        <h3>Optical </h3>
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <div className='image_container'>
-                            <Image alt='solaruim' src={AssetsImages.solaruim} />
-                        </div>
-                        <h3>Solaruim</h3>
-                    </a>
-                </li>
-            </ul>
+            <Swiper spaceBetween={16} slidesPerView={"auto"} centerInsufficientSlides={true}>
+                {
+                    data && data?.length > 0 ?
+                        data.map(item =>
+                            <SwiperSlide key={item.id}>
+                                <Link href={"/products?category_ids[0]=" + item.id}>
+                                    <a>
+                                        <div className='image_container'>
+                                            <Image layout='fill' src={`${item?.image?.base_url}/${item?.image?.webp_image}`} alt={item?.name} />
+                                        </div>
+                                        <h3>{item.name}</h3>
+                                    </a>
+                                </Link>
+                            </SwiperSlide>
+                        )
+                        : null
+                }
+            </Swiper>
+            {/* <ul>
+                {
+                    data && data?.length > 0 ?
+                        data.map(item =>
+                            <li>
+                                <Link href={"/products?category_ids[0]=" + item.id}>
+                                    <a>
+                                        <div className='image_container'>
+                                            <Image layout='fill' src={`${item?.image?.base_url}/${item?.image?.webp_image}`} alt={item?.name} />
+                                        </div>
+                                        <h3>{item.name}</h3>
+                                    </a>
+                                </Link>
+                            </li>
+                        )
+                        : null
+                }
+            </ul> */}
         </CategorySectionStyle>
     )
 }

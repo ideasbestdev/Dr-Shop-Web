@@ -1,4 +1,4 @@
-import { UserModel, ImageModel, SelectModel, PageLinksModel, CategoryModel, AccountModel, VariantModel, KeyValueModel, CartProductsModel } from '@/models/index';
+import { UserModel, ImageModel, SelectModel, PageLinksModel, CategoryModel, AccountModel, VariantModel, KeyValueModel, CartProductsModel, AddressModel, CardModel } from '@/models/index';
 export interface ProductModel {
     id?: number,
     uuid?: string,
@@ -132,4 +132,14 @@ export interface ProductDetailPageModel {
 
 export interface ProductSupplierModel {
     [key: string]: CartProductsModel[];
+}
+
+
+export interface OrderDetailModel {
+    id?: number,
+    address?: AddressModel,
+    payment_method?: CardModel,
+    order_products?: CartProductsModel[],
+    final_amount?: number,
+    delivery_charge?: number,
 }

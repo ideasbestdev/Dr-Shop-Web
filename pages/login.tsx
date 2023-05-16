@@ -39,23 +39,22 @@ export default function Login() {
             const userResponse: UserModel = response.data;
             if (userResponse.api_token) {
                 Cookies.set(TOKEN_KEY_NAME, userResponse.api_token, { expires: TOKEN_EXPIRE });
-                console.log(userResponse);
                 //      productService.moveCart();
                 dispatch(setUser(userResponse));
-                // if (true) {
-                //     const userServce = new UserService();
-                //     const emailRes = await userServce.sendEmailVerifcate();
-                //     const generatedIdentifier = generateRandomNumber(4);
-                //     if (emailRes.success) {
-                //         const customAlert: AlertStateModel = {
-                //             message: "An email with otp code has been send",
-                //             type: INFO_ALERT_TYPE,
-                //             identifier: generatedIdentifier,
-                //         }
-                //         dispatch(setAlert(customAlert));
-                //     }
-                //     dispatch(setVerificationPop(true));
-                // }
+                if (!userResponse.account?.email_verified) {
+                    const userServce = new UserService();
+                    const emailRes = await userServce.sendEmailVerifcate();
+                    const generatedIdentifier = generateRandomNumber(4);
+                    if (emailRes.success) {
+                        const customAlert: AlertStateModel = {
+                            message: "An email with otp code has been send",
+                            type: INFO_ALERT_TYPE,
+                            identifier: generatedIdentifier,
+                        }
+                        dispatch(setAlert(customAlert));
+                    }
+                    dispatch(setVerificationPop(true));
+                }
 
 
                 route.push(PageUrls.HOME);
@@ -93,7 +92,7 @@ export default function Login() {
                             </li>
                             <li>
                                 <InputStyle>
-                                    <input type={"password"} placeholder="Password"  {...register("password", { required: REQUIRED_MESSAGE, pattern: { value: passwordRegexPattern, message: INVALID_PASSWORD_MESSAGE } })} />
+                                    <input type={"password"} placeholder="Password"  {...register("password", { required: REQUIRED_MESSAGE })} />
                                 </InputStyle>
                                 <ErrorMessageStyle>{errors.password?.message}</ErrorMessageStyle>
                             </li>

@@ -7,8 +7,11 @@ import { useEffect } from 'react';
 import StarRatings from 'react-star-ratings'
 import { useRouter } from 'next/router'
 import { ProductService } from '@/services/index';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getGlobalState } from '@/statemangment/slice/globalSlice'
+import { AlertStateModel } from '@/models/AlertStateModel'
+import { INFO_ALERT_TYPE } from '@/utils/constants'
+import { setAlert } from '@/statemangment/slice/alertSlice'
 
 interface Props {
     product: ProductModel
@@ -19,17 +22,43 @@ export function ProductItemComponent({ product }: Props) {
     const prodcutService = new ProductService();
     const { firstRequest } = useSelector(getGlobalState);
     const [productItem, setProductItem] = useState<ProductModel>(product);
+    const dispatch = useDispatch();
+
     function handleFav(e: React.MouseEvent) {
         e.stopPropagation();
         if (!firstRequest.user) return;
-        prodcutService.addRemoveFavProduct(productItem.id, !productItem.is_favorite, firstRequest.user.uuid);
-        setProductItem({ ...productItem, is_favorite: !productItem.is_favorite })
+        prodcutService.addRemoveFavProduct(productItem.id, !productItem.is_favorite, firstRequest.user.uuid).then((response) => {
+            if (!productItem.is_favorite) {
+                const customAlert: AlertStateModel = {
+                    message: "Product has been added to your favorite",
+                    type: INFO_ALERT_TYPE,
+                    identifier: "1234",
+                }
+                dispatch(setAlert(customAlert));
+            } else {
+                const customAlert: AlertStateModel = {
+                    message: "Product has been removed from your favorite",
+                    type: INFO_ALERT_TYPE,
+                    identifier: "1234",
+                }
+                dispatch(setAlert(customAlert));
+            }
+        });
+        setProductItem({ ...productItem, is_favorite: !productItem.is_favorite });
     }
 
     function handleCart() {
-        prodcutService.addToCart(productItem, 1, (firstRequest.user != null && firstRequest.user != undefined));
+        prodcutService.addToCart(productItem, 1, (firstRequest.user != null && firstRequest.user != undefined)).then((response) => {
+            const customAlert: AlertStateModel = {
+                message: "Product has been added to your cart",
+                type: INFO_ALERT_TYPE,
+                identifier: "1234",
+            }
+            dispatch(setAlert(customAlert));
+        });
 
     }
+
 
     //route.push(`/products/${product.id}`)
     return (

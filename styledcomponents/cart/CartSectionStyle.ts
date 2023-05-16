@@ -19,6 +19,25 @@ export const CartSectionStyle = styled.section`
     &.profile{
         margin: 0;
     }
+
+    .variations{
+        display: flex;
+        color: #979797;
+        font-size: 14px;
+        align-items: center;
+        justify-content: center;
+        div{
+            margin-left: 12px;
+            &:first-child{
+                margin-left: 0;
+            }
+            &.color_variant {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+            }
+        }
+    }
     .cart_list{
         display: table;
         border-collapse: separate;
@@ -175,5 +194,33 @@ export const CartSectionStyle = styled.section`
 
     >a{
         margin-left: auto;
+    }
+
+    .outOfStock{
+        .inStock{
+            color: #D51900 !important;
+        }   
+        div {
+            color: #979797;
+        }
+        .price{
+            color: #979797 !important;
+
+        }
+        .quantity a{
+            border-color: #97979799;
+            color: #97979799;
+        }
+        input{
+            color: #979797 !important;
+        }
+        pointer-events: none;
+        background-color: #97979726;
+        input{
+            background-color: transparent !important;
+        }
+        img{
+            mix-blend-mode: color-burn;
+        }
     }
 `

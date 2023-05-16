@@ -13,8 +13,9 @@ export function CartProduct({ name, products }: Props) {
 
     return (
         <>
-            <h3 {...getToggleProps()} className={`${isExpanded ? "isExpanded" : ""}`}>{name}<span><ArrowDownIcon /></span></h3>
-            <ul {...getCollapseProps()} className="collapseList">
+            {/* <h3 {...getToggleProps()} className={`${isExpanded ? "isExpanded" : ""}`}>{name}<span><ArrowDownIcon /></span></h3> */}
+            {/* {...getCollapseProps()} */}
+            <ul className="collapseList">
                 {products?.map((value: CartProductsModel, index: number) => {
                     const productPrice = value.discounted_price && value.discounted_price > 0 ? value.discounted_price : value.price ? value.price : 0;
                     return (<li key={index}>
@@ -22,7 +23,7 @@ export function CartProduct({ name, products }: Props) {
                             <div className='title'>
                                 <h4>{value.quantity}*{value.product?.name}</h4>
                             </div>
-                            <div>{productPrice.toFixed(2)}USD</div>
+                            <div>{productPrice.toFixed(2)} USD</div>
                         </div>
                     </li>)
 

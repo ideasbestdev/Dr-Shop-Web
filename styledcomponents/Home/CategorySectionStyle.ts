@@ -8,18 +8,22 @@ interface Props {
 export const CategorySectionStyle = styled.section<Props>`
      padding: 30px ${({ theme }: Props) => theme.gridSpace} 30px;
      position: relative;
-     ul{
-        display: flex;
+     .swiper-wrapper{
+        /* display: flex;
         justify-content: space-between;
-        margin: 34px auto 0;
+        margin: 34px auto 0; */
+        margin-top: 34px;
         max-width: 1200px;
-        li{
+        .swiper-slide{
+            width: auto;
             a{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                color: black;
                 .image_container{
                     height: 143px;
+                    width: 200px;
                 }
                 h3{
                     font-weight: normal;

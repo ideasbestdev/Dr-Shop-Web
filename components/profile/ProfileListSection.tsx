@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import LocationList from './LocationList';
 import CardList from './CardList';
 import { CartSection } from '@/components/cart';
+import OrderList from './OrderList';
 
 interface Props {
     renderChange: any,
@@ -30,7 +31,7 @@ export function ProfileListSection({ renderChange, selected }: Props) {
         <ProfileListSectionStyle selected={selected}>
             <ul>
                 <li onClick={() => { renderChange(EditProfileSection, 1) }}><a><div className="image_container"><Image alt='user' src={AssetsImages.user} /></div>Profile</a></li>
-                <li><a><div className="image_container"><Image alt='order' src={AssetsImages.order} /></div>Orders</a></li>
+                <li onClick={() => { renderChange(OrderList, 2); }}><a><div className="image_container"><Image alt='order' src={AssetsImages.order} /></div>Orders</a></li>
                 <li onClick={() => { renderChange(CardList, 3); }}><a><div className="image_container"><Image alt='onlinepayment' src={AssetsImages.onlinepayment} /></div>payment method</a></li>
                 <li onClick={() => { renderChange(LocationList, 4) }}><a><div className="image_container"><Image alt='address' src={AssetsImages.address} /></div>Addresses</a></li>
                 <li onClick={() => { renderChange(CartProfileSection, 5) }}><a><div className="image_container"><Image alt='cart' src={AssetsImages.cart} /></div>Cart</a></li>

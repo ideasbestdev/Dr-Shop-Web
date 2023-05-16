@@ -88,6 +88,7 @@ export * from "./profile/LocationDialogStyle";
 export * from "./profile/FavoriteSectionStyle";
 export * from "./profile/AddCardSectionStyle";
 export * from "./profile/CardListStyle";
+export * from "./profile/OrderListStyle";
 //#endregion
 
 //#region cart styles
@@ -99,5 +100,6 @@ export * from "./popup/PopContainerStyle"
 export * from "./popup/VerificatePopStyle"
 export * from "./popup/AddressPopStyle"
 export * from "./popup/CardPopStyle"
+export * from "./popup/OrderPopStyle"
 //#endregion
 

@@ -109,9 +109,7 @@ export function CartProfileSection() {
                 </li>
                 {
                     cart?.cart_products?.map((value: CartProductsModel, index: number) =>
-                        <li key={value.product_id}>
-                            <CartItem value={value} changeTotal={ChangeTotal} index={index} removeAddProductChecked={removeAddProductChecked} />
-                        </li>
+                        <CartItem key={value.product_id} value={value} changeTotal={ChangeTotal} index={index} removeAddProductChecked={removeAddProductChecked} />
                     )
                 }
             </ul>

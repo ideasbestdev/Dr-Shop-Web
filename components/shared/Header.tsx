@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { HeaderStyle, InputIconStyle, NotificationStyle } from '@/styledcomponents/index';
-import { ArrowDownIcon, CartIcon, CloseIcon, HeartIcon, Logo, NotificationIcon, SearchIcon, TrackIcon, UserIcon } from '../icons';
+import { ArrowDownIcon, BurgerIcon, CartIcon, CloseIcon, HeartIcon, Logo, NotificationIcon, SearchIcon, TrackIcon, UserIcon } from '../icons';
 import Link from 'next/link';
 import { CustomSelectGroup } from '../common/CustomSelectGroup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -129,14 +129,17 @@ export function Header() {
             <section className='bottom_section'>
                 <nav>
                     <ul>
-                        <li>
+                        <li className='burger'>
+                            <BurgerIcon />
+                        </li>
+                        <li className='logo'>
                             <Link href={"/"}>
                                 <a>
                                     <Logo />
                                 </a>
                             </Link>
                         </li>
-                        <li>
+                        <li className='categories'>
                             {
                                 groupOptions.length > 0 ? <CustomSelectGroup data={groupOptions} /> : null
                             }

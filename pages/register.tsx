@@ -15,6 +15,7 @@ import { setAlert } from "@/statemangment/slice/alertSlice";
 import { getGlobalState, setUser, setVerificationPop } from "@/statemangment/slice/globalSlice";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 
 
@@ -22,6 +23,7 @@ export default function Register() {
     const dispatch = useDispatch();
     const { firstRequest } = useSelector(getGlobalState);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const route = useRouter();
 
     const onSubmit: SubmitHandler<UserModel> = async (data) => {
         buttonRef.current?.classList.add("loading");
@@ -34,17 +36,18 @@ export default function Register() {
                 Cookies.set(TOKEN_KEY_NAME, userResponse.api_token, { expires: TOKEN_EXPIRE });
                 //   productService.moveCart();
                 dispatch(setUser(userResponse));
-                //    userService.verifcate();
-                //     dispatch(setVerificationPop(true));
+                userService.sendEmailVerifcate();
+                dispatch(setVerificationPop(true));
+                route.push(PageUrls.HOME);
             }
         } else {
-            //     const generatedIdentifier = generateRandomNumber(4);
-            //     const customAlert: AlertStateModel = {
-            //         message: response.errors ? response.errors[0] : "Something went Error",
-            //         type: ERROR_ALERT_TYPE,
-            //         identifier: generatedIdentifier,
-            //     }
-            //     dispatch(setAlert(customAlert));
+            const generatedIdentifier = generateRandomNumber(4);
+            const customAlert: AlertStateModel = {
+                message: response.errors ? response.errors[0] : "Something went Error",
+                type: ERROR_ALERT_TYPE,
+                identifier: generatedIdentifier,
+            }
+            dispatch(setAlert(customAlert));
         }
         buttonRef.current?.classList.remove("loading");
 

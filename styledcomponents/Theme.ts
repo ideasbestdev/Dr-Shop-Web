@@ -24,8 +24,10 @@ export const theme: Theme = {
 
     height: {
         header: '163px',
+        phone_footer: '1167px',
         top_header: '43px',
         bottom_header: '120px',
+        phone_header: '63px',
         footer: "490px",
         editor: '400px',
         section_options: '75px',
@@ -94,12 +96,14 @@ interface BreakPoints {
 interface Heights {
     header: string,
     footer: string,
+    phone_footer: string,
     top_header: string,
     bottom_header: string,
     editor: string,
     input_height: string,
     section_options: string,
     button_height: string,
+    phone_header: string,
 }
 
 interface Widths {

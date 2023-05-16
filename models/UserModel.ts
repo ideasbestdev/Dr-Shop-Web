@@ -94,5 +94,14 @@ export interface CardModel {
     type?: string,
     active?: number,
     is_default?: number,
+    uuid?: string,
 
+}
+
+
+
+export interface OrderListModel {
+    id?: number,
+    created_at?: string,
+    status?: number,
 }

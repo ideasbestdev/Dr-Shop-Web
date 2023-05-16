@@ -22,8 +22,11 @@ export default function CardList() {
     }, []);
 
     function addEditCard(card: CardModel) {
+        delete card.card_number;
+        delete card.cvv;
         setSelectedCard(card);
     }
+
     return (
         <>{
             selectedCard ?

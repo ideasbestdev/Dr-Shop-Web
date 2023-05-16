@@ -14,15 +14,25 @@ export const FooterStyle = styled.footer<Props>`
     display: flex;
     flex-direction: column;
     border-top: 52px solid #2262BC;
+    @media (max-width: 768px) {
+        height: ${({ theme }: Props) => theme.height.phone_footer};
+
+    }
     .middle_container{
         display: flex;
         padding: 96px ${({ theme }: Props) => theme.gridSpace} 75px;
         background-color: #97979726;
         justify-content: space-between;
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
         .links_group{
             display: grid;
             grid-template-columns: auto auto auto;
             column-gap: 160px;
+            @media (max-width: 768px) {
+                grid-template-columns: auto;
+            }
             h2{
                 font-size: 20px;
                 font-family: ${({ theme }: Props) => theme.fonts.semi_bold};

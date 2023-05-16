@@ -10,6 +10,7 @@ import { HeartIcon } from '../icons';
 import { useSelector } from 'react-redux';
 import { getGlobalState } from '@/statemangment/slice/globalSlice';
 import { ProductService } from '@/services/productService';
+import { useRouter } from 'next/router';
 //nzl opacity lal color
 interface Props {
     productItem: ProductModel,
@@ -29,7 +30,7 @@ export function ProductDetailSection({ productItem }: Props) {
     const randomString: string = generateRandomNumber(4);
     const { firstRequest } = useSelector(getGlobalState);
     const prodcutService = new ProductService();
-
+    const route = useRouter();
     function selectVaraint(key?: string, id?: number) {
         if (id == undefined || key == undefined || product.prices == undefined) return;
 
@@ -49,13 +50,11 @@ export function ProductDetailSection({ productItem }: Props) {
             value.variations?.map((id: number) => {
                 if (!varaintionIds.includes(id)) varaintionIds.push(id);
             });
-            console.log(value);
 
         });
 
 
 
-        console.log(varaintionIds)
         setselectedVaraintIds(tempVaraintIds);
         setRecommendVaraitions(varaintionIds);
 
@@ -66,11 +65,9 @@ export function ProductDetailSection({ productItem }: Props) {
     }
 
     function handleCart() {
-        //     
-        // console.log(selectedVaraint, selectedVaraintIds, recommendVaraitions);
         let tempVaraintIdsValues: number[] = Object.values(selectedVaraintIds);
         if (tempVaraintIdsValues.length == product.variants?.length || recommendVaraitions.length == 0) {
-            prodcutService.addToCart(product, count, (firstRequest.user != null && firstRequest.user != undefined), selectedVaraint?.id);
+            prodcutService.addToCart(product, count, (firstRequest.user != null && firstRequest.user != undefined), selectedVaraint?.id, route.query.cart_product_id?.toString());
         }
     }
     function handleFav(e: React.MouseEvent) {

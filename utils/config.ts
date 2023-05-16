@@ -16,6 +16,7 @@ export const TOKEN_KEY_NAME = "api_token";
 export const DEVICEID_KEY_NAME = "device_id";
 
 export const AccountController = "account/";
+export const HomeController = "home/";
 export const ComboController = "combo/";
 export const ProductController = "product/";
 export const CartController = "cart/";
@@ -46,6 +47,23 @@ export const defaultPriceRangeMax = 5000;
 
 
 export const apiversion = process.env.NEXT_PUBLIC_VERSION;
+//export const apiversion = "v1";
+
+export const orderStatus = [
+    "Waiting Payment",
+    "Placed",
+    "Preparing",
+    "Prepared",
+    "On the Way",
+    "Delivered",
+    "Returned",
+    "Cancelled",
+    "On Hold",
+    "Out of Stock",
+    "Partial Refund",
+    "Refund",
+    "Rejected"
+]
 
 
 

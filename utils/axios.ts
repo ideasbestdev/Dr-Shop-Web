@@ -9,11 +9,12 @@ import Cookies from 'js-cookie';
 const http = axios.create({
     baseURL: baseUrl,
     headers: {
-        "Content-Type": "multipart/form-data"
+        // "Content-Type": "multipart/form-data"
+        "Content-type": "application/json; charset=utf-8",
 
     }
 });
-
+/*
 http.interceptors.request.use(function (config: any) {
     const token = Cookies.get(TOKEN_KEY_NAME);
     // if (localStorage.getItem("EditLocation") == "true") {
@@ -30,7 +31,7 @@ http.interceptors.request.use(function (config: any) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-});
+});*/
 
 
 

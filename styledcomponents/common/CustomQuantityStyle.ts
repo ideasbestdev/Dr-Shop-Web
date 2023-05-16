@@ -19,7 +19,7 @@ export const CustomQuantityStyle = styled.div<Props>`
         font-size: 30px;
         cursor: pointer;
         position: relative;
-        border: 1px solid ${({ theme }: Props) => theme.globalColors.primary_color};
+        border: 3px solid ${({ theme }: Props) => theme.globalColors.primary_color};
         color: ${({ theme }: Props) => theme.globalColors.primary_color};
     }
 

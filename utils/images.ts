@@ -22,8 +22,10 @@ import order from "@/assets/images/order.png";
 import address from "@/assets/images/address.png";
 import favourite from "@/assets/images/favourite.png";
 import cart from "@/assets/images/cart.png";
+import checkboxCircle from "@/assets/images/checkbox-circle.png";
 
 export const AssetsImages = {
+    checkboxCircle,
     uploadFileIcon,
     cart,
     homeBanner,

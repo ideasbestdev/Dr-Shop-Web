@@ -6,3 +6,4 @@ export * from "./AddCardSection";
 export * from "./LocationList";
 export * from "./CardList";
 export * from "./CartProfileSection";
+export * from "./OrderList";

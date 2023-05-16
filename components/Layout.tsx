@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 import { getDeviceId, uuidv4 } from '@/helpers/index';
 import { VerificationPop } from "./popups";
 import { UserService } from '@/services/userService';
+import { OrderPop } from './popups/OrderPop';
 
 interface PageComponent {
     children: ReactNode;

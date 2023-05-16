@@ -72,14 +72,14 @@ export function VerificationPop({ show }: Props) {
         }
         if (value.length == 6) {
             const response = await userService.verifcate(value);
-            console.log(value);
             if (response.success) {
                 const customAlert: AlertStateModel = {
-                    message: "Your email has been verified",
+                    message: response.data,
                     type: INFO_ALERT_TYPE,
                     identifier: generatedIdentifier,
                 }
                 dispatch(setAlert(customAlert));
+                dispatch(setVerificationPop(false))
             } else {
                 const customAlert: AlertStateModel = {
                     message: response.error?.message ? response.error.message : "Something went Error",
@@ -97,7 +97,6 @@ export function VerificationPop({ show }: Props) {
     return (
         <>
             {
-
                 <PopContainerStyle show={show}>
                     <div className="wrap">
                         <VerificatePopStyle>

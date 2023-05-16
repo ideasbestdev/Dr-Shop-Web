@@ -1,7 +1,9 @@
 import { CartProductsModel } from '@/models/CartModel'
 import { ProductService } from '@/services/productService'
 import { CheckboxStyle, CustomQuantityStyle } from '@/styledcomponents/index'
+import { colorId } from '@/utils/config'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useState, useId, useRef } from 'react'
 import useCounter from '../customHookes/useCounter'
 import { CloseIcon } from '../icons'
@@ -19,6 +21,11 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
     const [checked, setChecked] = useState(true);
     const ref = useRef<HTMLDivElement | null>(null);
     const id = useId();
+    const route = useRouter();
+    let productStatus = {
+        value: "",
+        isInStock: false,
+    }
     function changeQuantity(quantity: number) {
         var currentQuantity = count + quantity;
 
@@ -28,6 +35,24 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
         }
     }
 
+    function status() {
+        if (value.product_price) {
+            if (value.product_price?.quantity && count > value.product_price.quantity) {
+                productStatus.value = "Out Of Stock";
+                value.isChecked = false;
+                return;
+            }
+        } else {
+            if (value.product?.quantity && count > value.product.quantity) {
+                productStatus.value = "Out Of Stock";
+                value.isChecked = false;
+                return;
+            }
+        }
+        productStatus.value = "In Stock";
+        productStatus.isInStock = true;
+    }
+    status();
     function RemoveItem() {
         var confirmMessage = confirm("Are you sure you want to remove this product from cart?");
         if (confirmMessage) {
@@ -36,17 +61,30 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
     }
 
     return (
-        <>
-            <div ref={ref}>
+        <li className={`${productStatus.isInStock ? "" : " outOfStock"}`}>
+            <div ref={ref} onClick={(e) => { e.stopPropagation(); route.push("/products/" + value.product_id + "/?cart_product_id=" + value.id) }} >
                 <div className='flex'>
-                    <i className='close' onClick={() => { RemoveItem() }}><CloseIcon /></i>
+                    <i className='close' onClick={(e) => { e.stopPropagation(); RemoveItem() }}><CloseIcon /></i>
                     <div className='image_container'>
                         <Image layout='fill' src={`${value.product?.image?.base_url}/${value.product?.image?.webp_image}`} alt={value.product?.name} />
                     </div>
                 </div>
             </div>
-            <div className='product_title'>{value.product?.name}</div>
-            <div className='inStock'>In Stock</div>
+            <div className='product_title'>
+                {value.product?.name}
+                {
+                    value.product_price ? <div className='variations'>
+                        {
+                            value.product_price.variations?.map((value) =>
+                                <div key={value.id} className={`${value.variant_id == colorId ? "color_variant" : ""}`} style={{ "background": value.variant_id == colorId ? value.name : "" }}>
+                                    {value.variant_id == colorId ? "" : value.name}
+                                </div>)
+
+                        }
+                    </div> : null
+                }
+            </div>
+            <div className={`inStock`}>{productStatus.value}</div>
             {/* <div>$ {productPrice}</div> */}
             <div>
                 <div className={`price ${value.discounted_price != undefined && value.discounted_price > 0 ? "hasDis" : ""}`}>
@@ -62,9 +100,9 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
             <div>
                 <div className='quantity'>
                     <CustomQuantityStyle>
-                        <a onClick={() => { changeQuantity(-1); }}>-</a>
+                        <a onClick={(e) => { e.stopPropagation(); changeQuantity(-1); }}>-</a>
                         <input type={"number"} value={count} />
-                        <a onClick={() => { changeQuantity(+1); }}>+</a>
+                        <a onClick={(e) => { e.stopPropagation(); changeQuantity(+1); }}>+</a>
                     </CustomQuantityStyle>
                 </div>
             </div>
@@ -75,7 +113,7 @@ export function CartItem({ value, changeTotal, index, removeAddProductChecked }:
                     <label htmlFor={"cart_" + id}></label>
                 </CheckboxStyle>
             </div>
-        </>
+        </li>
     )
 }
 

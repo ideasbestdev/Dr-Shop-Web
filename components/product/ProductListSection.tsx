@@ -71,6 +71,8 @@ export function ProductListSection() {
     function handleSort() {
         const searchedObject: FilterProductModel = queryString.parse(location.search);
         searchedObject.sort_by = Number(sortRef.current?.value);
+        searchedObject.page = 1;
+
         dispatch(setSortByFilter(searchedObject.sort_by));
         route.push('/products', {
             query: searchedObject as any,
@@ -80,6 +82,7 @@ export function ProductListSection() {
     function handlePerPage() {
         const searchedObject: FilterProductModel = queryString.parse(location.search);
         searchedObject.per_page = Number(perPageRef.current?.value);
+        searchedObject.page = 1;
         dispatch(setPerPageFilter(searchedObject.per_page));
         route.push('/products', {
             query: searchedObject as any,
