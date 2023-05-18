@@ -41,7 +41,7 @@ export * from "./alert/AlertStyle";
 //#endregion
 
 //#region home styles
-export * from "./home/BannerSectionStyle";
+export * from "./home/TopBannerSectionStyle";
 export * from "./home/LatestProductSectionStyle";
 export * from "./home/ServiceSectionStyle";
 export * from "./home/DiscountSectionStyle";
