@@ -6,7 +6,7 @@ interface Props {
 }
 
 
-export const BannerSectionStyle = styled.section`
+export const BannerSectionStyle = styled.section<Props>`
     display: flex;
     position: relative;
     .content{

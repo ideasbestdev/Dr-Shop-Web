@@ -2,7 +2,7 @@ import { LinkButtonStyle, TitleStyle } from "@/styledcomponents/index";
 import React from "react";
 import { AssetsImages } from '@/utils/index';
 import Image from 'next/image';
-import { BannerSectionStyle } from '@/styledcomponents/home/BannerSectionStyle';
+import { BannerSectionStyle } from './../../styledcomponents/home/BannerSectionStyle';
 
 export function BannerSection() {
     return (
