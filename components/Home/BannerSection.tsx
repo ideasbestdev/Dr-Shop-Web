@@ -1,9 +1,7 @@
-import { BannerSectionStyle, DescriptionStyle, LinkButtonStyle, TitleStyle } from '@/styledcomponents/index'
-import Link from 'next/link'
+import { BannerSectionStyle, LinkButtonStyle, TitleStyle } from '@/styledcomponents/index'
 import React from 'react'
-import { AssetsImages, PageUrls } from '@/utils/index';
+import { AssetsImages } from '@/utils/index';
 import Image from 'next/image';
-import { AnimationOnScroll } from 'react-animation-on-scroll';
 
 export function BannerSection() {
     return (
