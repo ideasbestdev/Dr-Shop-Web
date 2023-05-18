@@ -1,6 +1,6 @@
 
-export const baseUrl = "https://drshop-api.ideasdevs.net/api/user/";
-// export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+//export const baseUrl = "https://drshop-api.ideasdevs.net/api/user/";
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 //const baseUrl = "https://drshop-api.ideasdev.net/api";
 export const fontUrl = "http://localhost:3000/";
 
@@ -46,8 +46,8 @@ export const colorId = 1;
 export const defaultPriceRangeMax = 5000;
 
 
-// export const apiversion = process.env.NEXT_PUBLIC_VERSION;
-export const apiversion = "v1";
+export const apiversion = process.env.NEXT_PUBLIC_VERSION;
+//export const apiversion = "v1";
 
 export const orderStatus = [
     "Waiting Payment",
