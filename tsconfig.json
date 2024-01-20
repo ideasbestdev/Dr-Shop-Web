@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "baseUrl": ".",
+    "paths": {
+      "@/models/*": ["models/*"],
+      "@/utils/*": ["utils/*"],
+      "@/statemangment/*": ["statemangment/*"],
+      "@/helpers/*": ["helpers/*"],
+      "@/components/*": ["components/*"],
+      "@/authmanger/*": ["authmanger/*"],
+      "@/assets/*": ["assets/*"],
+      "@/styledcomponents/*": ["styledcomponents/*"],
+      "@/services/*": ["services/*"],
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/products copytsx", "components/CustomerRegistertsx", "pages/register.rxt"],
+  "exclude": ["node_modules"]
+}
